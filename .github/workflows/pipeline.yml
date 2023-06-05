@@ -15,17 +15,17 @@ jobs:
       - name: Setup Java
       - uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
+          distribution: "zulu"
           java-version: "12.x"
-          cache: 'gradle'
-      
+          cache: "gradle"
+
       - name: Setup Flutter
       - uses: subosito/flutter-action@v2
-          with:
-            flutter-version: "3.0.0"
-            channel: 'stable'
-            cache: true
-      
+        with:
+          flutter-version: "3.0.0"
+          channel: "stable"
+          cache: true
+
       - name: Install dependencies
       - uses: flutter pub get
 
