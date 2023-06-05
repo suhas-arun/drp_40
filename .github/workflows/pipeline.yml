@@ -27,10 +27,10 @@ jobs:
           cache: true
 
       - name: Install dependencies
-        uses: flutter pub get
+        run: flutter pub get
 
       - name: Run tests
-        uses: flutter test
+        run: flutter test
 
       - name: Build app bundle
-        uses: flutter build appbundle
+        run: flutter build appbundle
