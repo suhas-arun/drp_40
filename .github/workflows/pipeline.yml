@@ -6,9 +6,7 @@ on:
       - "main"
 
 jobs:
-  build:
-
-    # iOS CI
+  build_iOS:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -37,7 +35,7 @@ jobs:
         name: release-ipa
         path: build/ios/iphoneos/SaveShare.ipa
 
-    # Android CI
+  build_android:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
