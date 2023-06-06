@@ -41,7 +41,7 @@ jobs:
             cd Payload
             ln -s ../Runner.app
             cd ..
-            zip -r SaveShare =.ipa Payload
+            zip -r SaveShare.ipa Payload
 
       # Upload generated ipa to artifacts.
       - name: Upload to Artifacts
