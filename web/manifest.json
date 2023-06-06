@@ -1,6 +1,6 @@
 {
-    "name": "drp40",
-    "short_name": "drp40",
+    "name": "safeshare",
+    "short_name": "safeshare",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

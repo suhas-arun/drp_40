@@ -1,5 +1,5 @@
-import 'package:drp40/pages/chart_page.dart';
-import 'package:drp40/pages/home_page.dart';
+import 'package:safeshare/pages/chart_page.dart';
+import 'package:safeshare/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {

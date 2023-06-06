@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:drp40/constants/size.dart';
+import 'package:safeshare/constants/size.dart';
 import 'package:flutter/material.dart';
 
 //will have to implement comparable probably

@@ -1,4 +1,4 @@
-import 'package:drp40/components/pie_chart.dart';
+import 'package:safeshare/components/pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 

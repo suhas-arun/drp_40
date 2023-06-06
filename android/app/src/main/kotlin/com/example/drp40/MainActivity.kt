@@ -1,4 +1,4 @@
-package com.example.drp40
+package com.example.safeshare
 
 import io.flutter.embedding.android.FlutterActivity
 
