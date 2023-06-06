@@ -35,7 +35,7 @@ jobs:
       # Build .ipa file
       - name: Build iOS App
         run: |
-            flutter build ios --profile --no-codesign
+            flutter build ios --profile
             cd build/ios/iphoneos
             mkdir Payload
             cd Payload
