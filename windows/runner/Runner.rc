@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "safeshare" "\0"
+            VALUE "FileDescription", "saveshare" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "safeshare" "\0"
+            VALUE "InternalName", "saveshare" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "safeshare.exe" "\0"
-            VALUE "ProductName", "safeshare" "\0"
+            VALUE "OriginalFilename", "saveshare.exe" "\0"
+            VALUE "ProductName", "saveshare" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

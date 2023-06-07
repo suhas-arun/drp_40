@@ -1,6 +1,6 @@
 {
-    "name": "safeshare",
-    "short_name": "safeshare",
+    "name": "saveshare",
+    "short_name": "saveshare",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

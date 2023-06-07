@@ -1,6 +1,6 @@
-import 'package:safeshare/components/bottom_bar.dart';
-import 'package:safeshare/components/top_bar.dart';
-import 'package:safeshare/components/user_tile.dart';
+import 'package:saveshare/components/bottom_bar.dart';
+import 'package:saveshare/components/top_bar.dart';
+import 'package:saveshare/components/user_tile.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

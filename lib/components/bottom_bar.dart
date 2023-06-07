@@ -1,5 +1,5 @@
-import 'package:safeshare/constants/size.dart';
-import 'package:safeshare/pages/home_page.dart';
+import 'package:saveshare/constants/size.dart';
+import 'package:saveshare/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/colour.dart';

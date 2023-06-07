@@ -1,4 +1,4 @@
-import 'package:safeshare/constants/size.dart';
+import 'package:saveshare/constants/size.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/colour.dart';
