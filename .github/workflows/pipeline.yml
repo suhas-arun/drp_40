@@ -79,9 +79,17 @@ jobs:
       - name: Build apk
         run: flutter build apk
 
-      # Upload generated apk to artifacts.
       - name: Upload to Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload Artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with: 
+          appID: ${{secrets.APPID}}
+          token: ${{secrets.TOKEN}}
+          groups: drp40
+          file: build/app/outputs/flutter-apk/app-release.apk
+
