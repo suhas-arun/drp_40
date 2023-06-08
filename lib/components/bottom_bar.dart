@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/colour.dart';
 import '../pages/chart_page.dart';
+import '../pages/log_page.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -37,7 +38,13 @@ class _BottomBarState extends State<BottomBar> {
               iconSize: APPSize.APP_ICON_SIZE,
               color: Colors.white,
               icon: const Icon(Icons.lightbulb_outline),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LogPage()),
+                );
+              },
             ),
             IconButton(
               iconSize: APPSize.APP_ICON_SIZE,

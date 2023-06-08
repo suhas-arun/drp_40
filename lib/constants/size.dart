@@ -6,6 +6,8 @@ class APPSize {
   static const bottomBarHeight = 0.08;
   static const APP_ICON_SIZE = 35.0;
   static const PROFILE_PIC_SIZE = 40.0;
+  static const LARGE_ICON_SIZE = 100.0;
+  static const LARGE_ICON_SPLASH = (0.7 * LARGE_ICON_SIZE);
 
   static double STATUS_BAR_HEIGHT(context) {
     return MediaQuery.of(context).padding.top;
