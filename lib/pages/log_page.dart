@@ -1,10 +1,11 @@
-import 'package:saveshare/components/pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:saveshare/constants/colour.dart';
+import 'package:saveshare/pages/shower_page.dart';
 
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
 import '../constants/size.dart';
+import '../constants/text.dart';
 
 class LogPage extends StatefulWidget {
   const LogPage({super.key});
@@ -31,13 +32,15 @@ class _LogPageState extends State<LogPage> {
                 color: APPColour.green,
                 icon: const Icon(Icons.shower_outlined),
                 splashRadius: APPSize.LARGE_ICON_SPLASH,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddShowerPage()),
+                  );
+                },
               ),
-              const Text("Log a Shower",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: APPColour.green,
-                      fontWeight: FontWeight.w600))
+              const Text("Log a Shower", style: APPText.LARGE_TEXT)
             ]),
             Expanded(child: Container()),
             BottomBar(),
