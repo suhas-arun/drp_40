@@ -4,12 +4,10 @@ import '../constants/colour.dart';
 import '../constants/size.dart';
 
 class TopBar extends StatefulWidget implements PreferredSizeWidget {
-  TopBar({Key? key})
-      : preferredSize = const Size.fromHeight(kToolbarHeight),
-        super(key: key);
+  const TopBar({super.key});
 
   @override
-  final Size preferredSize;
+  final Size preferredSize = const Size.fromHeight(kToolbarHeight);
 
   @override
   State<StatefulWidget> createState() => _TopBarState();

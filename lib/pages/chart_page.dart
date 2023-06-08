@@ -1,6 +1,5 @@
 import 'package:saveshare/components/pie_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';
 
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';

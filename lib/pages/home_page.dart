@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           children: [
             TopBar(),
-            //UserTile(),
+            UserTile(),
             Expanded(child: Container()),
             BottomBar(),
           ],
