@@ -6,49 +6,55 @@ on:
       - "main"
 
 jobs:
-  # build_iOS:
-  #   runs-on: macos-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v3
+  build_iOS:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-  #     - name: Setup Java
-  #       uses: actions/setup-java@v3
-  #       with:
-  #         distribution: "zulu"
-  #         java-version: "12.x"
-  #         cache: "gradle"
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "12.x"
+          cache: "gradle"
 
-  #     - name: Setup Flutter
-  #       uses: subosito/flutter-action@v2
-  #       with:
-  #         flutter-version: "3.0.0"
-  #         channel: "stable"
-  #         cache: true
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.7.0"
+          channel: "stable"
+          cache: true
 
-  #     - name: Install dependencies
-  #       run: flutter pub get
+      - name: Install dependencies
+        run: flutter pub get
 
-  #     - name: Run tests
-  #       run: flutter test
+      - name: Run tests
+        run: flutter test
 
-  #     # Build .ipa file
-  #     - name: Build iOS App
-  #       run: |
-  #           flutter build ios --profile -allowProvisioningUpdates
-  #           cd build/ios/iphoneos
-  #           mkdir Payload
-  #           cd Payload
-  #           ln -s ../Runner.app
-  #           cd ..
-  #           zip -r SaveShare.ipa Payload
+      - name: Build iOS App
+        run: 
+            flutter build ios --profile -allowProvisioningUpdates
+            cd build/ios/iphoneos
+            mkdir Payload
+            cd Payload
+            ln -s ../Runner.app
+            cd ..
+            zip -r SaveShare.ipa Payload
 
-  #     # Upload generated ipa to artifacts.
-  #     - name: Upload to Artifacts
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: release-ipa
-  #         path: build/ios/iphoneos/SaveShare.ipa
+      - name: Upload to Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-ipa
+          path: build/ios/iphoneos/SaveShare.ipa
+
+      - name: Upload Artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with: 
+          appID: ${{secrets.IOS_APPID}}
+          token: ${{secrets.TOKEN}}
+          groups: drp40
+          file: build/ios/iphoneos/SaveShare.ipa
 
   build_android:
     runs-on: ubuntu-latest
