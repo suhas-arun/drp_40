@@ -23,9 +23,14 @@ class User {
   //will have to change this to a picture
   Icon profilePicture;
 
-  //get users from firestore collection users
-  static Future<List<User>> getTestUsers() async {
-    List<User> users = [];
+  static num householdShowerDuration = 0;
+
+  static Map<String, num> demoShowerDurations =
+      Map.of({"Marcus": 25, "Alex": 15, "Ella": 6, "Ines": 12});
+
+  static Future<Map<String, num>> getShowerDurations() async {
+    householdShowerDuration = 0;
+    Map<String, num> showerDurations = {};
     await FirebaseFirestore.instance
         .collection("user")
         .get()
@@ -33,12 +38,28 @@ class User {
       for (var doc in querySnapshot.docs) {
         if (doc.exists) {
           var data = doc.data() as Map<String, dynamic>;
-          users.add(User(
-              name: data["name"],
-              energyPercentage: data["energyPercentage"].toDouble()));
+          String name = data["name"];
+          FirebaseFirestore.instance
+              .collection("user/${doc.id}/shower")
+              .get()
+              .then((QuerySnapshot showerQuerySnapshot) {
+            num personalShowerDuration = 0;
+            for (var showerDoc in showerQuerySnapshot.docs) {
+              if (showerDoc.exists) {
+                var showerData = showerDoc.data() as Map<String, dynamic>;
+                var duration = showerData["duration"];
+                householdShowerDuration += duration;
+                personalShowerDuration += duration;
+              }
+            }
+            showerDurations[name] = personalShowerDuration;
+          });
         }
       }
+      return showerDurations;
     });
-    return users;
+    householdShowerDuration =
+        demoShowerDurations.values.reduce((x, y) => x + y);
+    return demoShowerDurations;
   }
 }

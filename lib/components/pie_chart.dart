@@ -18,11 +18,18 @@ class _PieChartWidgetState extends State<PieChartWidget> {
     double size = MediaQuery.of(context).size.height * 0.4;
     Map<String, double> getData = {};
     return FutureBuilder(
-        future: User.getTestUsers(),
-        builder: (context, AsyncSnapshot<List> snapshot) {
+        future: User.getShowerDurations(),
+        builder: (context, AsyncSnapshot<Map> snapshot) {
           if (snapshot.hasData) {
-            for (var user in snapshot.data!) {
-              getData[user.name] = user.energyPercentage;
+            List<User> users = [];
+            snapshot.data!.forEach((name, duration) {
+              users.add(User(
+                  name: name,
+                  energyPercentage:
+                      ((duration / User.householdShowerDuration) * 100.0)));
+            });
+            for (var user in users) {
+              getData[user.name] = user.energyPercentage.roundToDouble();
             }
             return SizedBox(
               height: size,

@@ -5,6 +5,8 @@ import 'package:saveshare/constants/text.dart';
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
 import '../constants/colour.dart';
+import '../user/user.dart';
+import 'home_page.dart';
 
 class AddShowerPage extends StatefulWidget {
   const AddShowerPage({super.key});
@@ -76,6 +78,13 @@ class _AddShowerPageState extends State<AddShowerPage> {
                     double duration = double.parse(_timecontroller.text);
                     //remember checkedValue is a bool that is true if Cold Shower
                     //add firebase section here
+                    User.demoShowerDurations
+                        .update("Alex", (value) => value + duration);
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

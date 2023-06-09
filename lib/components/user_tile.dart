@@ -10,9 +10,16 @@ class UserTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: User.getTestUsers(),
-        builder: (context, AsyncSnapshot<List> snapshot) {
+        future: User.getShowerDurations(),
+        builder: (context, AsyncSnapshot<Map> snapshot) {
           if (snapshot.hasData) {
+            List<User> users = [];
+            snapshot.data!.forEach((name, duration) {
+              users.add(User(
+                  name: name,
+                  energyPercentage:
+                      (duration / User.householdShowerDuration).toDouble()));
+            });
             return SizedBox(
                 height: APPSize.REM_HEIGHT(context),
                 child: ListView.builder(
@@ -20,10 +27,10 @@ class UserTile extends StatelessWidget {
                   itemCount: 4,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      leading: snapshot.data![index].profilePicture,
-                      title: Text(snapshot.data![index].name),
+                      leading: users[index].profilePicture,
+                      title: Text(users[index].name),
                       subtitle: Text(
-                          "Energy Share: ${snapshot.data![index].energyPercentage}%"),
+                          "Energy Share: ${(users[index].energyPercentage * 100).roundToDouble()}%"),
                     );
                   },
                 ));
