@@ -4,6 +4,7 @@ import 'package:saveshare/constants/text.dart';
 
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
+import '../user/user.dart';
 
 class BreakdownPage extends StatefulWidget {
   const BreakdownPage({super.key, required this.curUser});
@@ -17,6 +18,11 @@ class BreakdownPage extends StatefulWidget {
 class _BreakdownPageState extends State<BreakdownPage> {
   @override
   Widget build(BuildContext context) {
+    num personalExpenditure = User.demoShowerDurations[User.curUser]!;
+    double averageExpenditure =
+        User.demoShowerDurations.values.reduce((x, y) => x + y) /
+            User.demoShowerDurations.values.length;
+    num diff = averageExpenditure - personalExpenditure;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
@@ -43,10 +49,11 @@ class _BreakdownPageState extends State<BreakdownPage> {
                               style: APPText.MEDIUM_TEXT,
                             )),
                         Text("Stats:",
-                            style: APPText.BREAKDOWN_TEXT(7.0, 18.0)),
-                        Text("40 minutes this month"),
-                        Text("Average of 4 minutes per day"),
-                        Text("7% better than household"),
+                            style: APPText.BREAKDOWN_TEXT(diff, 18.0)),
+                        Text(
+                            "${personalExpenditure} minutes this week"),
+                        Text("Average of ${(personalExpenditure / 7).roundToDouble()} minutes per day"),
+                        Text("${diff}% better than household"),
                         Padding(padding: EdgeInsets.only(bottom: 10)),
                         Row(
                           children: [
