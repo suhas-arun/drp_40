@@ -78,8 +78,10 @@ class _AddShowerPageState extends State<AddShowerPage> {
                     double duration = double.parse(_timecontroller.text);
                     //remember checkedValue is a bool that is true if Cold Shower
                     //add firebase section here
-                    User.demoShowerDurations
-                        .update("Alex", (value) => value + duration);
+                    if (!checkedValue) {
+                      User.demoShowerDurations
+                          .update("Alex", (value) => value + duration);
+                    }
                     Navigator.pop(context);
                     Navigator.push(
                       context,
