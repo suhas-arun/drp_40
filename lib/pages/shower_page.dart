@@ -14,6 +14,8 @@ class AddShowerPage extends StatefulWidget {
 }
 
 class _AddShowerPageState extends State<AddShowerPage> {
+  bool checkedValue = false;
+  final TextEditingController _timecontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,22 +37,36 @@ class _AddShowerPageState extends State<AddShowerPage> {
                 Expanded(child: Container())
               ])),
           Expanded(child: Container()),
-          Row(children: [
-            Expanded(child: Container()),
-            const Text("Minutes:", style: APPText.LARGE_TEXT),
-            Expanded(child: Container()),
-            // TODO Input text
-          ]),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.85,
+            child: TextField(
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                controller: _timecontroller,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Enter duration (minutes)',
+                    hintText: 'Duration')),
+          ),
           Expanded(child: Container()),
-          Row(children: [
-            Expanded(child: Container()),
-            const Text("Cold shower?", style: APPText.LARGE_TEXT),
-            Expanded(child: Container()),
-            // TODO Select hot or cold
-          ]),
+          CheckboxListTile(
+            contentPadding: EdgeInsets.only(left: 20),
+            title: Text("Cold Shower", style: APPText.LARGE_TEXT),
+            value: checkedValue,
+            onChanged: (newValue) {
+              setState(() {
+                checkedValue = newValue!;
+              });
+            },
+            controlAffinity:
+                ListTileControlAffinity.leading, //  <-- leading Checkbox
+          ),
           Expanded(child: Container()),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                double duration = double.parse(_timecontroller.text);
+                //remember checkedValue is a bool that is true if Cold Shower
+                //add firebase section here
+              },
               child: Text('Log Action', style: APPText.LARGE_WHITE_TEXT),
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
