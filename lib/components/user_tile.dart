@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../user/user.dart';
 
 import '../constants/size.dart';
+import '../pages/breakdown_page.dart';
 import '../user/user.dart';
 
 //this will need to be stateful, and take in
@@ -31,6 +33,18 @@ class UserTile extends StatelessWidget {
                       title: Text(users[index].name),
                       subtitle: Text(
                           "Energy Share: ${(users[index].energyPercentage * 100).roundToDouble()}%"),
+                      onTap: () {
+                        const curUser = User.curUser;
+                        if (curUser == users[index].name) {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const BreakdownPage(curUser: User.curUser)),
+                          );
+                        }
+                      },
                     );
                   },
                 ));

@@ -80,7 +80,7 @@ class _AddShowerPageState extends State<AddShowerPage> {
                     //add firebase section here
                     if (!checkedValue) {
                       User.demoShowerDurations
-                          .update("Alex", (value) => value + duration);
+                          .update(User.curUser, (value) => value + duration);
                     }
                     Navigator.pop(context);
                     Navigator.push(
