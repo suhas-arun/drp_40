@@ -33,6 +33,9 @@ class User {
       querySnapshot.docs.forEach((doc) {
         if (doc.exists) {
           var data = doc.data() as Map<String, dynamic>;
+          // ! Suhas check here because the problem is after marcus it's
+          // ! hanging. This is usually because there is either a typo or an entry missing a value
+          // ! or something, cause you can see here that using a fixed value works
           if (data["name"] != null && data["energyPercentage"] != null) {
             users.add(User(name: data["name"], energyPercentage: 25));
           }
