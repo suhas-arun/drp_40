@@ -7,27 +7,29 @@ import '../user/user.dart';
 class UserTile extends StatelessWidget {
   const UserTile({super.key});
 
-  List<User> getUsers() {
-    //implement properly
-    return User.getTestUsers();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: APPSize.REM_HEIGHT(context),
-        child: ListView.builder(
-          //temporary itemCount for UI testing
-          itemCount: 4,
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: getUsers()[index].profilePicture,
-              title: Text(getUsers()[index].name),
-              subtitle: Text("Energy Share: " +
-                  getUsers()[index].energyPercentage.toString() +
-                  "%"),
-            );
-          },
-        ));
+    return FutureBuilder(
+        future: User.getTestUsers(),
+        builder: (context, AsyncSnapshot<List> snapshot) {
+          if (snapshot.hasData) {
+            return SizedBox(
+                height: APPSize.REM_HEIGHT(context),
+                child: ListView.builder(
+                  //temporary itemCount for UI testing
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: snapshot.data![index].profilePicture,
+                      title: Text(snapshot.data![index].name),
+                      subtitle: Text(
+                          "Energy Share: ${snapshot.data![index].energyPercentage}%"),
+                    );
+                  },
+                ));
+          } else {
+            return const CircularProgressIndicator();
+          }
+        });
   }
 }

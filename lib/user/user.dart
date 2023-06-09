@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saveshare/constants/size.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +23,22 @@ class User {
   //will have to change this to a picture
   Icon profilePicture;
 
-  static List<User> getTestUsers() {
-    return List.of([
-      User(name: "Marcus!", energyPercentage: (34)),
-      User(name: "Alex", energyPercentage: (25)),
-      User(name: "Ella", energyPercentage: (17)),
-      User(name: "Ines", energyPercentage: (24)),
-    ]);
+  //get users from firestore collection users
+  static Future<List<User>> getTestUsers() async {
+    List<User> users = [];
+    await FirebaseFirestore.instance
+        .collection("user")
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        if (doc.exists) {
+          var data = doc.data() as Map<String, dynamic>;
+          users.add(User(
+              name: data["name"],
+              energyPercentage: data["energyPercentage"].toDouble()));
+        }
+      }
+    });
+    return users;
   }
 }
