@@ -30,17 +30,14 @@ class User {
         .collection("user")
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         if (doc.exists) {
           var data = doc.data() as Map<String, dynamic>;
-          // ! Suhas check here because the problem is after marcus it's
-          // ! hanging. This is usually because there is either a typo or an entry missing a value
-          // ! or something, cause you can see here that using a fixed value works
-          if (data["name"] != null && data["energyPercentage"] != null) {
-            users.add(User(name: data["name"], energyPercentage: 25));
-          }
+          users.add(User(
+              name: data["name"],
+              energyPercentage: data["energyPercentage"].toDouble()));
         }
-      });
+      }
     });
     return users;
   }
