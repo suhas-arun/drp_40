@@ -23,22 +23,22 @@ class User {
   //will have to change this to a picture
   Icon profilePicture;
 
+  //get users from firestore collection users
   static Future<List<User>> getTestUsers() async {
-    List<User> userList = List.empty();
-    QuerySnapshot<Map<String, dynamic>> userSnapshot =
-        await FirebaseFirestore.instance.collection("user").get();
-    for (var doc in userSnapshot.docs) {
-      Map<String, dynamic> user = doc.data();
-      print(user);
-      // userList.add(
-      //     User(name: user["name"], energyPercentage: user["energyPercentage"]));
-    }
-    // TODO: FIX SO ADD TO LIST DOESN'T HANG.
-    return List.of([
-      User(name: "Marcus", energyPercentage: (34)),
-      User(name: "Alex", energyPercentage: (25)),
-      User(name: "Ella", energyPercentage: (17)),
-      User(name: "Ines", energyPercentage: (24)),
-    ]);
+    List<User> users = [];
+    await FirebaseFirestore.instance
+        .collection("user")
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        if (doc.exists) {
+          var data = doc.data() as Map<String, dynamic>;
+          if (data["name"] != null && data["energyPercentage"] != null) {
+            users.add(User(name: data["name"], energyPercentage: 25));
+          }
+        }
+      });
+    });
+    return users;
   }
 }
