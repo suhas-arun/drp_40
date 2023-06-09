@@ -33,24 +33,26 @@ class _AddShowerPageState extends State<AddShowerPage> {
                 Expanded(child: Container()),
                 const Padding(
                     padding: EdgeInsets.only(top: 30),
-                    child: Text("Shower", style: APPText.LARGE_TEXT)),
+                    child: Text("Add Shower", style: APPText.LARGE_TEXT)),
                 Expanded(child: Container())
               ])),
           Expanded(child: Container()),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.85,
-            child: TextField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                controller: _timecontroller,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter duration (minutes)',
-                    hintText: 'Duration')),
-          ),
-          Expanded(child: Container()),
+          Padding(
+              padding: const EdgeInsets.only(bottom: 50),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.85,
+                child: TextField(
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    controller: _timecontroller,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Enter duration (minutes)',
+                        hintText: 'Duration')),
+              )),
           CheckboxListTile(
-            contentPadding: EdgeInsets.only(left: 20),
-            title: Text("Cold Shower", style: APPText.LARGE_TEXT),
+            contentPadding: const EdgeInsets.only(left: 20),
+            title: const Text("Cold Shower", style: APPText.LARGE_TEXT),
             value: checkedValue,
             onChanged: (newValue) {
               setState(() {
@@ -67,12 +69,12 @@ class _AddShowerPageState extends State<AddShowerPage> {
                 //remember checkedValue is a bool that is true if Cold Shower
                 //add firebase section here
               },
-              child: Text('Log Action', style: APPText.LARGE_WHITE_TEXT),
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(13)),
                   backgroundColor: APPColour.green,
-                  fixedSize: Size(200, 50))),
+                  fixedSize: const Size(200, 50)),
+              child: const Text('Log Action', style: APPText.LARGE_WHITE_TEXT)),
           Expanded(child: Container()),
           const BottomBar(),
         ]));
