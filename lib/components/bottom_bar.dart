@@ -30,7 +30,7 @@ class _BottomBarState extends State<BottomBar> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               },
             ),
@@ -42,7 +42,7 @@ class _BottomBarState extends State<BottomBar> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LogPage()),
+                  MaterialPageRoute(builder: (context) => const LogPage()),
                 );
               },
             ),
@@ -54,7 +54,7 @@ class _BottomBarState extends State<BottomBar> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ChartPage()),
+                  MaterialPageRoute(builder: (context) => const ChartPage()),
                 );
               },
             ),

@@ -19,11 +19,11 @@ class _ChartPageState extends State<ChartPage> {
         backgroundColor: Colors.white,
         body: Column(
           children: [
-            TopBar(),
+            const TopBar(),
             Expanded(child: Container()),
-            PieChartWidget(),
+            const PieChartWidget(),
             Expanded(child: Container()),
-            BottomBar(),
+            const BottomBar(),
           ],
         ));
   }

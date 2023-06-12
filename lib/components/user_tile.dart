@@ -3,7 +3,6 @@ import '../user/user.dart';
 
 import '../constants/size.dart';
 import '../pages/breakdown_page.dart';
-import '../user/user.dart';
 
 //this will need to be stateful, and take in
 class UserTile extends StatelessWidget {

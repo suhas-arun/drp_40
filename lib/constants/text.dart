@@ -11,6 +11,13 @@ class APPText {
   static const LARGE_WHITE_TEXT =
       TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700);
 
+  static const SMALL_BLACK_TEXT = TextStyle(color: Colors.black, fontSize: 12);
+
+  // Text for indicating improvements
+  static const GOOD_TEXT = TextStyle(color: Colors.green);
+  static const OK_TEXT = TextStyle(color: Colors.orange);
+  static const BAD_TEXT = TextStyle(color: Colors.red);
+
   static BREAKDOWN_TEXT(score, size) {
     Color color;
     if (score > 5.0) {
