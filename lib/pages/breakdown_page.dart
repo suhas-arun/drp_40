@@ -4,6 +4,7 @@ import 'package:saveshare/constants/actions.dart';
 import 'package:saveshare/constants/buttons.dart';
 import 'package:saveshare/constants/colour.dart';
 import 'package:vertical_percent_indicator/vertical_percent_indicator.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:saveshare/constants/text.dart';
 
 import '../components/bottom_bar.dart';
@@ -43,14 +44,24 @@ class _BreakdownPageState extends State<BreakdownPage> {
   Widget actionBreakdown(context) {
     if (selectedIndex == 0) {
       return Expanded(
-        child: ListView(
-            children: [minutesComparisonCharts(), coldShowerBreakdown()]),
+        child: ListView(children: [
+          minutesComparisonCharts(),
+          paddedDivider(),
+          householdComparisonCharts(),
+          paddedDivider(),
+          coldShowerBreakdown()
+        ]),
       );
     } else if (selectedIndex == 1) {
       return Expanded(child: ListView());
     } else {
       return Expanded(child: ListView());
     }
+  }
+
+  Widget paddedDivider() {
+    return Padding(
+        padding: EdgeInsets.symmetric(vertical: 25), child: Divider());
   }
 
   Widget titleSection(context) {
@@ -123,19 +134,18 @@ class _BreakdownPageState extends State<BreakdownPage> {
     return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 30),
-        padding: const EdgeInsets.only(bottom: 30),
         child: Column(children: [
           const Padding(
             padding: EdgeInsets.only(bottom: 25),
             child: Text(
-                "This is how many minutes you've spent showering on average (daily) :",
+                "This is your average time spent in the shower per day in the last:",
                 style: APPText.MEDIUM_TEXT),
           ),
           Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Expanded(
               child: VerticalBarIndicator(
                 percent: 0.7,
-                header: "5.3",
+                header: "5.3 mins",
                 animationDuration: const Duration(seconds: 1),
                 height: APPSize.REM_HEIGHT(context) / 3 - 80,
                 width: 30,
@@ -143,27 +153,13 @@ class _BreakdownPageState extends State<BreakdownPage> {
                   Colors.indigo,
                   Colors.teal,
                 ],
-                footer: 'All Time',
+                footer: 'Week',
               ),
             ),
             Expanded(
               child: VerticalBarIndicator(
                 percent: 0.6,
-                header: "4.6",
-                animationDuration: const Duration(seconds: 1),
-                height: APPSize.REM_HEIGHT(context) / 3 - 80,
-                width: 30,
-                color: const [
-                  Colors.indigo,
-                  Colors.teal,
-                ],
-                footer: 'Year',
-              ),
-            ),
-            Expanded(
-              child: VerticalBarIndicator(
-                percent: 0.65,
-                header: "5.0",
+                header: "4.6 mins",
                 animationDuration: const Duration(seconds: 1),
                 height: APPSize.REM_HEIGHT(context) / 3 - 80,
                 width: 30,
@@ -176,8 +172,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
             ),
             Expanded(
               child: VerticalBarIndicator(
-                percent: 0.5,
-                header: "4.2",
+                percent: 0.65,
+                header: "5.0 mins",
                 animationDuration: const Duration(seconds: 1),
                 height: APPSize.REM_HEIGHT(context) / 3 - 80,
                 width: 30,
@@ -185,10 +181,36 @@ class _BreakdownPageState extends State<BreakdownPage> {
                   Colors.indigo,
                   Colors.teal,
                 ],
-                footer: 'Week',
+                footer: '6 Months',
+              ),
+            ),
+            Expanded(
+              child: VerticalBarIndicator(
+                percent: 0.5,
+                header: "4.2 mins",
+                animationDuration: const Duration(seconds: 1),
+                height: APPSize.REM_HEIGHT(context) / 3 - 80,
+                width: 30,
+                color: const [
+                  Colors.indigo,
+                  Colors.teal,
+                ],
+                footer: 'Year',
               ),
             ),
           ])
         ]));
+  }
+
+  Widget householdComparisonCharts() {
+    return Container(
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 30),
+        child: RichText(
+            text: const TextSpan(style: APPText.MEDIUM_TEXT, children: [
+          TextSpan(text: "On average this month, you have spent "),
+          TextSpan(text: "2 minutes longer", style: APPText.BAD_MEDIUM_TEXT),
+          TextSpan(text: " in the shower per day than the household average.")
+        ])));
   }
 }

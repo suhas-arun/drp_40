@@ -17,6 +17,9 @@ class APPText {
   static const GOOD_TEXT = TextStyle(color: Colors.green);
   static const OK_TEXT = TextStyle(color: Colors.orange);
   static const BAD_TEXT = TextStyle(color: Colors.red);
+  static const GOOD_MEDIUM_TEXT = TextStyle(color: Colors.green, fontSize: 18);
+  static const OK_MEDIUM_TEXT = TextStyle(color: Colors.orange, fontSize: 18);
+  static const BAD_MEDIUM_TEXT = TextStyle(color: Colors.red, fontSize: 18);
 
   static BREAKDOWN_TEXT(score, size) {
     Color color;
