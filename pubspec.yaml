@@ -39,6 +39,7 @@ dependencies:
   firebase_core: ^2.13.1
   firebase_auth: 
   cloud_firestore: ^4.4.0
+  vertical_percent_indicator: 
 
 dev_dependencies:
   flutter_test:
