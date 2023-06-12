@@ -4,7 +4,6 @@ import 'package:saveshare/constants/actions.dart';
 import 'package:saveshare/constants/buttons.dart';
 import 'package:saveshare/constants/colour.dart';
 import 'package:vertical_percent_indicator/vertical_percent_indicator.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:saveshare/constants/text.dart';
 
 import '../components/bottom_bar.dart';
@@ -60,7 +59,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
   }
 
   Widget paddedDivider() {
-    return Padding(
+    return const Padding(
         padding: EdgeInsets.symmetric(vertical: 25), child: Divider());
   }
 
@@ -206,11 +205,23 @@ class _BreakdownPageState extends State<BreakdownPage> {
     return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 30),
-        child: RichText(
-            text: const TextSpan(style: APPText.MEDIUM_TEXT, children: [
-          TextSpan(text: "On average this month, you have spent "),
-          TextSpan(text: "2 minutes longer", style: APPText.BAD_MEDIUM_TEXT),
-          TextSpan(text: " in the shower per day than the household average.")
-        ])));
+        child: Column(children: [
+          RichText(
+              text: const TextSpan(style: APPText.MEDIUM_TEXT, children: [
+            TextSpan(text: "On average this month, you have spent "),
+            TextSpan(text: "2 minutes longer", style: APPText.BAD_MEDIUM_TEXT),
+            TextSpan(
+                text: " in the shower per day than the household average."),
+          ])),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: RichText(
+                text: const TextSpan(style: APPText.MEDIUM_TEXT, children: [
+              TextSpan(text: "This can cost an extra "),
+              TextSpan(text: "£17", style: APPText.BAD_MEDIUM_TEXT),
+              TextSpan(text: " per month."),
+            ])),
+          )
+        ]));
   }
 }
