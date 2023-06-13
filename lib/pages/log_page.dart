@@ -38,7 +38,8 @@ class _LogPageState extends State<LogPage> {
           Positioned(
               top: 20,
               left: 10,
-              child: APPButtons.backButton(APPColour.actionColour(actionName)))
+              child: APPButtons.backButton(
+                  APPColour.actionColour(actionName), context))
         ]));
   }
 }

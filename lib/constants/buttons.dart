@@ -19,11 +19,13 @@ class APPButtons {
         shape: const CircleBorder());
   }
 
-  static Widget backButton(colour) {
+  static Widget backButton(colour, context) {
     return SizedBox(
       height: 40,
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           style: backButtonStyle(colour),
           child: const Icon(Icons.arrow_back_ios_new_outlined)),
     );

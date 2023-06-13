@@ -84,7 +84,6 @@ class _SelectActionPageState extends State<SelectActionPage> {
                 left: APPSize.WIDTH(context) * (rightAlign ? 0.1 : 0.45),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
