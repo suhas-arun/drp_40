@@ -22,7 +22,7 @@ class _LogPageState extends State<LogPage> {
         backgroundColor: Colors.white,
         body: Column(
           children: [
-            TopBar(),
+            const TopBar(),
             Expanded(child: Container()),
             Row(children: [
               IconButton(
@@ -36,14 +36,14 @@ class _LogPageState extends State<LogPage> {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AddShowerPage()),
+                    MaterialPageRoute(builder: (context) => const AddShowerPage()),
                   );
                 },
               ),
               const Text("Log a Shower", style: APPText.LARGE_TEXT)
             ]),
             Expanded(child: Container()),
-            BottomBar(),
+            const BottomBar(),
           ],
         ));
   }

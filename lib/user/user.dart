@@ -1,10 +1,8 @@
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saveshare/constants/size.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/home_page.dart';
 
 //will have to implement comparable probably
 class User {

@@ -18,10 +18,10 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         body: Column(
           children: [
-            TopBar(),
-            UserTile(),
+            const TopBar(),
+            const UserTile(),
             Expanded(child: Container()),
-            BottomBar(),
+            const BottomBar(),
           ],
         ));
   }

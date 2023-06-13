@@ -36,12 +36,12 @@ class _BreakdownPageState extends State<BreakdownPage> {
                     child: const Text("User breakdown",
                         style: APPText.LARGE_TEXT))),
             Container(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Row(children: [
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
+                        const Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 0),
                             child: Text(
@@ -51,25 +51,25 @@ class _BreakdownPageState extends State<BreakdownPage> {
                         Text("Stats:",
                             style: APPText.BREAKDOWN_TEXT(diff, 18.0)),
                         Text(
-                            "${personalExpenditure} minutes this week"),
+                            "$personalExpenditure minutes this week"),
                         Text("Average of ${(personalExpenditure / 7).roundToDouble()} minutes per day"),
-                        Text("${diff}% better than household"),
-                        Padding(padding: EdgeInsets.only(bottom: 10)),
+                        Text("$diff% better than household"),
+                        const Padding(padding: EdgeInsets.only(bottom: 10)),
                         Row(
                           children: [
                             Text("Week Progress:",
                                 style: APPText.IMPROVEMENT_TEXT(-1.0, 18.0)),
-                            Padding(padding: EdgeInsets.only(right: 58)),
+                            const Padding(padding: EdgeInsets.only(right: 58)),
                             Text("Down 1%",
                                 style: APPText.IMPROVEMENT_TEXT(-1.0, 18.0))
                           ],
                         ),
-                        Padding(padding: EdgeInsets.only(bottom: 10)),
+                        const Padding(padding: EdgeInsets.only(bottom: 10)),
                         Row(
                           children: [
                             Text("Month Progress:",
                                 style: APPText.IMPROVEMENT_TEXT(2.0, 18.0)),
-                            Padding(padding: EdgeInsets.only(right: 50)),
+                            const Padding(padding: EdgeInsets.only(right: 50)),
                             Text("Up 2%",
                                 style: APPText.IMPROVEMENT_TEXT(2.0, 18.0))
                           ],
