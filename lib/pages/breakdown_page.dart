@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:vertical_percent_indicator/vertical_percent_indicator.dart';
+
+import 'package:saveshare/constants/text.dart';
 import 'package:saveshare/constants/actions.dart';
 import 'package:saveshare/constants/buttons.dart';
 import 'package:saveshare/constants/colour.dart';
-import 'package:vertical_percent_indicator/vertical_percent_indicator.dart';
-import 'package:saveshare/constants/text.dart';
 
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
@@ -40,13 +41,14 @@ class _BreakdownPageState extends State<BreakdownPage> {
         ));
   }
 
+  // Tailored breakdowns for each action
   Widget actionBreakdown(context) {
     if (selectedIndex == 0) {
       return Expanded(
         child: ListView(children: [
           minutesComparisonCharts(),
           paddedDivider(),
-          householdComparisonCharts(),
+          householdComparison(),
           paddedDivider(),
           coldShowerBreakdown()
         ]),
@@ -58,11 +60,13 @@ class _BreakdownPageState extends State<BreakdownPage> {
     }
   }
 
+  // Divides the list view sections
   Widget paddedDivider() {
     return const Padding(
         padding: EdgeInsets.symmetric(vertical: 25), child: Divider());
   }
 
+  // Title for the page
   Widget titleSection(context) {
     return Container(
         padding: const EdgeInsets.all(20),
@@ -72,6 +76,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 style: APPText.LARGE_TEXT)));
   }
 
+  // To select which breakdown to view
   _actions() {
     return Container(
       decoration: const BoxDecoration(
@@ -101,10 +106,12 @@ class _BreakdownPageState extends State<BreakdownPage> {
     );
   }
 
+  // Cold shower text and chart
   Widget coldShowerBreakdown() {
     return Column(children: [coldShowerTitle(), coldShowerChart()]);
   }
 
+  // Title of cold shower stats
   Widget coldShowerTitle() {
     return Container(
         alignment: Alignment.center,
@@ -114,6 +121,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
             style: APPText.MEDIUM_TEXT));
   }
 
+  // Pie chart of cold showers
   Widget coldShowerChart() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -129,6 +137,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
     );
   }
 
+  // Charts to compare the time spent in the shower over time
   Widget minutesComparisonCharts() {
     return Container(
         width: double.infinity,
@@ -141,67 +150,33 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 style: APPText.MEDIUM_TEXT),
           ),
           Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Expanded(
-              child: VerticalBarIndicator(
-                percent: 0.7,
-                header: "5.3 mins",
-                animationDuration: const Duration(seconds: 1),
-                height: APPSize.REM_HEIGHT(context) / 3 - 80,
-                width: 30,
-                color: const [
-                  Colors.indigo,
-                  Colors.teal,
-                ],
-                footer: 'Week',
-              ),
-            ),
-            Expanded(
-              child: VerticalBarIndicator(
-                percent: 0.6,
-                header: "4.6 mins",
-                animationDuration: const Duration(seconds: 1),
-                height: APPSize.REM_HEIGHT(context) / 3 - 80,
-                width: 30,
-                color: const [
-                  Colors.indigo,
-                  Colors.teal,
-                ],
-                footer: 'Month',
-              ),
-            ),
-            Expanded(
-              child: VerticalBarIndicator(
-                percent: 0.65,
-                header: "5.0 mins",
-                animationDuration: const Duration(seconds: 1),
-                height: APPSize.REM_HEIGHT(context) / 3 - 80,
-                width: 30,
-                color: const [
-                  Colors.indigo,
-                  Colors.teal,
-                ],
-                footer: '6 Months',
-              ),
-            ),
-            Expanded(
-              child: VerticalBarIndicator(
-                percent: 0.5,
-                header: "4.2 mins",
-                animationDuration: const Duration(seconds: 1),
-                height: APPSize.REM_HEIGHT(context) / 3 - 80,
-                width: 30,
-                color: const [
-                  Colors.indigo,
-                  Colors.teal,
-                ],
-                footer: 'Year',
-              ),
-            ),
+            timeInShowerBar(5.3, "Week"),
+            timeInShowerBar(7.4, "Month"),
+            timeInShowerBar(6.8, "6 Months"),
+            timeInShowerBar(7.5, "Year"),
           ])
         ]));
   }
 
-  Widget householdComparisonCharts() {
+  Widget timeInShowerBar(minutes, footer) {
+    return Expanded(
+      child: VerticalBarIndicator(
+        percent: minutes / 10,
+        header: "$minutes mins",
+        animationDuration: const Duration(seconds: 1),
+        height: APPSize.REM_HEIGHT(context) / 3 - 80,
+        width: 30,
+        color: const [
+          Colors.indigo,
+          Colors.teal,
+        ],
+        footer: footer,
+      ),
+    );
+  }
+
+  // Breakdown of user compared to house average
+  Widget householdComparison() {
     return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 30),
