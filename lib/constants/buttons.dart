@@ -19,6 +19,14 @@ class APPButtons {
         shape: const CircleBorder());
   }
 
+  static ButtonStyle logButtonStyle(colour) {
+    return ElevatedButton.styleFrom(
+        backgroundColor: colour,
+        elevation: 5.0,
+        splashFactory: NoSplash.splashFactory,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)));
+  }
+
   static Widget backButton(colour, context) {
     return SizedBox(
       height: 40,

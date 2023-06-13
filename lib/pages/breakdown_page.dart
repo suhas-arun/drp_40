@@ -182,20 +182,23 @@ class _BreakdownPageState extends State<BreakdownPage> {
         margin: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(children: [
           RichText(
+              textAlign: TextAlign.start,
               text: const TextSpan(style: APPText.mediumGreenText, children: [
-            TextSpan(text: "On average this month, you have spent "),
-            TextSpan(text: "2 minutes longer", style: APPText.badMediumText),
-            TextSpan(
-                text: " in the shower per day than the household average."),
-          ])),
+                TextSpan(text: "On average this month, you have spent "),
+                TextSpan(
+                    text: "2 minutes longer", style: APPText.badMediumText),
+                TextSpan(
+                    text: " in the shower per day than the household average."),
+              ])),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: RichText(
+                textAlign: TextAlign.start,
                 text: const TextSpan(style: APPText.mediumGreenText, children: [
-              TextSpan(text: "This can cost an extra "),
-              TextSpan(text: "£17", style: APPText.badMediumText),
-              TextSpan(text: " per month."),
-            ])),
+                  TextSpan(text: "This can cost an extra "),
+                  TextSpan(text: "£17", style: APPText.badMediumText),
+                  TextSpan(text: " per month."),
+                ])),
           )
         ]));
   }
