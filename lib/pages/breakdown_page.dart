@@ -63,7 +63,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
   // Divides the list view sections
   Widget paddedDivider() {
     return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 25), child: Divider());
+        padding: EdgeInsets.symmetric(vertical: 25),
+        child: Divider(thickness: 3.0));
   }
 
   // Title for the page
@@ -188,7 +189,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 TextSpan(
                     text: "2 minutes longer", style: APPText.badMediumText),
                 TextSpan(
-                    text: " in the shower per day than the household average."),
+                    text:
+                        " in the shower per day than the rest of your house."),
               ])),
           Padding(
             padding: const EdgeInsets.only(top: 10),

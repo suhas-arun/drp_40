@@ -148,7 +148,7 @@ class _LogPageState extends State<LogPage> {
           }
           Navigator.pop(context);
         },
-        style: APPButtons.logButtonStyle(colour),
+        style: APPButtons.logButtonStyle(colour, context),
         child: Text('Log Action', style: APPText.mediumText(Colors.white)));
   }
 }

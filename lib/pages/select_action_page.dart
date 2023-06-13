@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saveshare/constants/buttons.dart';
 
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
@@ -80,32 +81,45 @@ class _SelectActionPageState extends State<SelectActionPage> {
                         )))),
             // The image card
             Positioned(
-                top: 10,
-                left: APPSize.WIDTH(context) * (rightAlign ? 0.1 : 0.45),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => LogPage(actionName: picName)),
-                    );
-                  },
-                  child: Card(
-                      elevation: 10,
-                      shadowColor: Colors.grey.withOpacity(0.5),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
-                      child: Container(
-                          height: APPSize.WIDTH(context) * 0.55,
-                          width: APPSize.WIDTH(context) * 0.45,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(
-                                      'assets/images/$picName.png'))))),
-                )),
-            logActionText(rightAlign, colour, picName)
+              top: 10,
+              left: APPSize.WIDTH(context) * (rightAlign ? 0.1 : 0.45),
+              child: Card(
+                  elevation: 10,
+                  shadowColor: Colors.grey.withOpacity(0.5),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0)),
+                  child: Container(
+                      height: APPSize.WIDTH(context) * 0.55,
+                      width: APPSize.WIDTH(context) * 0.45,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image:
+                                  AssetImage('assets/images/$picName.png'))))),
+            ),
+            logActionText(rightAlign, colour, picName),
+            Positioned(
+                top: 200,
+                left: APPSize.WIDTH(context) * (rightAlign ? 0.59 : 0.09),
+                child: SizedBox(
+                    width: APPSize.WIDTH(context) * 0.325,
+                    child: ElevatedButton(
+                      style: APPButtons.EnterDetailsStyle(colour, context),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  LogPage(actionName: picName)),
+                        );
+                      },
+                      child: const Text("Continue",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600)),
+                    )))
           ],
         ));
   }

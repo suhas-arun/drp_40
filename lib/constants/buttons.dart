@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saveshare/constants/colour.dart';
+import 'package:saveshare/constants/size.dart';
 
 class APPButtons {
   static ButtonStyle actionButtonStyle(selected) {
@@ -19,12 +20,21 @@ class APPButtons {
         shape: const CircleBorder());
   }
 
-  static ButtonStyle logButtonStyle(colour) {
+  static ButtonStyle EnterDetailsStyle(colour, context) {
     return ElevatedButton.styleFrom(
         backgroundColor: colour,
         elevation: 5.0,
         splashFactory: NoSplash.splashFactory,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)));
+  }
+
+  static ButtonStyle logButtonStyle(colour, context) {
+    return ElevatedButton.styleFrom(
+        backgroundColor: colour,
+        elevation: 5.0,
+        splashFactory: NoSplash.splashFactory,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+        minimumSize: Size(APPSize.WIDTH(context) * 0.85, 50));
   }
 
   static Widget backButton(colour, context) {
