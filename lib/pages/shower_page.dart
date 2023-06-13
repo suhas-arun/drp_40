@@ -43,7 +43,8 @@ class _AddShowerPageState extends State<AddShowerPage> {
                     Expanded(child: Container()),
                     const Padding(
                         padding: EdgeInsets.only(top: 30),
-                        child: Text("Add Shower", style: APPText.LARGE_TEXT)),
+                        child:
+                            Text("Add Shower", style: APPText.largeGreenText)),
                     Expanded(child: Container())
                   ])),
               Expanded(child: Container()),
@@ -62,7 +63,7 @@ class _AddShowerPageState extends State<AddShowerPage> {
                   )),
               CheckboxListTile(
                 contentPadding: const EdgeInsets.only(left: 20),
-                title: const Text("Cold Shower", style: APPText.LARGE_TEXT),
+                title: const Text("Cold Shower", style: APPText.largeGreenText),
                 value: checkedValue,
                 onChanged: (newValue) {
                   setState(() {
@@ -93,8 +94,8 @@ class _AddShowerPageState extends State<AddShowerPage> {
                           borderRadius: BorderRadius.circular(13)),
                       backgroundColor: APPColour.green,
                       fixedSize: const Size(200, 50)),
-                  child: const Text('Log Action',
-                      style: APPText.LARGE_WHITE_TEXT)),
+                  child:
+                      const Text('Log Action', style: APPText.largeWhiteText)),
               Expanded(child: Container()),
               const BottomBar(),
             ])));

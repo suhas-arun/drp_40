@@ -73,7 +73,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
         child: Title(
             color: APPColour.green,
             child: const Text("Hi Alex, here is your personal breakdown:",
-                style: APPText.LARGE_TEXT)));
+                style: APPText.largeGreenText)));
   }
 
   // To select which breakdown to view
@@ -94,7 +94,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
               child: TextButton(
                   style: APPButtons.actionButtonStyle(
                       action == APPActions.actions[selectedIndex]),
-                  child: Text(action, style: APPText.SMALL_BLACK_TEXT),
+                  child: Text(action, style: APPText.smallBlackText),
                   onPressed: () {
                     setState(() {
                       selectedIndex = APPActions.actions.indexOf(action);
@@ -118,7 +118,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
         margin: const EdgeInsets.symmetric(horizontal: 30),
         padding: const EdgeInsets.only(bottom: 25),
         child: const Text("You have had 1 cold shower this month:",
-            style: APPText.MEDIUM_TEXT));
+            style: APPText.mediumGreenText));
   }
 
   // Pie chart of cold showers
@@ -147,7 +147,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
             padding: EdgeInsets.only(bottom: 25),
             child: Text(
                 "This is your average time spent in the shower per day in the last:",
-                style: APPText.MEDIUM_TEXT),
+                style: APPText.mediumGreenText),
           ),
           Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             timeInShowerBar(5.3, "Week"),
@@ -182,18 +182,18 @@ class _BreakdownPageState extends State<BreakdownPage> {
         margin: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(children: [
           RichText(
-              text: const TextSpan(style: APPText.MEDIUM_TEXT, children: [
+              text: const TextSpan(style: APPText.mediumGreenText, children: [
             TextSpan(text: "On average this month, you have spent "),
-            TextSpan(text: "2 minutes longer", style: APPText.BAD_MEDIUM_TEXT),
+            TextSpan(text: "2 minutes longer", style: APPText.badMediumText),
             TextSpan(
                 text: " in the shower per day than the household average."),
           ])),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: RichText(
-                text: const TextSpan(style: APPText.MEDIUM_TEXT, children: [
+                text: const TextSpan(style: APPText.mediumGreenText, children: [
               TextSpan(text: "This can cost an extra "),
-              TextSpan(text: "£17", style: APPText.BAD_MEDIUM_TEXT),
+              TextSpan(text: "£17", style: APPText.badMediumText),
               TextSpan(text: " per month."),
             ])),
           )

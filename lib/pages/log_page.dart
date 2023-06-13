@@ -46,13 +46,13 @@ class _LogPageState extends State<LogPage> {
 
   Widget actionCards() {
     return ListView(children: [
-      actionCard(false, "shower.png"),
-      actionCard(true, "laundry.png"),
-      actionCard(false, "heating.png")
+      actionCard(false, "shower", const Color.fromRGBO(64, 123, 255, 1)),
+      actionCard(true, "laundry", const Color.fromRGBO(85, 205, 119, 1)),
+      actionCard(false, "heating", const Color.fromRGBO(255, 114, 94, 1))
     ]);
   }
 
-  Widget actionCard(bool rightAlign, String picName) {
+  Widget actionCard(bool rightAlign, String picName, Color colour) {
     return SizedBox(
         height: 270,
         //alignment: Alignment.center,
@@ -90,11 +90,26 @@ class _LogPageState extends State<LogPage> {
                         width: APPSize.WIDTH(context) * 0.45,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            //color: APPColour.green,
-                            //color: Color.fromRGBO(7, 43, 128, 0.694),
+                            //color: colour,
                             image: DecorationImage(
                                 fit: BoxFit.fill,
-                                image: AssetImage('assets/images/$picName'))))))
+                                image: AssetImage(
+                                    'assets/images/$picName.png')))))),
+            Positioned(
+                top: 70,
+                left: APPSize.WIDTH(context) * (rightAlign ? 0.6 : 0.1),
+                child: SizedBox(
+                    width: APPSize.WIDTH(context) * 0.375,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Log a Shower", style: APPText.mediumText(colour)),
+                        const Divider(),
+                        const Text("Tell us your:"),
+                        const Text("  - Shower length"),
+                        const Text("  - Hot or cold")
+                      ],
+                    )))
           ],
         ));
   }
@@ -116,7 +131,7 @@ class _LogPageState extends State<LogPage> {
           );
         },
       ),
-      const Text("Log a Shower", style: APPText.LARGE_TEXT)
+      const Text("Log a Shower", style: APPText.largeGreenText)
     ]);
   }
 }
