@@ -10,6 +10,10 @@ class APPSize {
   static const LARGE_ICON_SIZE = 100.0;
   static const LARGE_ICON_SPLASH = (0.7 * LARGE_ICON_SIZE);
 
+  static double WIDTH(context) {
+    return MediaQuery.of(context).size.width;
+  }
+
   static double STATUS_BAR_HEIGHT(context) {
     return MediaQuery.of(context).padding.top;
   }
