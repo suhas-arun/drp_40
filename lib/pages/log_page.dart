@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saveshare/pages/shower_page.dart';
 
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
@@ -81,20 +82,30 @@ class _LogPageState extends State<LogPage> {
             Positioned(
                 top: 10,
                 left: APPSize.WIDTH(context) * (rightAlign ? 0.1 : 0.45),
-                child: Card(
-                    elevation: 10,
-                    shadowColor: Colors.grey.withOpacity(0.5),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    child: Container(
-                        height: APPSize.WIDTH(context) * 0.55,
-                        width: APPSize.WIDTH(context) * 0.45,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: AssetImage(
-                                    'assets/images/$picName.png')))))),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddShowerPage()),
+                    );
+                  },
+                  child: Card(
+                      elevation: 10,
+                      shadowColor: Colors.grey.withOpacity(0.5),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+                      child: Container(
+                          height: APPSize.WIDTH(context) * 0.55,
+                          width: APPSize.WIDTH(context) * 0.45,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage(
+                                      'assets/images/$picName.png'))))),
+                )),
             logActionText(rightAlign, colour, picName)
           ],
         ));
