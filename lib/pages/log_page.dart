@@ -19,6 +19,8 @@ class LogPage extends StatefulWidget {
 
 class _LogPageState extends State<LogPage> {
   bool checkedValue = false;
+  bool ecoWash = false;
+  bool airDry = false;
   final TextEditingController _timecontroller = TextEditingController();
 
   @override
@@ -39,7 +41,6 @@ class _LogPageState extends State<LogPage> {
               actionInput(widget.actionName),
               Expanded(child: Container()),
               logActionButton(widget.actionName),
-              Expanded(child: Container()),
               const BottomBar(),
             ],
           )),
@@ -82,7 +83,7 @@ class _LogPageState extends State<LogPage> {
     if (actionName == "shower") {
       return showerInput();
     } else if (actionName == "laundry") {
-      return Container();
+      return laundryInput();
     } else {
       return Container();
     }
@@ -126,6 +127,54 @@ class _LogPageState extends State<LogPage> {
     );
   }
 
+  Widget laundryInput() {
+    return SizedBox(
+      width: APPSize.WIDTH(context) * 0.9,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text("Tell us about your washing load:",
+            textAlign: TextAlign.center,
+            style: APPText.mediumText(APPColour.green)),
+        const Padding(padding: EdgeInsets.only(bottom: 20)),
+        Row(children: [
+          SizedBox(
+            width: APPSize.WIDTH(context) * 0.45,
+            child: CheckboxListTile(
+              fillColor: const MaterialStatePropertyAll(APPColour.green),
+              contentPadding: const EdgeInsets.only(left: 0),
+              title:
+                  Text("Eco Wash", style: APPText.mediumText(APPColour.green)),
+              value: ecoWash,
+              onChanged: (newValue) {
+                setState(() {
+                  ecoWash = newValue!;
+                });
+              },
+              controlAffinity:
+                  ListTileControlAffinity.leading, //  <-- leading Checkbox
+            ),
+          ),
+          SizedBox(
+            width: APPSize.WIDTH(context) * 0.45,
+            child: CheckboxListTile(
+              fillColor: const MaterialStatePropertyAll(APPColour.green),
+              contentPadding: const EdgeInsets.only(left: 0),
+              title:
+                  Text("Air Dry", style: APPText.mediumText(APPColour.green)),
+              value: airDry,
+              onChanged: (newValue) {
+                setState(() {
+                  airDry = newValue!;
+                });
+              },
+              controlAffinity:
+                  ListTileControlAffinity.leading, //  <-- leading Checkbox
+            ),
+          )
+        ])
+      ]),
+    );
+  }
+
   Widget logActionButton(actionName) {
     Color colour;
 
@@ -137,18 +186,21 @@ class _LogPageState extends State<LogPage> {
       colour = APPColour.heatingRed;
     }
 
-    return ElevatedButton(
-        onPressed: () {
-          double duration = double.parse(_timecontroller.text);
-          //remember checkedValue is a bool that is true if Cold Shower
-          //add firebase section here
-          if (!checkedValue) {
-            User.demoShowerDurations
-                .update(User.curUser, (value) => value + duration);
-          }
-          Navigator.pop(context);
-        },
-        style: APPButtons.logButtonStyle(colour, context),
-        child: Text('Log Action', style: APPText.mediumText(Colors.white)));
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 50),
+      child: ElevatedButton(
+          onPressed: () {
+            double duration = double.parse(_timecontroller.text);
+            //remember checkedValue is a bool that is true if Cold Shower
+            //add firebase section here
+            if (!checkedValue) {
+              User.demoShowerDurations
+                  .update(User.curUser, (value) => value + duration);
+            }
+            Navigator.pop(context);
+          },
+          style: APPButtons.logButtonStyle(colour, context),
+          child: Text('Log Action', style: APPText.mediumText(Colors.white))),
+    );
   }
 }

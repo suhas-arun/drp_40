@@ -70,7 +70,7 @@ class _SelectActionPageState extends State<SelectActionPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 50),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(0.0),
+                          borderRadius: BorderRadius.circular(5.0),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.3),
@@ -138,7 +138,7 @@ class _SelectActionPageState extends State<SelectActionPage> {
   // Text for logging showers
   Widget logShowerText(rightAlign, colour) {
     return Positioned(
-        top: 70,
+        top: 60,
         left: APPSize.WIDTH(context) * (rightAlign ? 0.6 : 0.1),
         child: SizedBox(
             width: APPSize.WIDTH(context) * 0.325,
@@ -160,7 +160,7 @@ class _SelectActionPageState extends State<SelectActionPage> {
   // Text for logging heating
   Widget logHeatingText(rightAlign, colour) {
     return Positioned(
-        top: 70,
+        top: 60,
         left: APPSize.WIDTH(context) * (rightAlign ? 0.6 : 0.1),
         child: SizedBox(
             width: APPSize.WIDTH(context) * 0.325,
@@ -182,7 +182,7 @@ class _SelectActionPageState extends State<SelectActionPage> {
   // Text for logging laundry
   Widget logLaundryText(rightAlign, colour) {
     return Positioned(
-        top: 70,
+        top: 60,
         left: APPSize.WIDTH(context) * (rightAlign ? 0.6 : 0.1),
         child: SizedBox(
             width: APPSize.WIDTH(context) * 0.325,
