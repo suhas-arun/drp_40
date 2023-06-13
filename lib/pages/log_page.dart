@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:saveshare/constants/colour.dart';
-import 'package:saveshare/pages/shower_page.dart';
-
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
 
+import '../constants/colour.dart';
 import '../constants/size.dart';
 import '../constants/text.dart';
 
@@ -46,16 +44,15 @@ class _LogPageState extends State<LogPage> {
 
   Widget actionCards() {
     return ListView(children: [
-      actionCard(false, "shower", const Color.fromRGBO(64, 123, 255, 1)),
-      actionCard(true, "laundry", const Color.fromRGBO(85, 205, 119, 1)),
-      actionCard(false, "heating", const Color.fromRGBO(255, 114, 94, 1))
+      actionCard(false, "shower", APPColour.showerBlue),
+      actionCard(true, "laundry", APPColour.laundryGreen),
+      actionCard(false, "heating", APPColour.heatingRed)
     ]);
   }
 
   Widget actionCard(bool rightAlign, String picName, Color colour) {
     return SizedBox(
         height: 270,
-        //alignment: Alignment.center,
         child: Stack(
           children: [
             Positioned(
@@ -90,7 +87,6 @@ class _LogPageState extends State<LogPage> {
                         width: APPSize.WIDTH(context) * 0.45,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            //color: colour,
                             image: DecorationImage(
                                 fit: BoxFit.fill,
                                 image: AssetImage(
@@ -171,26 +167,5 @@ class _LogPageState extends State<LogPage> {
                 const Text("  - Hand dry")
               ],
             )));
-  }
-
-  Widget logShower(BuildContext context) {
-    return Row(children: [
-      IconButton(
-        padding: const EdgeInsets.all(40.0),
-        alignment: Alignment.centerLeft,
-        iconSize: APPSize.LARGE_ICON_SIZE,
-        color: APPColour.green,
-        icon: const Icon(Icons.shower_outlined),
-        splashRadius: APPSize.LARGE_ICON_SPLASH,
-        onPressed: () {
-          Navigator.pop(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddShowerPage()),
-          );
-        },
-      ),
-      const Text("Log a Shower", style: APPText.largeGreenText)
-    ]);
   }
 }
