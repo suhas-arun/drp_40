@@ -72,7 +72,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
         padding: const EdgeInsets.all(20),
         child: Title(
             color: APPColour.green,
-            child: const Text("Hi Alex, here is your personal breakdown:",
+            child: const Text("Hi Alex, here is your personal breakdown",
                 style: APPText.largeGreenText)));
   }
 

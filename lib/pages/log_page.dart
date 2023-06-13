@@ -42,6 +42,7 @@ class _LogPageState extends State<LogPage> {
         ));
   }
 
+  // Combine the actions into a listview
   Widget actionCards() {
     return ListView(children: [
       actionCard(false, "shower", APPColour.showerBlue),
@@ -50,11 +51,13 @@ class _LogPageState extends State<LogPage> {
     ]);
   }
 
+  // A single card for a single action
   Widget actionCard(bool rightAlign, String picName, Color colour) {
     return SizedBox(
         height: 270,
         child: Stack(
           children: [
+            // The background card
             Positioned(
                 top: 35,
                 left: 0.05 * APPSize.WIDTH(context),
@@ -74,6 +77,7 @@ class _LogPageState extends State<LogPage> {
                                 spreadRadius: 4.0)
                           ],
                         )))),
+            // The image card
             Positioned(
                 top: 10,
                 left: APPSize.WIDTH(context) * (rightAlign ? 0.1 : 0.45),
@@ -96,6 +100,7 @@ class _LogPageState extends State<LogPage> {
         ));
   }
 
+  // The text to overlap the background card
   Widget logActionText(rightAlign, colour, actionString) {
     if (actionString == "shower") {
       return logShowerText(rightAlign, colour);
@@ -106,6 +111,7 @@ class _LogPageState extends State<LogPage> {
     }
   }
 
+  // Text for logging showers
   Widget logShowerText(rightAlign, colour) {
     return Positioned(
         top: 70,
@@ -127,6 +133,7 @@ class _LogPageState extends State<LogPage> {
             )));
   }
 
+  // Text for logging heating
   Widget logHeatingText(rightAlign, colour) {
     return Positioned(
         top: 70,
@@ -148,6 +155,7 @@ class _LogPageState extends State<LogPage> {
             )));
   }
 
+  // Text for logging laundry
   Widget logLaundryText(rightAlign, colour) {
     return Positioned(
         top: 70,
