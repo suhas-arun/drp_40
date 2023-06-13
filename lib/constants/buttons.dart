@@ -10,4 +10,22 @@ class APPButtons {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(5.0))));
   }
+
+  static ButtonStyle backButtonStyle(colour) {
+    return ElevatedButton.styleFrom(
+        backgroundColor: colour,
+        elevation: 5.0,
+        splashFactory: NoSplash.splashFactory,
+        shape: const CircleBorder());
+  }
+
+  static Widget backButton(colour) {
+    return SizedBox(
+      height: 40,
+      child: ElevatedButton(
+          onPressed: () {},
+          style: backButtonStyle(colour),
+          child: const Icon(Icons.arrow_back_ios_new_outlined)),
+    );
+  }
 }

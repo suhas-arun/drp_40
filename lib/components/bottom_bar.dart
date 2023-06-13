@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/colour.dart';
 import '../pages/chart_page.dart';
-import '../pages/log_page.dart';
+import '../pages/select_action_page.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -42,7 +42,8 @@ class _BottomBarState extends State<BottomBar> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LogPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const SelectActionPage()),
                 );
               },
             ),
