@@ -63,7 +63,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
   // Divides the list view sections
   Widget paddedDivider() {
     return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 25),
+        padding: EdgeInsets.symmetric(vertical: 45),
         child: Divider(thickness: 3.0));
   }
 
