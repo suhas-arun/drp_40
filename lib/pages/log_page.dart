@@ -187,20 +187,27 @@ class _LogPageState extends State<LogPage> {
         const Padding(padding: EdgeInsets.only(bottom: 50)),
         SizedBox(
             width: APPSize.WIDTH(context) * 0.85,
-            child: Slider(
-              min: 0,
-              max: 35,
-              activeColor: APPColour.heatingRed,
-              inactiveColor: APPColour.heatingRed,
-              divisions: 35,
-              value: temp,
-              label: "$displayTemp \u00B0C",
-              onChanged: (newTemp) {
-                setState(() {
-                  temp = newTemp;
-                });
-              },
-            ))
+            child: SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                    inactiveTickMarkColor: APPColour.grey,
+                    activeTickMarkColor: APPColour.heatingRed,
+                    activeTrackColor: APPColour.heatingRed,
+                    inactiveTrackColor: APPColour.grey,
+                    valueIndicatorColor: colour,
+                    thumbColor: APPColour.heatingRed,
+                    overlayColor: APPColour.heatingRed.withOpacity(0.3)),
+                child: Slider(
+                  min: 0,
+                  max: 35,
+                  divisions: 35,
+                  value: temp,
+                  label: "$displayTemp \u00B0C",
+                  onChanged: (newTemp) {
+                    setState(() {
+                      temp = newTemp;
+                    });
+                  },
+                )))
       ]),
     );
   }
