@@ -88,7 +88,16 @@ class ShowerTimeGraphState extends State<ShowerTimeGraph> {
                   alignment: BarChartAlignment.center,
                   //maxY: 20,
                   groupsSpace: width,
-                  barTouchData: BarTouchData(),
+                  barTouchData: BarTouchData(
+                      touchTooltipData: BarTouchTooltipData(
+                          getTooltipItem: (a, b, rod, d) {
+                            double mins = rod.toY;
+                            return BarTooltipItem(
+                                "$mins mins", APPText.smallText(Colors.white));
+                          },
+                          tooltipBgColor: Colors.grey.withOpacity(0.9),
+                          tooltipPadding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5))),
                   borderData: FlBorderData(border: const Border()),
                   gridData: const FlGridData(show: false),
                   titlesData: FlTitlesData(
