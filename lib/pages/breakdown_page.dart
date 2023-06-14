@@ -4,7 +4,6 @@ import 'package:pie_chart/pie_chart.dart';
 import 'package:vertical_percent_indicator/vertical_percent_indicator.dart';
 
 import 'package:saveshare/constants/text.dart';
-import 'package:saveshare/constants/colour.dart';
 
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
@@ -45,11 +44,21 @@ class _BreakdownPageState extends State<BreakdownPage> {
     if (selectedIndex == 0) {
       return Expanded(
         child: ListView(children: [
+          const Padding(
+              padding: EdgeInsets.only(bottom: 45),
+              child: Divider(
+                thickness: 3.0,
+              )),
           minutesComparisonCharts(),
           paddedDivider(),
           householdComparison(),
           paddedDivider(),
-          coldShowerBreakdown()
+          coldShowerBreakdown(),
+          const Padding(
+              padding: EdgeInsets.only(top: 45),
+              child: Divider(
+                thickness: 3.0,
+              )),
         ]),
       );
     } else if (selectedIndex == 1) {
