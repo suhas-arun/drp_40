@@ -230,10 +230,6 @@ class _LogPageState extends State<LogPage> {
             double duration = double.parse(_timecontroller.text);
             //remember checkedValue is a bool that is true if Cold Shower
             //add firebase section here
-            if (!checkedValue) {
-              User.demoShowerDurations
-                  .update(User.curUser, (value) => value + duration);
-            }
             Navigator.pop(context);
           },
           style: APPButtons.logButtonStyle(colour, context),

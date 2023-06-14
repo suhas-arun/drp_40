@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:saveshare/constants/size.dart';
 import 'package:saveshare/constants/text.dart';
@@ -79,10 +80,6 @@ class _AddShowerPageState extends State<AddShowerPage> {
                     double duration = double.parse(_timecontroller.text);
                     //remember checkedValue is a bool that is true if Cold Shower
                     //add firebase section here
-                    if (!checkedValue) {
-                      User.demoShowerDurations
-                          .update(User.curUser, (value) => value + duration);
-                    }
                     Navigator.pop(context);
                     Navigator.push(
                       context,
