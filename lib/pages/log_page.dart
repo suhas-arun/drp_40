@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:saveshare/constants/buttons.dart';
 import 'package:saveshare/constants/colour.dart';
@@ -226,10 +227,42 @@ class _LogPageState extends State<LogPage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 50),
       child: ElevatedButton(
-          onPressed: () {
-            double duration = double.parse(_timecontroller.text);
-            //remember checkedValue is a bool that is true if Cold Shower
-            //add firebase section here
+          onPressed: () async {
+            var curUserId = (await FirebaseFirestore.instance
+                    .collection("user")
+                    .where("name", isEqualTo: User.curUser)
+                    .get())
+                .docs[0]
+                .id;
+
+            if (actionName == "shower") {
+              double? duration = double.tryParse(_timecontroller.text);
+              if (duration == null) return;
+              await FirebaseFirestore.instance
+                  .collection("user/$curUserId/shower")
+                  .add({
+                "cold": checkedValue,
+                "date": DateTime.now(),
+                "duration": duration
+              });
+            } else if (actionName == "laundry") {
+              await FirebaseFirestore.instance
+                  .collection("user/$curUserId/laundry")
+                  .add({
+                "ecoWash": ecoWash,
+                "airDry": airDry,
+                "date": DateTime.now()
+              });
+            } else if (actionName == "heating") {
+              await FirebaseFirestore.instance
+                  .collection("heating")
+                  .add({
+                "temp": temp,
+                "date": DateTime.now()
+              });
+            }
+            // ignore: use_build_context_synchronously
+            if (!context.mounted) return;
             Navigator.pop(context);
           },
           style: APPButtons.logButtonStyle(colour, context),
