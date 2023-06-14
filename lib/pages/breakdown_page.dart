@@ -8,6 +8,7 @@ import 'package:saveshare/constants/text.dart';
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
 import '../constants/size.dart';
+import '../components/shower_chart.dart';
 
 class BreakdownPage extends StatefulWidget {
   const BreakdownPage({super.key, required this.curUser});
@@ -49,9 +50,11 @@ class _BreakdownPageState extends State<BreakdownPage> {
               child: Divider(
                 thickness: 3.0,
               )),
-          minutesComparisonCharts(),
+
+          const ShowerTimeGraph(),
+          //minutesComparisonCharts(),
           paddedDivider(),
-          householdComparison(),
+          householdShowerComparison(),
           paddedDivider(),
           coldShowerBreakdown(),
           const Padding(
@@ -184,7 +187,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
   }
 
   // Breakdown of user compared to house average
-  Widget householdComparison() {
+  Widget householdShowerComparison() {
     return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 30),
@@ -210,5 +213,9 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 ])),
           )
         ]));
+  }
+
+  Widget showerOverTimeGraph() {
+    return Container();
   }
 }

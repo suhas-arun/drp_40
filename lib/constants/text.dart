@@ -6,6 +6,10 @@ class APPText {
     return TextStyle(color: colour, fontSize: 18, fontWeight: FontWeight.w700);
   }
 
+  static smallText(colour) {
+    return TextStyle(color: colour, fontSize: 14, fontWeight: FontWeight.w600);
+  }
+
   static const largeGreenText = TextStyle(
       color: APPColour.green, fontSize: 25, fontWeight: FontWeight.w700);
 
