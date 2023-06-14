@@ -80,10 +80,12 @@ class _BreakdownPageState extends State<BreakdownPage> {
           margin: const EdgeInsets.symmetric(horizontal: 30),
           padding: const EdgeInsets.only(bottom: 20),
           child: const Text(
-              "This how many times you have used the washing machine over the past 5 months:",
+              "This how many times you have used the washing machine and tumble dryer over the past 5 months:",
               style: APPText.mediumGreenText),
         ),
         TimeGraph(data: AppData.dummyLaundryData, toolTipStr: ""),
+        paddedDivider(),
+        householdLaundryComparison(),
         const Padding(
             padding: EdgeInsets.only(top: 45),
             child: Divider(
@@ -195,7 +197,36 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 text: const TextSpan(style: APPText.mediumGreenText, children: [
                   TextSpan(text: "This can cost an extra "),
                   TextSpan(text: "£17", style: APPText.badMediumText),
-                  TextSpan(text: " per month."),
+                  TextSpan(text: " this month."),
+                ])),
+          )
+        ]));
+  }
+
+  // Breakdown of user compared to house average
+  Widget householdLaundryComparison() {
+    return Container(
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(children: [
+          RichText(
+              textAlign: TextAlign.start,
+              text: const TextSpan(style: APPText.mediumGreenText, children: [
+                TextSpan(
+                    text: "This month, you have used the washing machine "),
+                TextSpan(text: "1 more time", style: APPText.okMediumText),
+                TextSpan(text: " and the tumble dryer "),
+                TextSpan(text: "2 less times", style: APPText.goodMediumText),
+                TextSpan(text: " than the rest of your house."),
+              ])),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: RichText(
+                textAlign: TextAlign.start,
+                text: const TextSpan(style: APPText.mediumGreenText, children: [
+                  TextSpan(text: "This can save an extra "),
+                  TextSpan(text: "£4", style: APPText.goodMediumText),
+                  TextSpan(text: " this month."),
                 ])),
           )
         ]));
