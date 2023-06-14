@@ -1,10 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:vertical_percent_indicator/vertical_percent_indicator.dart';
 
 import 'package:saveshare/constants/text.dart';
-import 'package:saveshare/constants/actions.dart';
-import 'package:saveshare/constants/buttons.dart';
 import 'package:saveshare/constants/colour.dart';
 
 import '../components/bottom_bar.dart';
@@ -22,7 +21,7 @@ class BreakdownPage extends StatefulWidget {
 
 class _BreakdownPageState extends State<BreakdownPage> {
   // Which action we are currently looking at
-  int selectedIndex = 0;
+  int? selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -70,41 +69,40 @@ class _BreakdownPageState extends State<BreakdownPage> {
   // Title for the page
   Widget titleSection(context) {
     return Container(
+        alignment: Alignment.center,
         padding: const EdgeInsets.all(20),
-        child: Title(
-            color: APPColour.green,
-            child: const Text("Hi Alex, here is your personal breakdown",
-                style: APPText.largeGreenText)));
+        child: const Text(
+          "Hi Alex, here is your personal breakdown",
+          style: APPText.largeGreenText,
+          textAlign: TextAlign.start,
+        ));
   }
 
   // To select which breakdown to view
   _actions() {
     return Container(
-      decoration: const BoxDecoration(
-          color: APPColour.grey,
-          borderRadius: BorderRadius.all(Radius.circular(5.0))),
-      width: double.infinity,
-      height: 26,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(children: <Widget>[
-        for (var action in APPActions.actions)
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.all(2.0),
-              height: 20,
-              child: TextButton(
-                  style: APPButtons.actionButtonStyle(
-                      action == APPActions.actions[selectedIndex]),
-                  child: Text(action, style: APPText.smallBlackText),
-                  onPressed: () {
-                    setState(() {
-                      selectedIndex = APPActions.actions.indexOf(action);
-                    });
-                  }),
-            ),
-          ),
-      ]),
-    );
+        height: 50,
+        width: APPSize.WIDTH(context),
+        alignment: Alignment.center,
+        child: CupertinoSlidingSegmentedControl<int>(
+            groupValue: selectedIndex,
+            onValueChanged: (groupValue) {
+              setState(() {
+                selectedIndex = groupValue;
+              });
+            },
+            children: {
+              0: buildSegment('Shower'),
+              1: buildSegment('Laundry'),
+              2: buildSegment('Heating')
+            }));
+  }
+
+  Widget buildSegment(String label) {
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: Text(label,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)));
   }
 
   // Cold shower text and chart
