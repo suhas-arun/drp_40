@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:vertical_percent_indicator/vertical_percent_indicator.dart';
-
 import 'package:saveshare/constants/text.dart';
 
 import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
 import '../constants/size.dart';
-import '../components/shower_chart.dart';
+import '../components/time_chart.dart';
+import '../data/dummy_data.dart';
 
 class BreakdownPage extends StatefulWidget {
   const BreakdownPage({super.key, required this.curUser});
@@ -50,9 +49,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
               child: Divider(
                 thickness: 3.0,
               )),
-
-          const ShowerTimeGraph(),
-          //minutesComparisonCharts(),
+          TimeGraph(data: AppData.dummyShowerData),
           paddedDivider(),
           householdShowerComparison(),
           paddedDivider(),
@@ -145,44 +142,6 @@ class _BreakdownPageState extends State<BreakdownPage> {
             showChartValuesInPercentage: true,
           ),
           totalValue: 19),
-    );
-  }
-
-  // Charts to compare the time spent in the shower over time
-  Widget minutesComparisonCharts() {
-    return Container(
-        width: double.infinity,
-        margin: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(children: [
-          const Padding(
-            padding: EdgeInsets.only(bottom: 25),
-            child: Text(
-                "This is your average time spent in the shower per day in the last:",
-                style: APPText.mediumGreenText),
-          ),
-          Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            timeInShowerBar(5.3, "Week"),
-            timeInShowerBar(7.4, "Month"),
-            timeInShowerBar(6.8, "6 Months"),
-            timeInShowerBar(7.5, "Year"),
-          ])
-        ]));
-  }
-
-  Widget timeInShowerBar(minutes, footer) {
-    return Expanded(
-      child: VerticalBarIndicator(
-        percent: minutes / 10,
-        header: "$minutes mins",
-        animationDuration: const Duration(seconds: 1),
-        height: APPSize.REM_HEIGHT(context) / 3 - 80,
-        width: 30,
-        color: const [
-          Colors.indigo,
-          Colors.teal,
-        ],
-        footer: footer,
-      ),
     );
   }
 

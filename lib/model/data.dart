@@ -1,10 +1,10 @@
-class ShowerData {
+class Data {
   final int id;
   final String name;
   final double y;
   final double avg;
 
-  const ShowerData(
+  const Data(
       {required this.name,
       required this.id,
       required this.y,

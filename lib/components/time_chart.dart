@@ -3,19 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:saveshare/constants/text.dart';
 
 import '../constants/size.dart';
-import '../data/dummy_data.dart';
 import '../model/data.dart';
 
-class ShowerTimeGraph extends StatefulWidget {
-  const ShowerTimeGraph({super.key});
+class TimeGraph extends StatefulWidget {
+  const TimeGraph({super.key, required this.data});
+
+  final List<Data> data;
 
   @override
-  State<StatefulWidget> createState() => ShowerTimeGraphState();
+  State<StatefulWidget> createState() => TimeGraphState();
 }
 
-class ShowerTimeGraphState extends State<ShowerTimeGraph> {
-  late List<ShowerData> showerData = AppData.dummyData;
-
+class TimeGraphState extends State<TimeGraph> {
   @override
   Widget build(BuildContext context) {
     final double width = APPSize.WIDTH(context) * (0.9 / 17);
@@ -112,7 +111,7 @@ class ShowerTimeGraphState extends State<ShowerTimeGraph> {
                       leftTitles: const AxisTitles(
                         sideTitles: SideTitles(showTitles: false),
                       )),
-                  barGroups: showerData
+                  barGroups: widget.data
                       .map((data) => BarChartGroupData(x: data.id, barRods: [
                             BarChartRodData(
                                 toY: data.y,
