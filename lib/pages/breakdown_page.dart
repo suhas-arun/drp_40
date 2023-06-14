@@ -56,7 +56,10 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 "Lets see how your daily showering minutes have changed over time:",
                 style: APPText.mediumGreenText),
           ),
-          TimeGraph(data: AppData.dummyShowerData, toolTipStr: "mins"),
+          TimeGraph(
+            data: AppData.dummyShowerData,
+            dataType: 0,
+          ),
           paddedDivider(),
           householdShowerComparison(),
           paddedDivider(),
@@ -83,7 +86,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
               "This how many times you have used the washing machine and tumble dryer over the past 5 months:",
               style: APPText.mediumGreenText),
         ),
-        TimeGraph(data: AppData.dummyLaundryData, toolTipStr: ""),
+        TimeGraph(data: AppData.dummyLaundryData, dataType: 1),
         paddedDivider(),
         householdLaundryComparison(),
         paddedDivider(),
@@ -97,7 +100,27 @@ class _BreakdownPageState extends State<BreakdownPage> {
             )),
       ]));
     } else {
-      return Expanded(child: ListView());
+      return Expanded(
+          child: ListView(children: [
+        const Padding(
+            padding: EdgeInsets.only(bottom: 45),
+            child: Divider(
+              thickness: 3.0,
+            )),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.only(bottom: 20),
+          child: const Text(
+              "As a house, this is how your thermostat temperature has changed over time:",
+              style: APPText.mediumGreenText),
+        ),
+        TimeGraph(data: AppData.dummyTempData, dataType: 2),
+        const Padding(
+            padding: EdgeInsets.only(top: 45),
+            child: Divider(
+              thickness: 3.0,
+            )),
+      ]));
     }
   }
 
@@ -123,7 +146,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
   // To select which breakdown to view
   _actions() {
     return Container(
-        height: 50,
+        height: 40,
         width: APPSize.WIDTH(context),
         alignment: Alignment.center,
         child: CupertinoSlidingSegmentedControl<int>(
@@ -142,7 +165,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   Widget buildSegment(String label) {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         child: Text(label,
             style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)));
   }

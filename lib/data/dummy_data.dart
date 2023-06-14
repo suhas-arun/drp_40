@@ -16,4 +16,12 @@ class AppData {
     const Data(id: 3, name: 'Apr', y: 2, avg: 6),
     const Data(id: 4, name: 'May', y: 4, avg: 4)
   ];
+
+  static List<Data> dummyTempData = [
+    const Data(id: 0, name: 'Jan', y: 0, avg: 28),
+    const Data(id: 1, name: 'Feb', y: 0, avg: 30),
+    const Data(id: 2, name: 'Mar', y: 0, avg: 22),
+    const Data(id: 3, name: 'Apr', y: 0, avg: 20),
+    const Data(id: 4, name: 'May', y: 0, avg: 15)
+  ];
 }
