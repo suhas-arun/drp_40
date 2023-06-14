@@ -45,7 +45,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
       return Expanded(
         child: ListView(children: [
           const Padding(
-              padding: EdgeInsets.only(bottom: 45),
+              padding: EdgeInsets.only(bottom: 20),
               child: Divider(
                 thickness: 3.0,
               )),
@@ -65,7 +65,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
           paddedDivider(),
           coldShowerBreakdown(),
           const Padding(
-              padding: EdgeInsets.only(top: 45),
+              padding: EdgeInsets.only(top: 20),
               child: Divider(
                 thickness: 3.0,
               )),
@@ -75,7 +75,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
       return Expanded(
           child: ListView(children: [
         const Padding(
-            padding: EdgeInsets.only(bottom: 45),
+            padding: EdgeInsets.only(bottom: 20),
             child: Divider(
               thickness: 3.0,
             )),
@@ -94,7 +94,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
         paddedDivider(),
         airDryBreakdown(),
         const Padding(
-            padding: EdgeInsets.only(top: 45),
+            padding: EdgeInsets.only(top: 20),
             child: Divider(
               thickness: 3.0,
             )),
@@ -103,7 +103,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
       return Expanded(
           child: ListView(children: [
         const Padding(
-            padding: EdgeInsets.only(bottom: 45),
+            padding: EdgeInsets.only(bottom: 20),
             child: Divider(
               thickness: 3.0,
             )),
@@ -111,12 +111,14 @@ class _BreakdownPageState extends State<BreakdownPage> {
           margin: const EdgeInsets.symmetric(horizontal: 30),
           padding: const EdgeInsets.only(bottom: 20),
           child: const Text(
-              "As a house, this is how your thermostat temperature has changed over time:",
+              "As a house, this is how your average thermostat temperature has changed over time:",
               style: APPText.mediumGreenText),
         ),
         TimeGraph(data: AppData.dummyTempData, dataType: 2),
+        paddedDivider(),
+        heatingComparison(),
         const Padding(
-            padding: EdgeInsets.only(top: 45),
+            padding: EdgeInsets.only(top: 20),
             child: Divider(
               thickness: 3.0,
             )),
@@ -312,5 +314,31 @@ class _BreakdownPageState extends State<BreakdownPage> {
             totalValue: 12),
       )
     ]);
+  }
+
+  Widget heatingComparison() {
+    return Container(
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(children: [
+          RichText(
+              textAlign: TextAlign.start,
+              text: const TextSpan(style: APPText.mediumGreenText, children: [
+                TextSpan(text: "On average this month, your house is about "),
+                TextSpan(
+                    text: "5 \u00B0C higher", style: APPText.badMediumText),
+                TextSpan(text: " than the recommended temperature in the UK."),
+              ])),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: RichText(
+                textAlign: TextAlign.start,
+                text: const TextSpan(style: APPText.mediumGreenText, children: [
+                  TextSpan(text: "This can cost an extra "),
+                  TextSpan(text: "£30", style: APPText.badMediumText),
+                  TextSpan(text: " this month."),
+                ])),
+          )
+        ]));
   }
 }
