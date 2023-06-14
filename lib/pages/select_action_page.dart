@@ -145,13 +145,14 @@ class _SelectActionPageState extends State<SelectActionPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Log a Shower", style: APPText.mediumText(colour)),
+                Text("Log Shower", style: APPText.mediumText(colour)),
                 const Padding(
                     padding: EdgeInsets.symmetric(vertical: 13),
                     child: Divider(thickness: 2.0)),
                 const Text("Tell us your:"),
                 const Padding(padding: EdgeInsets.only(bottom: 5)),
                 const Text("  - Shower length"),
+                const Padding(padding: EdgeInsets.only(bottom: 2)),
                 const Text("  - Temperature")
               ],
             )));
@@ -173,7 +174,7 @@ class _SelectActionPageState extends State<SelectActionPage> {
                     child: Divider(thickness: 2.0)),
                 const Text("Tell us if you:"),
                 const Padding(padding: EdgeInsets.only(bottom: 5)),
-                const Text("  - Changed room"),
+                const Text("  - Changed house"),
                 const Text("    temperature"),
               ],
             )));
@@ -196,6 +197,7 @@ class _SelectActionPageState extends State<SelectActionPage> {
                 const Text("Did you:"),
                 const Padding(padding: EdgeInsets.only(bottom: 5)),
                 const Text("  - Use Eco mode"),
+                const Padding(padding: EdgeInsets.only(bottom: 2)),
                 const Text("  - Air dry")
               ],
             )));

@@ -21,6 +21,7 @@ class _LogPageState extends State<LogPage> {
   bool checkedValue = false;
   bool ecoWash = false;
   bool airDry = false;
+  double temp = 0;
   final TextEditingController _timecontroller = TextEditingController();
 
   @override
@@ -85,17 +86,18 @@ class _LogPageState extends State<LogPage> {
     } else if (actionName == "laundry") {
       return laundryInput();
     } else {
-      return Container();
+      return heatingInput();
     }
   }
 
   Widget showerInput() {
+    Color colour = const Color.fromARGB(255, 9, 66, 188);
+
     return SizedBox(
       width: APPSize.WIDTH(context) * 0.85,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text("Tell us about your shower:",
-            textAlign: TextAlign.left,
-            style: APPText.mediumText(APPColour.showerBlue)),
+            textAlign: TextAlign.left, style: APPText.mediumText(colour)),
         Padding(
             padding: const EdgeInsets.only(bottom: 20, top: 30),
             child: SizedBox(
@@ -110,10 +112,9 @@ class _LogPageState extends State<LogPage> {
                       hintText: 'Duration')),
             )),
         CheckboxListTile(
-          fillColor: const MaterialStatePropertyAll(APPColour.showerBlue),
+          fillColor: MaterialStatePropertyAll(colour),
           contentPadding: const EdgeInsets.only(left: 0),
-          title: Text("Cold Shower",
-              style: APPText.mediumText(APPColour.showerBlue)),
+          title: Text("Cold Shower", style: APPText.mediumText(colour)),
           value: checkedValue,
           onChanged: (newValue) {
             setState(() {
@@ -128,21 +129,21 @@ class _LogPageState extends State<LogPage> {
   }
 
   Widget laundryInput() {
+    Color colour = APPColour.green;
+
     return SizedBox(
       width: APPSize.WIDTH(context) * 0.9,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Text("Tell us about your washing load:",
-            textAlign: TextAlign.center,
-            style: APPText.mediumText(APPColour.green)),
+            textAlign: TextAlign.center, style: APPText.mediumText(colour)),
         const Padding(padding: EdgeInsets.only(bottom: 20)),
         Row(children: [
           SizedBox(
             width: APPSize.WIDTH(context) * 0.45,
             child: CheckboxListTile(
-              fillColor: const MaterialStatePropertyAll(APPColour.green),
+              fillColor: MaterialStatePropertyAll(colour),
               contentPadding: const EdgeInsets.only(left: 0),
-              title:
-                  Text("Eco Wash", style: APPText.mediumText(APPColour.green)),
+              title: Text("Eco Wash", style: APPText.mediumText(colour)),
               value: ecoWash,
               onChanged: (newValue) {
                 setState(() {
@@ -156,10 +157,9 @@ class _LogPageState extends State<LogPage> {
           SizedBox(
             width: APPSize.WIDTH(context) * 0.45,
             child: CheckboxListTile(
-              fillColor: const MaterialStatePropertyAll(APPColour.green),
+              fillColor: MaterialStatePropertyAll(colour),
               contentPadding: const EdgeInsets.only(left: 0),
-              title:
-                  Text("Air Dry", style: APPText.mediumText(APPColour.green)),
+              title: Text("Air Dry", style: APPText.mediumText(colour)),
               value: airDry,
               onChanged: (newValue) {
                 setState(() {
@@ -171,6 +171,36 @@ class _LogPageState extends State<LogPage> {
             ),
           )
         ])
+      ]),
+    );
+  }
+
+  Widget heatingInput() {
+    Color colour = const Color.fromARGB(255, 97, 15, 15);
+    int displayTemp = temp.round();
+
+    return SizedBox(
+      width: APPSize.WIDTH(context) * 0.9,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        Text("What is the new thermostat value?",
+            textAlign: TextAlign.center, style: APPText.mediumText(colour)),
+        const Padding(padding: EdgeInsets.only(bottom: 50)),
+        SizedBox(
+            width: APPSize.WIDTH(context) * 0.85,
+            child: Slider(
+              min: 0,
+              max: 35,
+              activeColor: APPColour.heatingRed,
+              inactiveColor: APPColour.heatingRed,
+              divisions: 35,
+              value: temp,
+              label: "$displayTemp \u00B0C",
+              onChanged: (newTemp) {
+                setState(() {
+                  temp = newTemp;
+                });
+              },
+            ))
       ]),
     );
   }
