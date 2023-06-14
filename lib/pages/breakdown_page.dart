@@ -49,7 +49,14 @@ class _BreakdownPageState extends State<BreakdownPage> {
               child: Divider(
                 thickness: 3.0,
               )),
-          TimeGraph(data: AppData.dummyShowerData),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.only(bottom: 20),
+            child: const Text(
+                "Lets see how your daily showering minutes have changed over time:",
+                style: APPText.mediumGreenText),
+          ),
+          TimeGraph(data: AppData.dummyShowerData, toolTipStr: "mins"),
           paddedDivider(),
           householdShowerComparison(),
           paddedDivider(),
@@ -62,7 +69,27 @@ class _BreakdownPageState extends State<BreakdownPage> {
         ]),
       );
     } else if (selectedIndex == 1) {
-      return Expanded(child: ListView());
+      return Expanded(
+          child: ListView(children: [
+        const Padding(
+            padding: EdgeInsets.only(bottom: 45),
+            child: Divider(
+              thickness: 3.0,
+            )),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.only(bottom: 20),
+          child: const Text(
+              "This how many times you have used the washing machine over the past 5 months:",
+              style: APPText.mediumGreenText),
+        ),
+        TimeGraph(data: AppData.dummyLaundryData, toolTipStr: ""),
+        const Padding(
+            padding: EdgeInsets.only(top: 45),
+            child: Divider(
+              thickness: 3.0,
+            )),
+      ]));
     } else {
       return Expanded(child: ListView());
     }

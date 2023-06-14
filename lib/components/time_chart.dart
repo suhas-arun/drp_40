@@ -6,9 +6,10 @@ import '../constants/size.dart';
 import '../model/data.dart';
 
 class TimeGraph extends StatefulWidget {
-  const TimeGraph({super.key, required this.data});
+  const TimeGraph({super.key, required this.data, required this.toolTipStr});
 
   final List<Data> data;
+  final String toolTipStr;
 
   @override
   State<StatefulWidget> createState() => TimeGraphState();
@@ -38,13 +39,6 @@ class TimeGraphState extends State<TimeGraph> {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 30),
-          padding: const EdgeInsets.only(bottom: 20),
-          child: const Text(
-              "Lets see how your daily showering minutes have changed over time:",
-              style: APPText.mediumGreenText),
-        ),
-        Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.only(left: 30),
             child: Column(
@@ -58,7 +52,7 @@ class TimeGraphState extends State<TimeGraph> {
                             gradient: youGrad,
                             borderRadius: BorderRadius.circular(50))),
                     const Padding(padding: EdgeInsets.only(right: 20)),
-                    Text("Your average", style: APPText.smallText(youColour)),
+                    Text("You", style: APPText.smallText(youColour)),
                   ],
                 ),
                 const Padding(padding: EdgeInsets.only(bottom: 5)),
@@ -77,6 +71,7 @@ class TimeGraphState extends State<TimeGraph> {
                 )
               ],
             )),
+        const Padding(padding: EdgeInsets.only(bottom: 20)),
         SizedBox(
           width: APPSize.WIDTH(context) * 0.9,
           height: APPSize.WIDTH(context) * 0.75,
@@ -85,14 +80,14 @@ class TimeGraphState extends State<TimeGraph> {
             child: BarChart(
               BarChartData(
                   alignment: BarChartAlignment.center,
-                  //maxY: 20,
                   groupsSpace: width,
                   barTouchData: BarTouchData(
                       touchTooltipData: BarTouchTooltipData(
                           getTooltipItem: (a, b, rod, d) {
-                            double mins = rod.toY;
+                            double value = rod.toY;
+                            String ext = widget.toolTipStr;
                             return BarTooltipItem(
-                                "$mins mins", APPText.smallText(Colors.white));
+                                "$value $ext", APPText.smallText(Colors.white));
                           },
                           tooltipBgColor: Colors.grey.withOpacity(0.9),
                           tooltipPadding: const EdgeInsets.symmetric(
