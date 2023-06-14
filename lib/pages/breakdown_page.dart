@@ -86,6 +86,10 @@ class _BreakdownPageState extends State<BreakdownPage> {
         TimeGraph(data: AppData.dummyLaundryData, toolTipStr: ""),
         paddedDivider(),
         householdLaundryComparison(),
+        paddedDivider(),
+        ecoWashBreakdown(),
+        paddedDivider(),
+        airDryBreakdown(),
         const Padding(
             padding: EdgeInsets.only(top: 45),
             child: Divider(
@@ -145,33 +149,30 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   // Cold shower text and chart
   Widget coldShowerBreakdown() {
-    return Column(children: [coldShowerTitle(), coldShowerChart()]);
-  }
-
-  // Title of cold shower stats
-  Widget coldShowerTitle() {
-    return Container(
-        alignment: Alignment.center,
-        margin: const EdgeInsets.symmetric(horizontal: 30),
-        padding: const EdgeInsets.only(bottom: 25),
-        child: const Text("You have had 1 cold shower this month:",
-            style: APPText.mediumGreenText));
-  }
-
-  // Pie chart of cold showers
-  Widget coldShowerChart() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: PieChart(
-          dataMap: const {"Cold": 1, "Hot": 18},
-          chartType: ChartType.ring,
-          baseChartColor: Colors.grey[50]!.withOpacity(0.15),
-          colorList: const [Colors.blueAccent, Colors.redAccent],
-          chartValuesOptions: const ChartValuesOptions(
-            showChartValuesInPercentage: true,
-          ),
-          totalValue: 19),
-    );
+    return Column(children: [
+      Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.only(bottom: 25),
+          child: const Text("You have had 1 cold shower this month:",
+              style: APPText.mediumGreenText)),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        child: PieChart(
+            chartRadius: APPSize.WIDTH(context) * 0.4,
+            dataMap: const {"Cold": 1, "Hot": 18},
+            chartType: ChartType.ring,
+            baseChartColor: Colors.grey[50]!.withOpacity(0.15),
+            colorList: const [
+              Color.fromRGBO(137, 171, 227, 1),
+              Color.fromRGBO(234, 115, 141, 1)
+            ],
+            chartValuesOptions: const ChartValuesOptions(
+              showChartValuesInPercentage: true,
+            ),
+            totalValue: 19),
+      )
+    ]);
   }
 
   // Breakdown of user compared to house average
@@ -203,7 +204,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
         ]));
   }
 
-  // Breakdown of user compared to house average
+  // Breakdown of user laundry compared to house average
   Widget householdLaundryComparison() {
     return Container(
         width: double.infinity,
@@ -232,7 +233,61 @@ class _BreakdownPageState extends State<BreakdownPage> {
         ]));
   }
 
-  Widget showerOverTimeGraph() {
-    return Container();
+  // Pie chart of eco - washes
+  Widget ecoWashBreakdown() {
+    return Column(children: [
+      Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.only(bottom: 25),
+          child: const Text("You have done 4 eco-setting washes:",
+              style: APPText.mediumGreenText)),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        child: PieChart(
+            chartRadius: APPSize.WIDTH(context) * 0.4,
+            dataMap: const {"Eco": 4, "Other": 8},
+            chartType: ChartType.ring,
+            baseChartColor: Colors.grey[50]!.withOpacity(0.15),
+            colorList: const [
+              Color.fromRGBO(44, 95, 45, 1),
+              Color.fromRGBO(151, 188, 98, 1)
+            ],
+            chartValuesOptions: const ChartValuesOptions(
+              showChartValuesInPercentage: true,
+            ),
+            totalValue: 12),
+      )
+    ]);
+  }
+
+  // Pie chart of eco - washes
+  Widget airDryBreakdown() {
+    return Column(children: [
+      Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.only(bottom: 25),
+          child: const Text("You have air-dried your clothes 6 times:",
+              style: APPText.mediumGreenText)),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        margin: const EdgeInsets.only(left: 20),
+        child: PieChart(
+            chartLegendSpacing: 30,
+            chartRadius: APPSize.WIDTH(context) * 0.4,
+            dataMap: const {"Air-Dry": 6, "Tumble Dry": 6},
+            chartType: ChartType.ring,
+            baseChartColor: Colors.grey[50]!.withOpacity(0.15),
+            colorList: const [
+              Color.fromRGBO(0, 83, 156, 1),
+              Color.fromRGBO(238, 164, 127, 1)
+            ],
+            chartValuesOptions: const ChartValuesOptions(
+              showChartValuesInPercentage: true,
+            ),
+            totalValue: 12),
+      )
+    ]);
   }
 }
