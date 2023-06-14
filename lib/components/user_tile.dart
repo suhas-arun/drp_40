@@ -24,7 +24,7 @@ class UserTile extends StatelessWidget {
                 height: APPSize.REM_HEIGHT(context),
                 child: ListView.builder(
                   //temporary itemCount for UI testing
-                  itemCount: 4,
+                  itemCount: users.length,
                   itemBuilder: (context, index) {
                     return ListTile(
                       leading: users[index].profilePicture,

@@ -25,41 +25,31 @@ class User {
 
   static num householdShowerDuration = 0;
 
-  static Map<String, num> demoShowerDurations =
-      Map.of({"Marcus": 25, "Alex": 15, "Ella": 6, "Ines": 12});
-
   static Future<Map<String, num>> getShowerDurations() async {
     householdShowerDuration = 0;
     Map<String, num> showerDurations = {};
-    await FirebaseFirestore.instance
-        .collection("user")
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        if (doc.exists) {
-          var data = doc.data() as Map<String, dynamic>;
-          String name = data["name"];
-          FirebaseFirestore.instance
-              .collection("user/${doc.id}/shower")
-              .get()
-              .then((QuerySnapshot showerQuerySnapshot) {
-            num personalShowerDuration = 0;
-            for (var showerDoc in showerQuerySnapshot.docs) {
-              if (showerDoc.exists) {
-                var showerData = showerDoc.data() as Map<String, dynamic>;
-                var duration = showerData["duration"];
-                householdShowerDuration += duration;
-                personalShowerDuration += duration;
-              }
-            }
-            showerDurations[name] = personalShowerDuration;
-          });
+    QuerySnapshot<Map> userSnapshot =
+        await FirebaseFirestore.instance.collection("user").get();
+
+    for (var userDoc in userSnapshot.docs) {
+      if (userDoc.exists) {
+        var userData = userDoc.data() as Map<String, dynamic>;
+        String name = userData["name"];
+        QuerySnapshot<Map> showerSnapshot = await FirebaseFirestore.instance
+            .collection("user/${userDoc.id}/shower")
+            .get();
+        num personalShowerDuration = 0;
+        for (var showerDoc in showerSnapshot.docs) {
+          if (showerDoc.exists) {
+            var showerData = showerDoc.data() as Map<String, dynamic>;
+            var duration = showerData["duration"];
+            householdShowerDuration += duration;
+            personalShowerDuration += duration;
+          }
         }
+        showerDurations[name] = personalShowerDuration;
       }
-      return showerDurations;
-    });
-    householdShowerDuration =
-        demoShowerDurations.values.reduce((x, y) => x + y);
-    return demoShowerDurations;
+    }
+    return showerDurations;
   }
 }
