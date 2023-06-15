@@ -7,6 +7,7 @@ import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
 import '../constants/size.dart';
 import '../constants/text.dart';
+import '../user/user.dart';
 
 class LogPage extends StatefulWidget {
   final String actionName;
@@ -255,10 +256,7 @@ class _LogPageState extends State<LogPage> {
             } else if (actionName == "heating") {
               await FirebaseFirestore.instance
                   .collection("heating")
-                  .add({
-                "temp": temp,
-                "date": DateTime.now()
-              });
+                  .add({"temp": temp, "date": DateTime.now()});
             }
             // ignore: use_build_context_synchronously
             if (!context.mounted) return;
