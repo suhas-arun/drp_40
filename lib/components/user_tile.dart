@@ -17,10 +17,20 @@ class UserTile extends StatelessWidget {
           if (snapshot.hasData) {
             List<User> users = [];
             snapshot.data!.forEach((name, duration) {
-              users.add(User(
-                  name: name,
-                  energyPercentage:
-                      (duration / User.householdShowerDuration).toDouble()));
+              if (name == User.curUser) {
+                users.insert(
+                    0,
+                    User(
+                        name: name,
+                        energyPercentage:
+                            (duration / User.householdShowerDuration)
+                                .toDouble()));
+              } else {
+                users.add(User(
+                    name: name,
+                    energyPercentage:
+                        (duration / User.householdShowerDuration).toDouble()));
+              }
             });
             return Expanded(
               child: SizedBox(
