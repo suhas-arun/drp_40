@@ -3,6 +3,7 @@ import 'package:saveshare/components/top_bar.dart';
 import 'package:saveshare/components/user_tile.dart';
 import 'package:flutter/material.dart';
 
+import '../components/drawer.dart';
 import '../constants/size.dart';
 import '../constants/text.dart';
 
@@ -19,9 +20,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
+        appBar: const TopBar(),
+        drawer: const AppDrawer(),
         body: Column(
           children: [
-            const TopBar(),
             SizedBox(
                 height: APPSize.REM_HEIGHT(context),
                 child: Column(

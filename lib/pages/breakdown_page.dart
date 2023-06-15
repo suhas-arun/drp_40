@@ -4,6 +4,7 @@ import 'package:pie_chart/pie_chart.dart';
 import 'package:saveshare/constants/text.dart';
 
 import '../components/bottom_bar.dart';
+import '../components/drawer.dart';
 import '../components/top_bar.dart';
 import '../constants/size.dart';
 import '../components/time_chart.dart';
@@ -28,9 +29,10 @@ class _BreakdownPageState extends State<BreakdownPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
+        appBar: const TopBar(),
+        drawer: const AppDrawer(),
         body: Column(
           children: [
-            const TopBar(),
             titleSection(context),
             _actions(),
             actionBreakdown(context),

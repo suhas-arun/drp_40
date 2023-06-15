@@ -4,6 +4,7 @@ import 'package:saveshare/constants/buttons.dart';
 import 'package:saveshare/constants/colour.dart';
 
 import '../components/bottom_bar.dart';
+import '../components/drawer.dart';
 import '../components/top_bar.dart';
 import '../constants/size.dart';
 import '../constants/text.dart';
@@ -36,9 +37,10 @@ class _LogPageState extends State<LogPage> {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: false,
+          appBar: const TopBar(),
+          drawer: const AppDrawer(),
           body: Column(
             children: [
-              const TopBar(),
               topSection(widget.actionName),
               actionInput(widget.actionName),
               Expanded(child: Container()),

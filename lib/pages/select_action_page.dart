@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saveshare/constants/buttons.dart';
 
 import '../components/bottom_bar.dart';
+import '../components/drawer.dart';
 import '../components/top_bar.dart';
 
 import '../constants/colour.dart';
@@ -35,9 +36,10 @@ class _SelectActionPageState extends State<SelectActionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
+        appBar: const TopBar(),
+        drawer: const AppDrawer(),
         body: Column(
           children: [
-            const TopBar(),
             Expanded(child: actionCards()),
             const BottomBar(),
           ],

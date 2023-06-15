@@ -17,13 +17,16 @@ class _TopBarState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+        centerTitle: true,
         backgroundColor: APPColour.green,
         leading: IconButton(
           alignment: Alignment.centerLeft,
           iconSize: APPSize.APP_ICON_SIZE,
           color: Colors.white,
           icon: const Icon(Icons.menu_outlined),
-          onPressed: () {},
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
         ),
         title: IconButton(
           iconSize: APPSize.APP_ICON_SIZE,
