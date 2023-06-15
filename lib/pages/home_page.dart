@@ -23,8 +23,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             const TopBar(),
             Container(
-                height: APPSize.REM_HEIGHT(context),
-                padding: const EdgeInsets.only(top: 20),
+                height: APPSize.REM_HEIGHT(context) * 0.95,
+                margin: const EdgeInsets.only(top: 20),
                 child: Column(
                   children: [
                     const Text("Your Household", style: APPText.largeGreenText),
@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
                     const UserTile(),
                   ],
                 )),
+            Expanded(child: Container()),
             const BottomBar(),
           ],
         ));
