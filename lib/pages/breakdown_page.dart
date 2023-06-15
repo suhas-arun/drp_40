@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -8,6 +9,8 @@ import '../components/top_bar.dart';
 import '../constants/size.dart';
 import '../components/time_chart.dart';
 import '../data/dummy_data.dart';
+import '../model/data.dart';
+import '../user/user.dart';
 
 class BreakdownPage extends StatefulWidget {
   const BreakdownPage({super.key, required this.curUser});
@@ -21,6 +24,20 @@ class BreakdownPage extends StatefulWidget {
 class _BreakdownPageState extends State<BreakdownPage> {
   // Which action we are currently looking at
   int? selectedIndex = 0;
+
+  final List<String> _months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +73,15 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 "Lets see how your daily showering minutes have changed over time:",
                 style: APPText.mediumGreenText),
           ),
-          TimeGraph(
-            data: AppData.dummyShowerData,
-            dataType: 0,
-          ),
+          FutureBuilder(
+              future: getShowerData(),
+              builder: (context, AsyncSnapshot<List<Data>> snapshot) {
+                if (snapshot.hasData) {
+                  return TimeGraph(data: snapshot.data!, dataType: 0);
+                } else {
+                  return const LinearProgressIndicator();
+                }
+              }),
           paddedDivider(),
           householdShowerComparison(),
           paddedDivider(),
@@ -86,7 +108,15 @@ class _BreakdownPageState extends State<BreakdownPage> {
               "This how many times you have used the washing machine and tumble dryer over the past 5 months:",
               style: APPText.mediumGreenText),
         ),
-        TimeGraph(data: AppData.dummyLaundryData, dataType: 1),
+        FutureBuilder(
+            future: getLaundryData(),
+            builder: (context, AsyncSnapshot<List<Data>> snapshot) {
+              if (snapshot.hasData) {
+                return TimeGraph(data: snapshot.data!, dataType: 1);
+              } else {
+                return const LinearProgressIndicator();
+              }
+            }),
         paddedDivider(),
         householdLaundryComparison(),
         paddedDivider(),
@@ -114,7 +144,15 @@ class _BreakdownPageState extends State<BreakdownPage> {
               "As a house, this is how your average thermostat temperature has changed over time:",
               style: APPText.mediumGreenText),
         ),
-        TimeGraph(data: AppData.dummyTempData, dataType: 2),
+        FutureBuilder(
+            future: getHeatingData(),
+            builder: (context, AsyncSnapshot<List<Data>> snapshot) {
+              if (snapshot.hasData) {
+                return TimeGraph(data: snapshot.data!, dataType: 2);
+              } else {
+                return const LinearProgressIndicator();
+              }
+            }),
         paddedDivider(),
         heatingComparison(),
         const Padding(
@@ -340,5 +378,65 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 ])),
           )
         ]));
+  }
+
+  Future<List<Data>> getShowerData() async {
+    List<Data> showerData = [];
+    const months = 5;
+    var now = DateTime.now();
+    QuerySnapshot<Map> userSnapshot =
+        await FirebaseFirestore.instance.collection("user").get();
+
+    for (var i = 0; i < months; i++) {
+      num userTotal = 0, userCount = 0, householdTotal = 0, householdCount = 0;
+      DateTime startDate = DateTime(now.year, now.month - i);
+      DateTime endDate = DateTime(now.year, now.month - i + 1);
+
+      for (var userDoc in userSnapshot.docs) {
+        if (userDoc.exists) {
+          var userData = userDoc.data() as Map<String, dynamic>;
+          String name = userData["name"];
+
+          QuerySnapshot<Map> showerSnapshot = await FirebaseFirestore.instance
+              .collection("user/${userDoc.id}/shower")
+              .where("date", isLessThan: endDate)
+              .where("date", isGreaterThanOrEqualTo: startDate)
+              .get();
+          for (var showerDoc in showerSnapshot.docs) {
+            if (showerDoc.exists) {
+              var showerData = showerDoc.data() as Map<String, dynamic>;
+              var duration = showerData["duration"];
+              householdCount++;
+              householdTotal += duration;
+              if (name == User.curUser) {
+                userTotal += duration;
+                userCount++;
+              }
+            }
+          }
+        }
+      }
+      showerData.add(Data(
+          id: months - i - 1,
+          name: _months[now.month - i - 1],
+          y: (userCount == 0) ? 0 : (userTotal / userCount).roundToDouble(),
+          avg: (householdCount == 0)
+              ? 0
+              : (householdTotal / householdCount).roundToDouble()));
+    }
+    showerData.sort((a, b) => a.id.compareTo(b.id));
+    return showerData;
+  }
+
+  Future<List<Data>> getLaundryData() async {
+    QuerySnapshot<Map> userSnapshot =
+        await FirebaseFirestore.instance.collection("user").get();
+    return AppData.dummyLaundryData;
+  }
+
+  Future<List<Data>> getHeatingData() async {
+    QuerySnapshot<Map> heatingSnapshot =
+        await FirebaseFirestore.instance.collection("heating").get();
+    return AppData.dummyTempData;
   }
 }
