@@ -23,11 +23,13 @@ class _HomePageState extends State<HomePage> {
           children: [
             const TopBar(),
             Container(
-                height: APPSize.REM_HEIGHT(context) * 0.95,
-                margin: const EdgeInsets.only(top: 20),
+                height: APPSize.REM_HEIGHT(context),
                 child: Column(
                   children: [
-                    const Text("Your Household", style: APPText.largeGreenText),
+                    Container(
+                        margin: EdgeInsets.all(20),
+                        child: const Text("Your Household",
+                            style: APPText.largeGreenText)),
                     Container(
                         margin: const EdgeInsets.all(20),
                         height: APPSize.WIDTH(context) * 0.5,
