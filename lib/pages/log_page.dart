@@ -7,7 +7,6 @@ import '../components/bottom_bar.dart';
 import '../components/top_bar.dart';
 import '../constants/size.dart';
 import '../constants/text.dart';
-import '../user/user.dart';
 
 class LogPage extends StatefulWidget {
   final String actionName;
