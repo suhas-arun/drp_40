@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
         appBar: const TopBar(),
         drawer: const AppDrawer(),
         body: Column(

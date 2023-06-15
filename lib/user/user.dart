@@ -1,8 +1,6 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saveshare/constants/size.dart';
 import 'package:flutter/material.dart';
-
 
 //will have to implement comparable probably
 class User {
@@ -16,7 +14,7 @@ class User {
     ),
   });
 
-  static const String curUser = "Alex";
+  static User curUser = User(name: "Alex", energyPercentage: 10);
 
   String name;
 

@@ -17,7 +17,7 @@ class UserTile extends StatelessWidget {
           if (snapshot.hasData) {
             List<User> users = [];
             snapshot.data!.forEach((name, duration) {
-              if (name == User.curUser) {
+              if (name == User.curUser.name) {
                 users.insert(
                     0,
                     User(
@@ -38,7 +38,7 @@ class UserTile extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: users.length,
                     itemBuilder: (context, index) {
-                      bool isCurUser = users[index].name == User.curUser;
+                      bool isCurUser = users[index].name == User.curUser.name;
                       return Material(
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 15),
@@ -56,14 +56,14 @@ class UserTile extends StatelessWidget {
                             subtitle: Text(
                                 "Energy Share: ${(users[index].energyPercentage * 100).roundToDouble()}%"),
                             onTap: () {
-                              const curUser = User.curUser;
+                              final curUser = User.curUser.name;
                               if (curUser == users[index].name) {
                                 Navigator.pop(context);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const BreakdownPage(
-                                          curUser: User.curUser)),
+                                      builder: (context) => BreakdownPage(
+                                          curUser: User.curUser.name)),
                                 );
                               }
                             },
