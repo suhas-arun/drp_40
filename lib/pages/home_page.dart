@@ -22,18 +22,18 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           children: [
             const TopBar(),
-            Container(
+            SizedBox(
                 height: APPSize.REM_HEIGHT(context),
                 child: Column(
                   children: [
                     Container(
-                        margin: EdgeInsets.all(20),
+                        margin: const EdgeInsets.only(top: 20),
                         child: const Text("Your Household",
                             style: APPText.largeGreenText)),
                     Container(
-                        margin: const EdgeInsets.all(20),
-                        height: APPSize.WIDTH(context) * 0.5,
-                        width: APPSize.WIDTH(context) * 0.5,
+                        margin: const EdgeInsets.only(top: 20),
+                        height: APPSize.REM_HEIGHT(context) * 0.3,
+                        width: APPSize.REM_HEIGHT(context) * 0.3,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.fill,
@@ -42,7 +42,6 @@ class _HomePageState extends State<HomePage> {
                     const UserTile(),
                   ],
                 )),
-            Expanded(child: Container()),
             const BottomBar(),
           ],
         ));
