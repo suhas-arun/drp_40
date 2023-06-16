@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants/colour.dart';
-import '../constants/size.dart';
 import '../models/activity.dart';
-import '../user/user.dart';
 
 class HistoryTile extends StatelessWidget {
   final Activity activity;
@@ -18,8 +16,8 @@ class HistoryTile extends StatelessWidget {
       background: Container(
         color: Colors.red,
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        child: Icon(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: const Icon(
           Icons.delete,
           color: Colors.white,
         ),
@@ -36,15 +34,15 @@ class HistoryTile extends StatelessWidget {
         leading: activity.icon,
         title: Text(
           activity.name,
-          style: TextStyle(
+          style: const TextStyle(
             color: APPColour.green,
             fontSize: 24,
             fontWeight: FontWeight.bold, // Added font weight for emphasis
           ),
         ),
         subtitle: Text(
-          activity.duration.inMinutes.toString() + " minutes",
-          style: TextStyle(
+          "${activity.duration.inMinutes} minutes",
+          style: const TextStyle(
             color: APPColour.green,
             fontSize: 18,
           ),
@@ -54,7 +52,7 @@ class HistoryTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(
               8.0), // Added border radius for rounded corners
         ),
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
             vertical: 8.0, horizontal: 16.0), // Added padding for content
       ),
     );

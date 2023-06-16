@@ -9,7 +9,6 @@ import '../components/drawer.dart';
 import '../components/top_bar.dart';
 import '../constants/size.dart';
 import '../components/time_chart.dart';
-import '../data/dummy_data.dart';
 import '../model/data.dart';
 import '../user/user.dart';
 

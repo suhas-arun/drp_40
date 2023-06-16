@@ -2,10 +2,7 @@ import 'package:saveshare/components/bottom_bar.dart';
 import 'package:saveshare/components/top_bar.dart';
 import 'package:saveshare/components/user_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:saveshare/constants/colour.dart';
-import 'package:saveshare/pages/history_page.dart';
 
-import '../components/drawer.dart';
 import '../constants/size.dart';
 import '../constants/text.dart';
 

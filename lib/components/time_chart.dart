@@ -20,8 +20,15 @@ class TimeGraph extends StatefulWidget {
 class TimeGraphState extends State<TimeGraph> {
   @override
   Widget build(BuildContext context) {
-    final double width =
-        APPSize.WIDTH(context) * 0.9 / ((widget.dataType == 2) ? 11 : 17);
+    final double width;
+    if (widget.dataType < 2) {
+      width = APPSize.WIDTH(context) * 0.9 / 17;
+    } else if (widget.data == 2) {
+      width = APPSize.WIDTH(context) * 0.9 / 11;
+    } else {
+      width = APPSize.WIDTH(context) * 0.9 / 15;
+    }
+
     const Color youColour = Colors.indigo;
     const Color houseColour = Color.fromARGB(255, 143, 28, 20);
 

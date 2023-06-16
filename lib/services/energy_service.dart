@@ -14,9 +14,6 @@ class EnergyService {
     String startTime = getTimeString(yesterday);
     String endTime = getTimeString(curTime);
 
-    print(startTime);
-    print(endTime);
-
     var getGasConsUri = Uri.parse(
         'https://api-v2-sandbox.data.n3rgy.com/mpxn/$mpan/utility/electricity/readingtype/consumption?start=$startTime&end=$endTime');
     var response = await client.get(getGasConsUri, headers: apiKey);
@@ -24,18 +21,8 @@ class EnergyService {
     if (response.statusCode == 200) {
       var json = response.body;
       var data = consumptionRequestFromJson(json);
-      // var data = device.values
-      //     .map((value) => Data(
-      //         y: value.primaryValue,
-      //         avg: value.secondaryValue,
-      //         id: device.values.indexOf(value),
-      //         name: 'f'))
-      //     .toList();
-
-      print(data);
       return data;
     } else {
-      print("Unsuccessful fetch");
       return ConsumptionRequest(
           resource: "",
           responseTimestamp: DateTime.now(),

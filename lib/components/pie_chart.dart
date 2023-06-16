@@ -44,7 +44,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
               ),
             );
           } else {
-            return const CircularProgressIndicator();
+            return const LinearProgressIndicator();
           }
         });
   }

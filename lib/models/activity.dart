@@ -22,7 +22,7 @@ class Activity {
     return List.of([
       Activity(
           name: "Shower",
-          duration: Duration(minutes: 8),
+          duration: const Duration(minutes: 8),
           icon: const Icon(
             Icons.shower_outlined,
             color: Colors.green,
@@ -30,7 +30,7 @@ class Activity {
           )),
       Activity(
           name: "Dishwasher",
-          duration: Duration(minutes: 30),
+          duration: const Duration(minutes: 30),
           icon: const Icon(
             Icons.kitchen_outlined,
             color: Colors.green,
@@ -38,7 +38,7 @@ class Activity {
           )),
       Activity(
           name: "Washing Machine",
-          duration: Duration(minutes: 60),
+          duration: const Duration(minutes: 60),
           icon: const Icon(
             Icons.local_laundry_service_outlined,
             color: Colors.green,
@@ -46,7 +46,7 @@ class Activity {
           )),
       Activity(
           name: "Bath",
-          duration: Duration(minutes: 20),
+          duration: const Duration(minutes: 20),
           icon: const Icon(
             Icons.bathtub_outlined,
             color: Colors.green,
@@ -54,7 +54,7 @@ class Activity {
           )),
       Activity(
           name: "Toilet",
-          duration: Duration(minutes: 5),
+          duration: const Duration(minutes: 5),
           icon: const Icon(
             Icons.wc_outlined,
             color: Colors.green,
@@ -62,7 +62,7 @@ class Activity {
           )),
       Activity(
           name: "Brushing Teeth",
-          duration: Duration(minutes: 2),
+          duration: const Duration(minutes: 2),
           icon: const Icon(
             Icons.brush_outlined,
             color: Colors.green,
