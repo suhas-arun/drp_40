@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saveshare/constants/colour.dart';
+import 'package:saveshare/pages/history_page.dart';
 
 import '../constants/size.dart';
 import '../constants/text.dart';
@@ -23,16 +24,27 @@ class AppDrawer extends StatelessWidget {
                   title: Text("Hi ${User.curUser.name}",
                       style: APPText.mediumText(Colors.white)),
                 )),
-            buildDrawerItems()
+            buildDrawerItems(context)
           ],
         ));
   }
 
-  Widget buildDrawerItems() {
+  Widget buildDrawerItems(BuildContext context) {
     return Column(
         children: DrawerItems.allDrawerItems
             .map(
-                (item) => ListTile(leading: item.icon, title: Text(item.title)))
+              (item) => ListTile(
+                leading: item.icon,
+                title: Text(item.title),
+                onTap: () {
+                  if (item.title == "History") {
+                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HistoryPage()));
+                  }
+                },
+              ),
+            )
             .toList());
   }
 }

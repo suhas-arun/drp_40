@@ -232,7 +232,7 @@ class _LogPageState extends State<LogPage> {
           onPressed: () async {
             var curUserId = (await FirebaseFirestore.instance
                     .collection("user")
-                    .where("name", isEqualTo: User.curUser)
+                    .where("name", isEqualTo: User.curUser.name)
                     .get())
                 .docs[0]
                 .id;
