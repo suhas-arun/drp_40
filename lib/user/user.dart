@@ -30,6 +30,9 @@ class User {
   // How current user's shower duration this month compares to household avg
   static num monthlyHouseholdShowerDiff = 0;
 
+  // How current user's laundry usage this month compares to household avg
+  static num monthlyLaundryDiff = 0;
+
   static num currMonthAvgTemp = 0;
 
   static Future<Map<String, num>> getShowerDurations() async {

@@ -313,28 +313,56 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   // Breakdown of user laundry compared to house average
   Widget householdLaundryComparison() {
+    num laundryDiff = User.monthlyLaundryDiff;
+    const costPerLaundry = 0.55;
     return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(children: [
           RichText(
               textAlign: TextAlign.start,
-              text: const TextSpan(style: APPText.mediumGreenText, children: [
-                TextSpan(
-                    text: "This month, you have used the washing machine "),
-                TextSpan(text: "1 more time", style: APPText.okMediumText),
-                TextSpan(text: " and the tumble dryer "),
-                TextSpan(text: "2 less times", style: APPText.goodMediumText),
-                TextSpan(text: " than the rest of your house."),
+              text: TextSpan(style: APPText.mediumGreenText, children: [
+                const TextSpan(
+                    text:
+                        "This month, you have used the washing machine and tumble dryer "),
+                (laundryDiff >= 5)
+                    ? TextSpan(
+                        text: "$laundryDiff more times",
+                        style: APPText.badMediumText)
+                    : (laundryDiff < 0)
+                        ? TextSpan(
+                            text: "${laundryDiff * -1} fewer times",
+                            style: APPText.goodMediumText)
+                        : TextSpan(
+                            text:
+                                "$laundryDiff more time${(laundryDiff == 1.0) ? "" : "s"}",
+                            style: APPText.okMediumText),
+                const TextSpan(
+                    text: " than the rest of your house, on average."),
               ])),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: RichText(
                 textAlign: TextAlign.start,
-                text: const TextSpan(style: APPText.mediumGreenText, children: [
-                  TextSpan(text: "This can save an extra "),
-                  TextSpan(text: "£4", style: APPText.goodMediumText),
-                  TextSpan(text: " this month."),
+                text: TextSpan(style: APPText.mediumGreenText, children: [
+                  TextSpan(
+                      text:
+                          "This could ${(laundryDiff > 0) ? "cost" : "save"} you an extra "),
+                  (laundryDiff >= 5)
+                      ? TextSpan(
+                          text:
+                              "£${(laundryDiff * costPerLaundry).toStringAsFixed(2)}",
+                          style: APPText.badMediumText)
+                      : (laundryDiff < 0)
+                          ? TextSpan(
+                              text:
+                                  "£${(laundryDiff * -costPerLaundry).toStringAsFixed(2)}",
+                              style: APPText.goodMediumText)
+                          : TextSpan(
+                              text:
+                                  "£${(laundryDiff * costPerLaundry).toStringAsFixed(2)}",
+                              style: APPText.okMediumText),
+                  const TextSpan(text: " this month."),
                 ])),
           )
         ]));
@@ -435,14 +463,17 @@ class _BreakdownPageState extends State<BreakdownPage> {
                           "This could ${(tempDiff > 0) ? "cost" : "save"} you an extra "),
                   (tempDiff >= 5)
                       ? TextSpan(
-                          text: "£${(costPerDegree * tempDiff).toStringAsFixed(2)}",
+                          text:
+                              "£${(costPerDegree * tempDiff).toStringAsFixed(2)}",
                           style: APPText.badMediumText)
                       : (tempDiff < 0)
                           ? TextSpan(
-                              text: "£${(costPerDegree * -tempDiff).toStringAsFixed(2)}",
+                              text:
+                                  "£${(costPerDegree * -tempDiff).toStringAsFixed(2)}",
                               style: APPText.goodMediumText)
                           : TextSpan(
-                              text: "£${(costPerDegree * tempDiff).toStringAsFixed(2)}",
+                              text:
+                                  "£${(costPerDegree * tempDiff).toStringAsFixed(2)}",
                               style: APPText.okMediumText),
                   const TextSpan(text: " per month."),
                 ])),
@@ -523,6 +554,9 @@ class _BreakdownPageState extends State<BreakdownPage> {
             y: userAvg,
             avg: householdAvg));
       } else {
+        if (i == 0) {
+          User.monthlyLaundryDiff = userCount - householdCount / numUsers;
+        }
         actionData.add(Data(
             id: months - i - 1,
             name: _months[now.month - i - 1],
