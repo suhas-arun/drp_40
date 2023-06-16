@@ -467,14 +467,14 @@ class _BreakdownPageState extends State<BreakdownPage> {
                     text: "On average this month, your house is about "),
                 (tempDiff >= 5)
                     ? TextSpan(
-                        text: "$tempDiff \u00B0C higher",
+                        text: "${tempDiff.toStringAsFixed(2)} \u00B0C higher",
                         style: APPText.badMediumText)
                     : (tempDiff < 0)
                         ? TextSpan(
-                            text: "${tempDiff * -1} \u00B0C lower",
+                            text: "${(tempDiff * -1).toStringAsFixed(2)} \u00B0C lower",
                             style: APPText.goodMediumText)
                         : TextSpan(
-                            text: "$tempDiff \u00B0C higher",
+                            text: "${tempDiff.toStringAsFixed(2)} \u00B0C higher",
                             style: APPText.okMediumText),
                 const TextSpan(
                     text: " than the recommended temperature in the UK."),
