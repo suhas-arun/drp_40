@@ -296,16 +296,16 @@ class _BreakdownPageState extends State<BreakdownPage> {
                   (userDiff >= 5)
                       ? TextSpan(
                           text:
-                              "£${showerCostPerMin * userDiff * avgShowersPerMonth}",
+                              "£${(showerCostPerMin * userDiff * avgShowersPerMonth).toStringAsFixed(2)}",
                           style: APPText.badMediumText)
                       : (userDiff < 0)
                           ? TextSpan(
                               text:
-                                  "£${showerCostPerMin * userDiff * -avgShowersPerMonth}",
+                                  "£${(showerCostPerMin * userDiff * -avgShowersPerMonth).toStringAsFixed(2)}",
                               style: APPText.goodMediumText)
                           : TextSpan(
                               text:
-                                  "£${showerCostPerMin * userDiff * avgShowersPerMonth}",
+                                  "£${(showerCostPerMin * userDiff * avgShowersPerMonth).toStringAsFixed(2)}",
                               style: APPText.okMediumText),
                   const TextSpan(text: " per month."),
                 ])),
@@ -541,7 +541,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 var duration = actionData["duration"];
                 householdCount++;
                 householdTotal += duration;
-                if (name == User.curUser) {
+                if (name == User.curUser.name) {
                   userTotal += duration;
                   userCount++;
                 }
@@ -549,13 +549,13 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 bool airDry = actionData["airDry"];
                 // Add tumble dry usage
                 if (!airDry) {
-                  if (name == User.curUser) {
+                  if (name == User.curUser.name) {
                     userCount++;
                   }
                   householdCount++;
                 }
                 // Add washing machine usage
-                if (name == User.curUser) {
+                if (name == User.curUser.name) {
                   userCount++;
                 }
                 householdCount++;
@@ -651,7 +651,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
     String curUserId = (await FirebaseFirestore.instance
             .collection("user")
-            .where("name", isEqualTo: User.curUser)
+            .where("name", isEqualTo: User.curUser.name)
             .get())
         .docs[0]
         .id;
@@ -687,7 +687,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
     String curUserId = (await FirebaseFirestore.instance
             .collection("user")
-            .where("name", isEqualTo: User.curUser)
+            .where("name", isEqualTo: User.curUser.name)
             .get())
         .docs[0]
         .id;
