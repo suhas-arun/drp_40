@@ -35,6 +35,14 @@ class User {
 
   static num currMonthAvgTemp = 0;
 
+  static num ecoWashes = 0;
+
+  static num normWashes = 0;
+
+  static num airDries = 0;
+
+  static num tumbleDries = 0;
+
   static Future<Map<String, num>> getShowerDurations() async {
     householdShowerDuration = 0;
     Map<String, num> showerDurations = {};

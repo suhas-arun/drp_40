@@ -370,60 +370,84 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   // Pie chart of eco - washes
   Widget ecoWashBreakdown() {
-    return Column(children: [
-      Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.symmetric(horizontal: 30),
-          padding: const EdgeInsets.only(bottom: 25),
-          child: const Text("You have done 4 eco-setting washes:",
-              style: APPText.mediumGreenText)),
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 50),
-        child: PieChart(
-            chartRadius: APPSize.WIDTH(context) * 0.4,
-            dataMap: const {"Eco": 4, "Other": 8},
-            chartType: ChartType.ring,
-            baseChartColor: Colors.grey[50]!.withOpacity(0.15),
-            colorList: const [
-              Color.fromRGBO(44, 95, 45, 1),
-              Color.fromRGBO(151, 188, 98, 1)
-            ],
-            chartValuesOptions: const ChartValuesOptions(
-              showChartValuesInPercentage: true,
-            ),
-            totalValue: 12),
-      )
-    ]);
+    return FutureBuilder(
+        future: setMonthLaundryStats(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(children: [
+              Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.only(bottom: 25),
+                  child: Text(
+                      "You have done ${User.ecoWashes} eco-setting washes:",
+                      style: APPText.mediumGreenText)),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: PieChart(
+                    chartRadius: APPSize.WIDTH(context) * 0.4,
+                    dataMap: {
+                      "Eco": User.ecoWashes.toDouble(),
+                      "Other": User.normWashes.toDouble()
+                    },
+                    chartType: ChartType.ring,
+                    baseChartColor: Colors.grey[50]!.withOpacity(0.15),
+                    colorList: const [
+                      Color.fromRGBO(44, 95, 45, 1),
+                      Color.fromRGBO(151, 188, 98, 1)
+                    ],
+                    chartValuesOptions: const ChartValuesOptions(
+                      showChartValuesInPercentage: true,
+                    ),
+                    totalValue: (User.ecoWashes + User.normWashes).toDouble()),
+              )
+            ]);
+          } else {
+            return const LinearProgressIndicator();
+          }
+        });
   }
 
   // Pie chart of eco - washes
   Widget airDryBreakdown() {
-    return Column(children: [
-      Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.symmetric(horizontal: 30),
-          padding: const EdgeInsets.only(bottom: 25),
-          child: const Text("You have air-dried your clothes 6 times:",
-              style: APPText.mediumGreenText)),
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        margin: const EdgeInsets.only(left: 20),
-        child: PieChart(
-            chartLegendSpacing: 30,
-            chartRadius: APPSize.WIDTH(context) * 0.4,
-            dataMap: const {"Air-Dry": 6, "Tumble Dry": 6},
-            chartType: ChartType.ring,
-            baseChartColor: Colors.grey[50]!.withOpacity(0.15),
-            colorList: const [
-              Color.fromRGBO(0, 83, 156, 1),
-              Color.fromRGBO(238, 164, 127, 1)
-            ],
-            chartValuesOptions: const ChartValuesOptions(
-              showChartValuesInPercentage: true,
-            ),
-            totalValue: 12),
-      )
-    ]);
+    return FutureBuilder(
+        future: setMonthLaundryStats(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(children: [
+              Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.only(bottom: 25),
+                  child: Text(
+                      "You have air-dried your clothes ${User.airDries} times:",
+                      style: APPText.mediumGreenText)),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                margin: const EdgeInsets.only(left: 20),
+                child: PieChart(
+                    chartLegendSpacing: 30,
+                    chartRadius: APPSize.WIDTH(context) * 0.4,
+                    dataMap: {
+                      "Air-Dry": User.airDries.toDouble(),
+                      "Tumble Dry": User.tumbleDries.toDouble()
+                    },
+                    chartType: ChartType.ring,
+                    baseChartColor: Colors.grey[50]!.withOpacity(0.15),
+                    colorList: const [
+                      Color.fromRGBO(0, 83, 156, 1),
+                      Color.fromRGBO(238, 164, 127, 1)
+                    ],
+                    chartValuesOptions: const ChartValuesOptions(
+                      showChartValuesInPercentage: true,
+                    ),
+                    totalValue: (User.airDries + User.tumbleDries).toDouble()),
+              )
+            ]);
+          } else {
+            return const LinearProgressIndicator();
+          }
+        });
   }
 
   Widget heatingComparison() {
@@ -647,5 +671,54 @@ class _BreakdownPageState extends State<BreakdownPage> {
       }
     }
     return [coldShowerCount, hotShowerCount];
+  }
+
+  Future<int> setMonthLaundryStats() async {
+    int ecoWashes = 0;
+    int normWashes = 0;
+    int airDries = 0;
+    int tumbleDries = 0;
+
+    var now = DateTime.now();
+    DateTime startDate = DateTime(now.year, now.month);
+    DateTime endDate = DateTime(now.year, now.month + 1);
+
+    String curUserId = (await FirebaseFirestore.instance
+            .collection("user")
+            .where("name", isEqualTo: User.curUser)
+            .get())
+        .docs[0]
+        .id;
+
+    QuerySnapshot<Map> userLaundrySnapshot = await FirebaseFirestore.instance
+        .collection("user/$curUserId/laundry")
+        .where("date", isLessThan: endDate)
+        .where("date", isGreaterThanOrEqualTo: startDate)
+        .get();
+
+    for (var laundryDoc in userLaundrySnapshot.docs) {
+      if (laundryDoc.exists) {
+        bool ecoWash = laundryDoc["ecoWash"];
+        bool airDry = laundryDoc["airDry"];
+
+        if (ecoWash) {
+          ecoWashes++;
+        } else {
+          normWashes++;
+        }
+
+        if (airDry) {
+          airDries++;
+        } else {
+          tumbleDries++;
+        }
+      }
+    }
+    User.ecoWashes = ecoWashes;
+    User.normWashes = normWashes;
+    User.airDries = airDries;
+    User.tumbleDries = tumbleDries;
+
+    return 0;
   }
 }
