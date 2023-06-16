@@ -111,7 +111,7 @@ class TimeGraphState extends State<TimeGraph> {
   }
 
   List<BarChartGroupData> rods(width, youGrad, houseGrad) {
-    if (widget.dataType <= 2) {
+    if (widget.dataType < 2) {
       return widget.data
           .map((data) => BarChartGroupData(x: data.id, barRods: [
                 BarChartRodData(
@@ -140,7 +140,7 @@ class TimeGraphState extends State<TimeGraph> {
   }
 
   Widget colourCode(youGrad, youColour, houseGrad, houseColour) {
-    if (widget.dataType != 2) {
+    if (widget.dataType < 2) {
       return Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.only(left: 30),
