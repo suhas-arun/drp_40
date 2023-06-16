@@ -19,14 +19,24 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     //test activities
     List<Activity> activities = Activity.getTestActivities();
+    double titlesize = 50;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: Column(
           children: [
             TopBar(),
+            SizedBox(height: 1),
+            Container(
+              color: APPColour.green,
+              height: titlesize,
+              child: Align(
+                  alignment: Alignment.center,
+                  child: Text("History",
+                      style: TextStyle(fontSize: 30, color: Colors.white))),
+            ),
             SizedBox(
-                height: APPSize.REM_HEIGHT(context),
+                height: APPSize.REM_HEIGHT(context) - titlesize - 1,
                 child: ListView.builder(
                   itemCount: 6,
                   itemBuilder: (context, index) =>

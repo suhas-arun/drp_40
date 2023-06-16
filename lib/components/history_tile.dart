@@ -39,6 +39,7 @@ class HistoryTile extends StatelessWidget {
           style: TextStyle(
             color: APPColour.green,
             fontSize: 24,
+            fontWeight: FontWeight.bold, // Added font weight for emphasis
           ),
         ),
         subtitle: Text(
@@ -48,7 +49,13 @@ class HistoryTile extends StatelessWidget {
             fontSize: 18,
           ),
         ),
-        onTap: () {},
+        onTap: () {}, // Added background color with opacity
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+              8.0), // Added border radius for rounded corners
+        ),
+        contentPadding: EdgeInsets.symmetric(
+            vertical: 8.0, horizontal: 16.0), // Added padding for content
       ),
     );
   }
