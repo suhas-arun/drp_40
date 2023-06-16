@@ -25,12 +25,12 @@ class _HistoryPageState extends State<HistoryPage> {
         backgroundColor: Colors.white,
         body: Column(
           children: [
-            TopBar(),
-            SizedBox(height: 1),
+            const TopBar(),
+            const SizedBox(height: 1),
             Container(
               color: APPColour.green,
               height: titlesize,
-              child: Align(
+              child: const Align(
                   alignment: Alignment.center,
                   child: Text("History",
                       style: TextStyle(fontSize: 30, color: Colors.white))),
@@ -42,7 +42,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   itemBuilder: (context, index) =>
                       HistoryTile(activity: activities[index]),
                 )),
-            BottomBar(),
+            const BottomBar(),
           ],
         ));
   }

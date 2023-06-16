@@ -10,7 +10,7 @@ class TimeGraph extends StatefulWidget {
 
   final List<Data> data;
 
-  // 0 - Shower, 1 - Laundry, 2 - Heating
+  // 0 - Shower, 1 - Laundry, 2 - Heating, 3 - Energy
   final int dataType;
 
   @override
@@ -20,8 +20,15 @@ class TimeGraph extends StatefulWidget {
 class TimeGraphState extends State<TimeGraph> {
   @override
   Widget build(BuildContext context) {
-    final double width =
-        APPSize.WIDTH(context) * 0.9 / ((widget.dataType == 2) ? 11 : 17);
+    final double width;
+    if (widget.dataType < 2) {
+      width = APPSize.WIDTH(context) * 0.9 / 17;
+    } else if (widget.data == 2) {
+      width = APPSize.WIDTH(context) * 0.9 / 11;
+    } else {
+      width = APPSize.WIDTH(context) * 0.9 / 15;
+    }
+
     const Color youColour = Colors.indigo;
     const Color houseColour = Color.fromARGB(255, 143, 28, 20);
 
@@ -62,9 +69,12 @@ class TimeGraphState extends State<TimeGraph> {
                             } else if (widget.dataType == 1) {
                               int value = rod.toY.toInt();
                               toolTip = "$value";
-                            } else {
+                            } else if (widget.dataType == 2) {
                               int value = rod.toY.toInt();
                               toolTip = "$value\u00B0C";
+                            } else {
+                              double value = rod.toY;
+                              toolTip = "$value kWH";
                             }
                             return BarTooltipItem(
                                 toolTip, APPText.smallText(Colors.white));
@@ -108,7 +118,7 @@ class TimeGraphState extends State<TimeGraph> {
   }
 
   List<BarChartGroupData> rods(width, youGrad, houseGrad) {
-    if (widget.dataType != 2) {
+    if (widget.dataType < 2) {
       return widget.data
           .map((data) => BarChartGroupData(x: data.id, barRods: [
                 BarChartRodData(
@@ -137,7 +147,7 @@ class TimeGraphState extends State<TimeGraph> {
   }
 
   Widget colourCode(youGrad, youColour, houseGrad, houseColour) {
-    if (widget.dataType != 2) {
+    if (widget.dataType < 2) {
       return Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.only(left: 30),

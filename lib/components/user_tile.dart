@@ -5,10 +5,14 @@ import '../user/user.dart';
 import '../constants/size.dart';
 import '../pages/breakdown_page.dart';
 
-//this will need to be stateful, and take in
-class UserTile extends StatelessWidget {
+class UserTile extends StatefulWidget {
   const UserTile({super.key});
 
+  @override
+  State<UserTile> createState() => _UserTileState();
+}
+
+class _UserTileState extends State<UserTile> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -74,7 +78,10 @@ class UserTile extends StatelessWidget {
                   )),
             );
           } else {
-            return const CircularProgressIndicator();
+            return Expanded(
+                child: Container(
+                    alignment: Alignment.center,
+                    child: const CircularProgressIndicator()));
           }
         });
   }

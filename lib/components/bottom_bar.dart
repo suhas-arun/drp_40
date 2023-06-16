@@ -55,7 +55,7 @@ class _BottomBarState extends State<BottomBar> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ChartPage()),
+                  MaterialPageRoute(builder: (context) => const EnergyPage()),
                 );
               },
             ),
