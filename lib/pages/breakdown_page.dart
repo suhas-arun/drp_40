@@ -224,12 +224,9 @@ class _BreakdownPageState extends State<BreakdownPage> {
                   alignment: Alignment.center,
                   margin: const EdgeInsets.symmetric(horizontal: 30),
                   padding: const EdgeInsets.only(bottom: 25),
-                  child: (coldShowerCount == 1)
-                      ? const Text("You have had 1 cold shower this month:",
-                          style: APPText.mediumGreenText)
-                      : Text(
-                          "You have had $coldShowerCount cold showers this month:",
-                          style: APPText.mediumGreenText)),
+                  child: Text(
+                      "You have had 1 cold shower${(coldShowerCount == 1) ? "" : "s"} this month:",
+                      style: APPText.mediumGreenText)),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: PieChart(
@@ -258,17 +255,30 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   // Breakdown of user compared to house average
   Widget householdShowerComparison() {
+    num userDiff = User.monthlyHouseholdShowerDiff;
+    const showerCostPerMin = 0.073;
     return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(children: [
           RichText(
               textAlign: TextAlign.start,
-              text: const TextSpan(style: APPText.mediumGreenText, children: [
-                TextSpan(text: "On average this month, you have spent "),
-                TextSpan(
-                    text: "2 minutes longer", style: APPText.badMediumText),
-                TextSpan(
+              text: TextSpan(style: APPText.mediumGreenText, children: [
+                const TextSpan(text: "On average this month, you have spent "),
+                (userDiff >= 5)
+                    ? TextSpan(
+                        text: "$userDiff minutes longer",
+                        style: APPText.badMediumText)
+                    : (userDiff < 0)
+                        ? TextSpan(
+                            text:
+                                "${userDiff * -1} minute${(userDiff == -1.00) ? "" : "s"} less",
+                            style: APPText.goodMediumText)
+                        : TextSpan(
+                            text:
+                                "$userDiff minute${(userDiff == 1.0) ? "" : "s"} longer",
+                            style: APPText.okMediumText),
+                const TextSpan(
                     text:
                         " in the shower per day than the rest of your house."),
               ])),
@@ -276,10 +286,22 @@ class _BreakdownPageState extends State<BreakdownPage> {
             padding: const EdgeInsets.only(top: 10),
             child: RichText(
                 textAlign: TextAlign.start,
-                text: const TextSpan(style: APPText.mediumGreenText, children: [
-                  TextSpan(text: "This can cost an extra "),
-                  TextSpan(text: "£17", style: APPText.badMediumText),
-                  TextSpan(text: " this month."),
+                text: TextSpan(style: APPText.mediumGreenText, children: [
+                  TextSpan(
+                      text:
+                          "This could ${(userDiff > 0) ? "cost" : "save"} you an extra "),
+                  (userDiff >= 5)
+                      ? TextSpan(
+                          text: "£${showerCostPerMin * userDiff * 30}",
+                          style: APPText.badMediumText)
+                      : (userDiff < 0)
+                          ? TextSpan(
+                              text: "£${showerCostPerMin * userDiff * -30}",
+                              style: APPText.goodMediumText)
+                          : TextSpan(
+                              text: "£${showerCostPerMin * userDiff * 30}",
+                              style: APPText.okMediumText),
+                  const TextSpan(text: " per month."),
                 ])),
           )
         ]));
@@ -457,13 +479,19 @@ class _BreakdownPageState extends State<BreakdownPage> {
       }
 
       if (action == "shower") {
+        double userAvg =
+            (userCount == 0) ? 0 : (userTotal / userCount).roundToDouble();
+        double householdAvg = (householdCount == 0)
+            ? 0
+            : (householdTotal / householdCount).roundToDouble();
+        if (i == 0) {
+          User.monthlyHouseholdShowerDiff = userAvg - householdAvg;
+        }
         actionData.add(Data(
             id: months - i - 1,
             name: _months[now.month - i - 1],
-            y: (userCount == 0) ? 0 : (userTotal / userCount).roundToDouble(),
-            avg: (householdCount == 0)
-                ? 0
-                : (householdTotal / householdCount).roundToDouble()));
+            y: userAvg,
+            avg: householdAvg));
       } else {
         actionData.add(Data(
             id: months - i - 1,
