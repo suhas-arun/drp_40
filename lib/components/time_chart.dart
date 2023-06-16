@@ -10,7 +10,7 @@ class TimeGraph extends StatefulWidget {
 
   final List<Data> data;
 
-  // 0 - Shower, 1 - Laundry, 2 - Heating
+  // 0 - Shower, 1 - Laundry, 2 - Heating, 3 - Energy
   final int dataType;
 
   @override
@@ -62,9 +62,12 @@ class TimeGraphState extends State<TimeGraph> {
                             } else if (widget.dataType == 1) {
                               int value = rod.toY.toInt();
                               toolTip = "$value";
-                            } else {
+                            } else if (widget.dataType == 2) {
                               int value = rod.toY.toInt();
                               toolTip = "$value\u00B0C";
+                            } else {
+                              double value = rod.toY;
+                              toolTip = "$value kWH";
                             }
                             return BarTooltipItem(
                                 toolTip, APPText.smallText(Colors.white));
@@ -107,7 +110,7 @@ class TimeGraphState extends State<TimeGraph> {
   }
 
   List<BarChartGroupData> rods(width, youGrad, houseGrad) {
-    if (widget.dataType != 2) {
+    if (widget.dataType <= 2) {
       return widget.data
           .map((data) => BarChartGroupData(x: data.id, barRods: [
                 BarChartRodData(
