@@ -9,4 +9,9 @@ class Data {
       required this.id,
       required this.y,
       required this.avg});
+
+  @override
+  String toString() {
+    return "($id, $name, $y, $avg)";
+  }
 }

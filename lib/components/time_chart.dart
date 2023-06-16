@@ -82,7 +82,9 @@ class TimeGraphState extends State<TimeGraph> {
                       topTitles: const AxisTitles(
                         sideTitles: SideTitles(showTitles: false),
                       ),
-                      bottomTitles: AxisTitles(sideTitles: bottomTitles()),
+                      bottomTitles: AxisTitles(
+                          sideTitles: bottomTitles(
+                              widget.data.map((d) => d.name).toList())),
                       leftTitles: const AxisTitles(
                         sideTitles: SideTitles(showTitles: false),
                       )),
@@ -95,14 +97,13 @@ class TimeGraphState extends State<TimeGraph> {
     );
   }
 
-  SideTitles bottomTitles() {
-    final titles = <String>['Jan', 'Feb', 'Mar', 'Apr', 'May'];
+  SideTitles bottomTitles(List<String> monthList) {
     return SideTitles(
         showTitles: true,
         reservedSize: 30,
         getTitlesWidget: (value, meta) => Padding(
               padding: const EdgeInsets.only(top: 8),
-              child: Text(titles[value.toInt()]),
+              child: Text(monthList[value.toInt()]),
             ));
   }
 
