@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saveshare/pages/energy_page.dart';
 
 import '../constants/colour.dart';
 import '../constants/size.dart';
@@ -32,7 +33,13 @@ class _TopBarState extends State<StatefulWidget> {
           iconSize: APPSize.APP_ICON_SIZE,
           color: Colors.white,
           icon: const Icon(Icons.energy_savings_leaf_outlined),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const EnergyPage()),
+            );
+          },
         ),
         actions: [
           IconButton(

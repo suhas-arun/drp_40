@@ -5,14 +5,14 @@ import '../components/bottom_bar.dart';
 import '../components/drawer.dart';
 import '../components/top_bar.dart';
 
-class ChartPage extends StatefulWidget {
-  const ChartPage({super.key});
+class EnergyPage extends StatefulWidget {
+  const EnergyPage({super.key});
 
   @override
-  State<ChartPage> createState() => _ChartPageState();
+  State<EnergyPage> createState() => _EnergyPageState();
 }
 
-class _ChartPageState extends State<ChartPage> {
+class _EnergyPageState extends State<EnergyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
