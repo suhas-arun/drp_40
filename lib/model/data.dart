@@ -1,3 +1,4 @@
+// Data format to be fed to time chart
 class Data {
   final int id;
   final String name;

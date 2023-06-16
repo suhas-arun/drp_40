@@ -1,10 +1,9 @@
 import 'package:saveshare/model/consumption_request.dart';
 
-import '../model/data.dart';
 import 'package:http/http.dart' as http;
 
 class EnergyService {
-  Future<ConsumptionRequest?> getData() async {
+  Future<ConsumptionRequest> getData() async {
     Map<String, String>? apiKey = {
       'x-api-key': '447c60ea-6783-4800-895c-56fd71092638'
     };
@@ -37,8 +36,16 @@ class EnergyService {
       return data;
     } else {
       print("Unsuccessful fetch");
+      return ConsumptionRequest(
+          resource: "",
+          responseTimestamp: DateTime.now(),
+          availableCacheRange: AvailableCacheRange(start: "", end: ""),
+          start: "",
+          end: "",
+          granularity: "",
+          unit: "",
+          devices: []);
     }
-    return null;
   }
 
   // Sandbox data is for 2013

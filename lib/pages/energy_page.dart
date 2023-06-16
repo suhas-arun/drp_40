@@ -14,24 +14,39 @@ class EnergyPage extends StatefulWidget {
 }
 
 class _EnergyPageState extends State<EnergyPage> {
-  ConsumptionRequest? energyValues;
+  late ConsumptionRequest energyValues;
   var isLoaded = false;
 
   @override
   void initState() {
     super.initState();
 
-    getGasValues();
+    getEnergyValues();
   }
 
-  getGasValues() async {
+  getEnergyValues() async {
     energyValues = await EnergyService().getData();
 
-    if (energyValues != null) {
-      setState(() {
-        isLoaded = true;
-      });
+    setState(() {
+      isLoaded = true;
+    });
+  }
+
+  List<Data> convertConsToData(ConsumptionRequest consumptionRequest) {
+    List<Value> values = consumptionRequest.devices[0].values;
+    List<Data> data = [];
+
+    for (int i = 0; i < values.length; i++) {
+      if (i % 4 == 0) {
+        String hours = values[i].timestamp.substring(11, 13);
+        double consumption = values[i].primaryValue;
+
+        data.add(Data(avg: consumption, y: 0, id: (i ~/ 4), name: hours));
+        print(hours);
+        print(consumption);
+      }
     }
+    return data;
   }
 
   @override
@@ -41,6 +56,8 @@ class _EnergyPageState extends State<EnergyPage> {
         appBar: const TopBar(),
         drawer: const AppDrawer(),
         body: ListView.builder(itemBuilder: (contex, index) {
+          convertConsToData(energyValues);
+          return null;
           // String time = energyValues![index].name;
           // double val = energyValues![index].y;
           // return Container(child: Text("$time$val"));
