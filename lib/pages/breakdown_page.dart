@@ -257,6 +257,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
   Widget householdShowerComparison() {
     num userDiff = User.monthlyHouseholdShowerDiff;
     const showerCostPerMin = 0.073;
+    const avgShowersPerMonth = 30;
     return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 30),
@@ -292,14 +293,17 @@ class _BreakdownPageState extends State<BreakdownPage> {
                           "This could ${(userDiff > 0) ? "cost" : "save"} you an extra "),
                   (userDiff >= 5)
                       ? TextSpan(
-                          text: "£${showerCostPerMin * userDiff * 30}",
+                          text:
+                              "£${showerCostPerMin * userDiff * avgShowersPerMonth}",
                           style: APPText.badMediumText)
                       : (userDiff < 0)
                           ? TextSpan(
-                              text: "£${showerCostPerMin * userDiff * -30}",
+                              text:
+                                  "£${showerCostPerMin * userDiff * -avgShowersPerMonth}",
                               style: APPText.goodMediumText)
                           : TextSpan(
-                              text: "£${showerCostPerMin * userDiff * 30}",
+                              text:
+                                  "£${showerCostPerMin * userDiff * avgShowersPerMonth}",
                               style: APPText.okMediumText),
                   const TextSpan(text: " per month."),
                 ])),
@@ -395,26 +399,52 @@ class _BreakdownPageState extends State<BreakdownPage> {
   }
 
   Widget heatingComparison() {
+    num avgHouseTemp = 20;
+    num tempDiff = User.currMonthAvgTemp - avgHouseTemp;
+    double costPerDegree = 80 / 12;
     return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(children: [
           RichText(
               textAlign: TextAlign.start,
-              text: const TextSpan(style: APPText.mediumGreenText, children: [
-                TextSpan(text: "On average this month, your house is about "),
-                TextSpan(
-                    text: "5 \u00B0C higher", style: APPText.badMediumText),
-                TextSpan(text: " than the recommended temperature in the UK."),
+              text: TextSpan(style: APPText.mediumGreenText, children: [
+                const TextSpan(
+                    text: "On average this month, your house is about "),
+                (tempDiff >= 5)
+                    ? TextSpan(
+                        text: "$tempDiff \u00B0C higher",
+                        style: APPText.badMediumText)
+                    : (tempDiff < 0)
+                        ? TextSpan(
+                            text: "${tempDiff * -1} \u00B0C lower",
+                            style: APPText.goodMediumText)
+                        : TextSpan(
+                            text: "$tempDiff \u00B0C higher",
+                            style: APPText.okMediumText),
+                const TextSpan(
+                    text: " than the recommended temperature in the UK."),
               ])),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: RichText(
                 textAlign: TextAlign.start,
-                text: const TextSpan(style: APPText.mediumGreenText, children: [
-                  TextSpan(text: "This can cost an extra "),
-                  TextSpan(text: "£30", style: APPText.badMediumText),
-                  TextSpan(text: " this month."),
+                text: TextSpan(style: APPText.mediumGreenText, children: [
+                  TextSpan(
+                      text:
+                          "This could ${(tempDiff > 0) ? "cost" : "save"} you an extra "),
+                  (tempDiff >= 5)
+                      ? TextSpan(
+                          text: "£${(costPerDegree * tempDiff).toStringAsFixed(2)}",
+                          style: APPText.badMediumText)
+                      : (tempDiff < 0)
+                          ? TextSpan(
+                              text: "£${(costPerDegree * -tempDiff).toStringAsFixed(2)}",
+                              style: APPText.goodMediumText)
+                          : TextSpan(
+                              text: "£${(costPerDegree * tempDiff).toStringAsFixed(2)}",
+                              style: APPText.okMediumText),
+                  const TextSpan(text: " per month."),
                 ])),
           )
         ]));
@@ -536,11 +566,16 @@ class _BreakdownPageState extends State<BreakdownPage> {
           tempCount++;
         }
       }
+      double avgTemp =
+          (tempCount == 0) ? 0 : (tempTotal / tempCount).toDouble();
+      if (i == 0) {
+        User.currMonthAvgTemp = avgTemp;
+      }
       finalHeatingData.add(Data(
           id: months - i - 1,
           name: _months[now.month - i - 1],
           y: 0,
-          avg: (tempCount == 0) ? 0 : (tempTotal / tempCount).toDouble()));
+          avg: avgTemp));
     }
     finalHeatingData.sort((a, b) => a.id.compareTo(b.id));
     return finalHeatingData;
