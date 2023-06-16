@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:saveshare/constants/colour.dart';
 import 'package:saveshare/pages/history_page.dart';
 
+import '../components/drawer.dart';
+import '../constants/size.dart';
+import '../constants/text.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -16,48 +20,31 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: Drawer(
-          backgroundColor: APPColour.green,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Text(
-                  'Menu',
-                  style: TextStyle(
-                    color: APPColour.green,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              ListTile(
-                title: const Text(
-                  'History',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HistoryPage()));
-                },
-              ),
-            ],
-          ),
-        ),
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
+        appBar: const TopBar(),
         body: Column(
           children: [
-            TopBar(),
-            UserTile(),
-            Expanded(child: Container()),
-            BottomBar(),
+            SizedBox(
+                height: APPSize.REM_HEIGHT(context),
+                child: Column(
+                  children: [
+                    Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: const Text("Your Household",
+                            style: APPText.largeGreenText)),
+                    Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        height: APPSize.REM_HEIGHT(context) * 0.3,
+                        width: APPSize.REM_HEIGHT(context) * 0.3,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: AssetImage("assets/images/house.png")),
+                        )),
+                    const UserTile(),
+                  ],
+                )),
+            const BottomBar(),
           ],
         ));
   }

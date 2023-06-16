@@ -38,6 +38,9 @@ dependencies:
   pie_chart: ^5.3.2
   firebase_core: ^2.13.1
   firebase_auth: 
+  cloud_firestore: ^4.4.0
+  percent_indicator: ^4.0.1
+  fl_chart: ^0.63.0
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +63,13 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets: 
+    - assets/images/shower.png
+    - assets/images/laundry.png
+    - assets/images/heating.png
+    - assets/images/house.png
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

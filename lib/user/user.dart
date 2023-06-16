@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saveshare/constants/size.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +14,8 @@ class User {
     ),
   });
 
+  static User curUser = User(name: "Alex", energyPercentage: 10);
+
   String name;
 
   double energyPercentage;
@@ -22,12 +23,49 @@ class User {
   //will have to change this to a picture
   Icon profilePicture;
 
-  static List<User> getTestUsers() {
-    return List.of([
-      User(name: "Marcus!", energyPercentage: (34)),
-      User(name: "Alex", energyPercentage: (25)),
-      User(name: "Ella", energyPercentage: (17)),
-      User(name: "Ines", energyPercentage: (24)),
-    ]);
+  static num householdShowerDuration = 0;
+
+  // How current user's shower duration this month compares to household avg
+  static num monthlyHouseholdShowerDiff = 0;
+
+  // How current user's laundry usage this month compares to household avg
+  static num monthlyLaundryDiff = 0;
+
+  static num currMonthAvgTemp = 0;
+
+  static num ecoWashes = 0;
+
+  static num normWashes = 0;
+
+  static num airDries = 0;
+
+  static num tumbleDries = 0;
+
+  static Future<Map<String, num>> getShowerDurations() async {
+    householdShowerDuration = 0;
+    Map<String, num> showerDurations = {};
+    QuerySnapshot<Map> userSnapshot =
+        await FirebaseFirestore.instance.collection("user").get();
+
+    for (var userDoc in userSnapshot.docs) {
+      if (userDoc.exists) {
+        var userData = userDoc.data() as Map<String, dynamic>;
+        String name = userData["name"];
+        QuerySnapshot<Map> showerSnapshot = await FirebaseFirestore.instance
+            .collection("user/${userDoc.id}/shower")
+            .get();
+        num personalShowerDuration = 0;
+        for (var showerDoc in showerSnapshot.docs) {
+          if (showerDoc.exists) {
+            var showerData = showerDoc.data() as Map<String, dynamic>;
+            var duration = showerData["duration"];
+            householdShowerDuration += duration;
+            personalShowerDuration += duration;
+          }
+        }
+        showerDurations[name] = personalShowerDuration;
+      }
+    }
+    return showerDurations;
   }
 }

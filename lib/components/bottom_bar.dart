@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/colour.dart';
 import '../pages/chart_page.dart';
+import '../pages/select_action_page.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -29,7 +30,7 @@ class _BottomBarState extends State<BottomBar> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               },
             ),
@@ -37,7 +38,14 @@ class _BottomBarState extends State<BottomBar> {
               iconSize: APPSize.APP_ICON_SIZE,
               color: Colors.white,
               icon: const Icon(Icons.lightbulb_outline),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SelectActionPage()),
+                );
+              },
             ),
             IconButton(
               iconSize: APPSize.APP_ICON_SIZE,
@@ -47,7 +55,7 @@ class _BottomBarState extends State<BottomBar> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ChartPage()),
+                  MaterialPageRoute(builder: (context) => const ChartPage()),
                 );
               },
             ),

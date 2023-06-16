@@ -2,6 +2,7 @@ import 'package:saveshare/components/pie_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../components/bottom_bar.dart';
+import '../components/drawer.dart';
 import '../components/top_bar.dart';
 
 class ChartPage extends StatefulWidget {
@@ -16,14 +17,14 @@ class _ChartPageState extends State<ChartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
+        appBar: const TopBar(),
+        drawer: const AppDrawer(),
         body: Column(
           children: [
-            TopBar(),
             Expanded(child: Container()),
-            PieChartWidget(),
+            const PieChartWidget(),
             Expanded(child: Container()),
-            BottomBar(),
+            const BottomBar(),
           ],
         ));
   }
