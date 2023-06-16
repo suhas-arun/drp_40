@@ -212,30 +212,48 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   // Cold shower text and chart
   Widget coldShowerBreakdown() {
-    return Column(children: [
-      Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.symmetric(horizontal: 30),
-          padding: const EdgeInsets.only(bottom: 25),
-          child: const Text("You have had 1 cold shower this month:",
-              style: APPText.mediumGreenText)),
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 50),
-        child: PieChart(
-            chartRadius: APPSize.WIDTH(context) * 0.4,
-            dataMap: const {"Cold": 1, "Hot": 18},
-            chartType: ChartType.ring,
-            baseChartColor: Colors.grey[50]!.withOpacity(0.15),
-            colorList: const [
-              Color.fromRGBO(137, 171, 227, 1),
-              Color.fromRGBO(234, 115, 141, 1)
-            ],
-            chartValuesOptions: const ChartValuesOptions(
-              showChartValuesInPercentage: true,
-            ),
-            totalValue: 19),
-      )
-    ]);
+    return FutureBuilder(
+        future: getShowerCounts(),
+        builder: (context, AsyncSnapshot<List<int>> snapshot) {
+          if (snapshot.hasData) {
+            List<int> showerCounts = snapshot.data!;
+            int coldShowerCount = showerCounts[0];
+            int hotShowerCount = showerCounts[1];
+            return Column(children: [
+              Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.only(bottom: 25),
+                  child: (coldShowerCount == 1)
+                      ? const Text("You have had 1 cold shower this month:",
+                          style: APPText.mediumGreenText)
+                      : Text(
+                          "You have had $coldShowerCount cold showers this month:",
+                          style: APPText.mediumGreenText)),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: PieChart(
+                    chartRadius: APPSize.WIDTH(context) * 0.4,
+                    dataMap: {
+                      "Cold": coldShowerCount.toDouble(),
+                      "Hot": hotShowerCount.toDouble()
+                    },
+                    chartType: ChartType.ring,
+                    baseChartColor: Colors.grey[50]!.withOpacity(0.15),
+                    colorList: const [
+                      Color.fromRGBO(137, 171, 227, 1),
+                      Color.fromRGBO(234, 115, 141, 1)
+                    ],
+                    chartValuesOptions: const ChartValuesOptions(
+                      showChartValuesInPercentage: true,
+                    ),
+                    totalValue: (coldShowerCount + hotShowerCount).toDouble()),
+              )
+            ]);
+          } else {
+            return const LinearProgressIndicator();
+          }
+        });
   }
 
   // Breakdown of user compared to house average
@@ -498,5 +516,39 @@ class _BreakdownPageState extends State<BreakdownPage> {
     }
     finalHeatingData.sort((a, b) => a.id.compareTo(b.id));
     return finalHeatingData;
+  }
+
+  Future<List<int>> getShowerCounts() async {
+    int coldShowerCount = 0;
+    int hotShowerCount = 0;
+
+    var now = DateTime.now();
+    DateTime startDate = DateTime(now.year, now.month);
+    DateTime endDate = DateTime(now.year, now.month + 1);
+
+    String curUserId = (await FirebaseFirestore.instance
+            .collection("user")
+            .where("name", isEqualTo: User.curUser)
+            .get())
+        .docs[0]
+        .id;
+
+    QuerySnapshot<Map> userShowerSnapshot = await FirebaseFirestore.instance
+        .collection("user/$curUserId/shower")
+        .where("date", isLessThan: endDate)
+        .where("date", isGreaterThanOrEqualTo: startDate)
+        .get();
+
+    for (var showerDoc in userShowerSnapshot.docs) {
+      if (showerDoc.exists) {
+        bool cold = showerDoc["cold"];
+        if (cold) {
+          coldShowerCount++;
+        } else {
+          hotShowerCount++;
+        }
+      }
+    }
+    return [coldShowerCount, hotShowerCount];
   }
 }
