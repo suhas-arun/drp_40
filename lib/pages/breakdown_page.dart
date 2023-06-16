@@ -227,7 +227,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                   margin: const EdgeInsets.symmetric(horizontal: 30),
                   padding: const EdgeInsets.only(bottom: 25),
                   child: Text(
-                      "You have had 1 cold shower${(coldShowerCount == 1) ? "" : "s"} this month:",
+                      "You have had $coldShowerCount cold shower${(coldShowerCount == 1) ? "" : "s"} this month:",
                       style: APPText.mediumGreenText)),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
