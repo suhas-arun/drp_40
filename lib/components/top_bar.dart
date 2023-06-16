@@ -23,7 +23,8 @@ class _TopBarState extends State<StatefulWidget> {
           iconSize: APPSize.APP_ICON_SIZE,
           color: Colors.white,
           icon: const Icon(Icons.menu_outlined),
-          onPressed: () {},
+          //open drawer on click
+          onPressed: () => Scaffold.of(context).openDrawer(),
         ),
         title: IconButton(
           iconSize: APPSize.APP_ICON_SIZE,
