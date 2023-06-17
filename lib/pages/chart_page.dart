@@ -23,13 +23,23 @@ class _EnergyPageState extends State<EnergyPage> {
 
     List<Value> values = consumptionRequest.devices[0].values;
     List<Data> data = [];
+    double runningTotal = 0;
+    double consumption;
+    String hours;
 
     for (int i = 0; i < values.length; i++) {
-      if (i % 8 == 0) {
-        String hours = "${values[i].timestamp.substring(11, 13)}:00";
-        double consumption = values[i].primaryValue;
+      consumption = values[i].primaryValue;
 
-        data.add(Data(avg: consumption, y: 0, id: (i ~/ 8), name: hours));
+      if (i % 8 == 7) {
+        hours = "${values[i - 4].timestamp.substring(11, 13)}:00";
+        data.add(Data(
+            avg: (consumption + runningTotal),
+            y: 0,
+            id: (i ~/ 8),
+            name: hours));
+        runningTotal = 0;
+      } else {
+        runningTotal += consumption;
       }
     }
 
@@ -50,7 +60,7 @@ class _EnergyPageState extends State<EnergyPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 30),
                 padding: const EdgeInsets.only(bottom: 20, top: 30),
                 child: const Text(
-                    "This is your real-time readings from your smart meter over the last 24 hours:",
+                    "This is your real-time energy consumption over the last 24 hours:",
                     style: APPText.mediumGreenText),
               ),
               FutureBuilder(

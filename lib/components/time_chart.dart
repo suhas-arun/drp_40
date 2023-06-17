@@ -23,10 +23,10 @@ class TimeGraphState extends State<TimeGraph> {
     final double width;
     if (widget.dataType < 2) {
       width = APPSize.WIDTH(context) * 0.9 / 17;
-    } else if (widget.data == 2) {
+    } else if (widget.dataType == 2) {
       width = APPSize.WIDTH(context) * 0.9 / 11;
     } else {
-      width = APPSize.WIDTH(context) * 0.9 / 15;
+      width = APPSize.WIDTH(context) * 0.9 / 13;
     }
 
     const Color youColour = Colors.indigo;
@@ -107,13 +107,13 @@ class TimeGraphState extends State<TimeGraph> {
     );
   }
 
-  SideTitles bottomTitles(List<String> monthList) {
+  SideTitles bottomTitles(List<String> titleList) {
     return SideTitles(
         showTitles: true,
         reservedSize: 30,
         getTitlesWidget: (value, meta) => Padding(
               padding: const EdgeInsets.only(top: 8),
-              child: Text(monthList[value.toInt()]),
+              child: Text(titleList[value.toInt()]),
             ));
   }
 
