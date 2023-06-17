@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
+import '../constants/size.dart';
 import '../user/user.dart';
 
-class PieChartWidget extends StatefulWidget {
-  const PieChartWidget({super.key});
+class ShowerPieChart extends StatefulWidget {
+  const ShowerPieChart({super.key});
 
   @override
-  State<PieChartWidget> createState() => _PieChartWidgetState();
+  State<ShowerPieChart> createState() => _ShowerPieChartState();
 }
 
-class _PieChartWidgetState extends State<PieChartWidget> {
+class _ShowerPieChartState extends State<ShowerPieChart> {
   //will neeed to be a future but for now just test data
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.height * 0.4;
     Map<String, double> getData = {};
     return FutureBuilder(
         future: User.getShowerDurations(),
@@ -32,14 +32,24 @@ class _PieChartWidgetState extends State<PieChartWidget> {
               getData[user.name] = user.energyPercentage.roundToDouble();
             }
             return SizedBox(
-              height: size,
-              width: size,
+              height: APPSize.WIDTH(context) * 0.55,
+              width: APPSize.WIDTH(context) * 0.55,
               child: PieChart(
                 dataMap: getData,
+                chartValuesOptions: const ChartValuesOptions(
+                  showChartValueBackground: true,
+                  showChartValues: true,
+                  showChartValuesInPercentage: true,
+                  showChartValuesOutside: true,
+                  decimalPlaces: 1,
+                ),
                 colorList: const [
-                  Color.fromARGB(255, 13, 78, 21),
-                  Color.fromARGB(255, 6, 124, 61),
-                  Colors.green
+                  Color.fromARGB(255, 4, 72, 12),
+                  Color.fromARGB(255, 18, 105, 28),
+                  Color.fromARGB(255, 35, 147, 48),
+                  Color.fromARGB(255, 56, 174, 70),
+                  Color.fromARGB(255, 102, 215, 115),
+                  Color.fromARGB(255, 186, 215, 190),
                 ],
               ),
             );

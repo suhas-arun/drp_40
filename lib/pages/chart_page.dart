@@ -1,4 +1,5 @@
-import 'package:saveshare/components/pie_chart.dart';
+import 'package:saveshare/components/laundry_pie_chart.dart';
+import 'package:saveshare/components/shower_pie_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../components/time_chart.dart';
@@ -33,7 +34,8 @@ class _EnergyPageState extends State<EnergyPage> {
       if (i % 8 == 7) {
         hours = "${values[i - 4].timestamp.substring(11, 13)}:00";
         data.add(Data(
-            avg: (consumption + runningTotal),
+            avg: (((1000 * (consumption + runningTotal)).roundToDouble()) /
+                1000),
             y: 0,
             id: (i ~/ 8),
             name: hours));
@@ -60,7 +62,7 @@ class _EnergyPageState extends State<EnergyPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 30),
                 padding: const EdgeInsets.only(bottom: 20, top: 30),
                 child: const Text(
-                    "This is your real-time energy consumption over the last 24 hours:",
+                    "Here is your real-time energy consumption over the last 24 hours:",
                     style: APPText.mediumGreenText),
               ),
               FutureBuilder(
@@ -75,12 +77,21 @@ class _EnergyPageState extends State<EnergyPage> {
               paddedDivider(),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 30),
-                padding: const EdgeInsets.only(bottom: 20, top: 30),
+                padding: const EdgeInsets.only(bottom: 20),
                 child: const Text(
-                    "Lets see how your house members compare to each other in terms of showering minutes",
+                    "Lets see which house members have spent the least time in the shower this month:",
                     style: APPText.mediumGreenText),
               ),
-              const PieChartWidget(),
+              const ShowerPieChart(),
+              paddedDivider(),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.only(bottom: 20),
+                child: const Text(
+                    "Lets see which house members have used the washing machine and tumble dryer the least this month:",
+                    style: APPText.mediumGreenText),
+              ),
+              const LaundryPieChart(),
               const Padding(padding: EdgeInsets.only(bottom: 30))
             ]),
           ),
