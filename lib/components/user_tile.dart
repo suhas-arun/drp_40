@@ -16,17 +16,17 @@ class _UserTileState extends State<UserTile> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: User.getShowerDurations(),
+        future: User_.getShowerDurations(),
         builder: (context, AsyncSnapshot<Map> snapshot) {
           if (snapshot.hasData) {
-            List<User> users = [];
+            List<User_> users = [];
             snapshot.data!.forEach((name, duration) {
-              User user = User(
+              User_ user = User_(
                   name: name,
                   energyPercentage:
-                      (duration / User.householdShowerDuration).toDouble(),
-                  profilePicture: User.getProfilePic(name));
-              if (name == User.curUser.name) {
+                      (duration / User_.householdShowerDuration).toDouble(),
+                  profilePicture: User_.getProfilePic(name));
+              if (name == User_.curUser) {
                 users.insert(0, user);
               } else {
                 users.add(user);
@@ -38,7 +38,7 @@ class _UserTileState extends State<UserTile> {
                   child: ListView.builder(
                     itemCount: users.length,
                     itemBuilder: (context, index) {
-                      bool isCurUser = users[index].name == User.curUser.name;
+                      bool isCurUser = users[index].name == User_.curUser;
                       return Material(
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 15),
@@ -56,14 +56,14 @@ class _UserTileState extends State<UserTile> {
                             subtitle: Text(
                                 "Energy Share: ${(users[index].energyPercentage * 100).roundToDouble()}%"),
                             onTap: () {
-                              final curUser = User.curUser.name;
+                              final curUser = User_.curUser;
                               if (curUser == users[index].name) {
                                 Navigator.pop(context);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => BreakdownPage(
-                                          curUser: User.curUser.name)),
+                                          curUser: User_.curUser)),
                                 );
                               }
                             },

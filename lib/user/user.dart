@@ -3,16 +3,13 @@ import 'package:saveshare/constants/size.dart';
 import 'package:flutter/material.dart';
 
 //will have to implement comparable probably
-class User {
-  User(
+class User_ {
+  User_(
       {required this.name,
       required this.energyPercentage,
       required this.profilePicture});
 
-  static User curUser = User(
-      name: "Alex",
-      energyPercentage: 10,
-      profilePicture: User.getProfilePic("Alex"));
+  static String curUser = "Alex";
 
   String name;
 

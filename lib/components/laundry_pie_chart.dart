@@ -17,16 +17,16 @@ class _LaundryPieChartState extends State<LaundryPieChart> {
   Widget build(BuildContext context) {
     Map<String, double> getData = {};
     return FutureBuilder(
-        future: User.getShowerDurations(),
+        future: User_.getShowerDurations(),
         builder: (context, AsyncSnapshot<Map> snapshot) {
           if (snapshot.hasData) {
-            List<User> users = [];
+            List<User_> users = [];
             snapshot.data!.forEach((name, duration) {
-              users.add(User(
+              users.add(User_(
                   name: name,
                   energyPercentage:
-                      ((duration / User.householdShowerDuration) * 100.0),
-                  profilePicture: User.getProfilePic(name)));
+                      ((duration / User_.householdShowerDuration) * 100.0),
+                  profilePicture: User_.getProfilePic(name)));
             });
             for (var user in users) {
               getData[user.name] = user.energyPercentage.roundToDouble();
