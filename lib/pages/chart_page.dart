@@ -79,7 +79,7 @@ class _EnergyPageState extends State<EnergyPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 30),
                 padding: const EdgeInsets.only(bottom: 20),
                 child: const Text(
-                    "Lets see which house members have spent the least time in the shower this month:",
+                    "Which house members have spent the least time in the shower this month:",
                     style: APPText.mediumGreenText),
               ),
               const ShowerPieChart(),
@@ -88,7 +88,7 @@ class _EnergyPageState extends State<EnergyPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 30),
                 padding: const EdgeInsets.only(bottom: 20),
                 child: const Text(
-                    "Lets see which house members have used the washing machine and tumble dryer the least this month:",
+                    "Which house members have used the washing machine and tumble dryer the least this month:",
                     style: APPText.mediumGreenText),
               ),
               const LaundryPieChart(),
