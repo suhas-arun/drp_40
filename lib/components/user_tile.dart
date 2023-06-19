@@ -21,19 +21,15 @@ class _UserTileState extends State<UserTile> {
           if (snapshot.hasData) {
             List<User> users = [];
             snapshot.data!.forEach((name, duration) {
+              User user = User(
+                  name: name,
+                  energyPercentage:
+                      (duration / User.householdShowerDuration).toDouble(),
+                  profilePicture: User.getProfilePic(name));
               if (name == User.curUser.name) {
-                users.insert(
-                    0,
-                    User(
-                        name: name,
-                        energyPercentage:
-                            (duration / User.householdShowerDuration)
-                                .toDouble()));
+                users.insert(0, user);
               } else {
-                users.add(User(
-                    name: name,
-                    energyPercentage:
-                        (duration / User.householdShowerDuration).toDouble()));
+                users.add(user);
               }
             });
             return Expanded(

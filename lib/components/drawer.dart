@@ -21,7 +21,7 @@ class AppDrawer extends StatelessWidget {
             DrawerHeader(
                 decoration: const BoxDecoration(color: APPColour.green),
                 child: ListTile(
-                  leading: User.curUser.profilePicture,
+                  leading: User.getProfilePic(User.curUser.name),
                   title: Text("Hi ${User.curUser.name}",
                       style: APPText.mediumText(Colors.white)),
                 )),

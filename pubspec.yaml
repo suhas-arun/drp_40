@@ -71,6 +71,10 @@ flutter:
     - assets/images/laundry.png
     - assets/images/heating.png
     - assets/images/house.png
+    - assets/images/Alex.jpg
+    - assets/images/Marcus.jpg
+    - assets/images/Ella.jpg
+    - assets/images/Ines.jpg
 
 
   # To add assets to your application, add an assets section, like this:

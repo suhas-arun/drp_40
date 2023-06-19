@@ -4,24 +4,22 @@ import 'package:flutter/material.dart';
 
 //will have to implement comparable probably
 class User {
-  User({
-    required this.name,
-    required this.energyPercentage,
-    //will be required
-    this.profilePicture = const Icon(
-      Icons.person_outline_outlined,
-      size: APPSize.PROFILE_PIC_SIZE,
-    ),
-  });
+  User(
+      {required this.name,
+      required this.energyPercentage,
+      required this.profilePicture});
 
-  static User curUser = User(name: "Alex", energyPercentage: 10);
+  static User curUser = User(
+      name: "Alex",
+      energyPercentage: 10,
+      profilePicture: User.getProfilePic("Alex"));
 
   String name;
 
   double energyPercentage;
 
   //will have to change this to a picture
-  Icon profilePicture;
+  CircleAvatar profilePicture;
 
   static num householdShowerDuration = 0;
 
@@ -67,5 +65,10 @@ class User {
       }
     }
     return showerDurations;
+  }
+
+  static CircleAvatar getProfilePic(String name) {
+    return CircleAvatar(
+        radius: 30, backgroundImage: AssetImage("assets/images/$name.jpg"));
   }
 }

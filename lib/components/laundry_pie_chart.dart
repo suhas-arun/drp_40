@@ -25,7 +25,8 @@ class _LaundryPieChartState extends State<LaundryPieChart> {
               users.add(User(
                   name: name,
                   energyPercentage:
-                      ((duration / User.householdShowerDuration) * 100.0)));
+                      ((duration / User.householdShowerDuration) * 100.0),
+                  profilePicture: User.getProfilePic(name)));
             });
             for (var user in users) {
               getData[user.name] = user.energyPercentage.roundToDouble();
