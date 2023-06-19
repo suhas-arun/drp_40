@@ -22,42 +22,67 @@ class _BottomBarState extends State<BottomBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            IconButton(
-              iconSize: APPSize.APP_ICON_SIZE,
-              color: Colors.white,
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                );
-              },
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  iconSize: APPSize.APP_ICON_SIZE,
+                  color: Colors.white,
+                  icon: const Icon(Icons.home),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
+                  },
+                ),
+                const Expanded(
+                    child: Text("Home", style: TextStyle(color: Colors.white)))
+              ],
             ),
-            IconButton(
-              iconSize: APPSize.APP_ICON_SIZE,
-              color: Colors.white,
-              icon: const Icon(Icons.lightbulb_outline),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SelectActionPage()),
-                );
-              },
+            Column(
+              children: [
+                IconButton(
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  iconSize: APPSize.APP_ICON_SIZE,
+                  color: Colors.white,
+                  icon: const Icon(Icons.lightbulb_outline),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SelectActionPage()),
+                    );
+                  },
+                ),
+                const Expanded(
+                    child: Text("Log Action",
+                        style: TextStyle(color: Colors.white)))
+              ],
             ),
-            IconButton(
-              iconSize: APPSize.APP_ICON_SIZE,
-              color: Colors.white,
-              icon: const Icon(Icons.bar_chart_outlined),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const EnergyPage()),
-                );
-              },
+            Column(
+              children: [
+                IconButton(
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  iconSize: APPSize.APP_ICON_SIZE,
+                  color: Colors.white,
+                  icon: const Icon(Icons.bar_chart_outlined),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EnergyPage()),
+                    );
+                  },
+                ),
+                const Expanded(
+                    child: Text("Breakdown",
+                        style: TextStyle(color: Colors.white)))
+              ],
             ),
           ],
         ));
