@@ -30,17 +30,10 @@ class _TopBarState extends State<StatefulWidget> {
         ),
         title: IconButton(
           iconSize: APPSize.APP_ICON_SIZE,
+          splashRadius: 1,
           color: Colors.white,
           icon: const Icon(Icons.energy_savings_leaf_outlined),
           onPressed: () {},
-        ),
-        actions: [
-          IconButton(
-            iconSize: APPSize.APP_ICON_SIZE,
-            color: Colors.white,
-            icon: const Icon(Icons.notifications_none_outlined),
-            onPressed: () {},
-          )
-        ]);
+        ));
   }
 }
