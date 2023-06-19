@@ -4,14 +4,18 @@ import 'package:saveshare/components/bottom_bar.dart';
 
 import '../components/drawer.dart';
 import '../components/top_bar.dart';
-import '../constants/colour.dart';
 import '../models/dummy_actions.dart';
 import '../model/action.dart';
 
-class HistoryPage extends StatelessWidget {
-  const HistoryPage({
-    Key? key,
-  }) : super(key: key);
+class HistoryPage extends StatefulWidget {
+  const HistoryPage({super.key});
+
+  @override
+  State<HistoryPage> createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<HistoryPage> {
+  late List<EnergyAction> actions = DummyActions().actions;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +29,8 @@ class HistoryPage extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: ListView(
-                    children:
-                        actionsToSlidableWidget(DummyActions().dummyActions())),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: ListView(children: actionsToSlidableWidget()),
               ),
             ),
             const BottomBar()
@@ -38,11 +40,11 @@ class HistoryPage extends StatelessWidget {
     );
   }
 
-  List<Widget> actionsToSlidableWidget(List<EnergyAction> actions) {
+  List<Widget> actionsToSlidableWidget() {
     return actions
         .map((action) => Slidable(
               // Specify a key if the Slidable is dismissible.
-              key: const ValueKey(0),
+              key: ValueKey(action),
 
               // The start action pane is the one at the left or the top side.
               startActionPane: ActionPane(
@@ -50,14 +52,32 @@ class HistoryPage extends StatelessWidget {
                 motion: const ScrollMotion(),
 
                 // A pane can dismiss the Slidable.
-                dismissible: DismissiblePane(onDismissed: () {}),
+                dismissible: DismissiblePane(onDismissed: () {
+                  setState(() {
+                    actions.remove(action);
+                  });
+
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Action dismissed'),
+                    showCloseIcon: true,
+                  ));
+                }),
 
                 // All actions are defined in the children parameter.
                 children: [
                   // A SlidableAction can have an icon and/or a label.
                   SlidableAction(
-                    onPressed: (context) {},
-                    backgroundColor: Color(0xFFFE4A49),
+                    onPressed: (context) {
+                      setState(() {
+                        actions.remove(action);
+                      });
+
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Action dismissed'),
+                        showCloseIcon: true,
+                      ));
+                    },
+                    backgroundColor: const Color(0xFFFE4A49),
                     foregroundColor: Colors.white,
                     icon: Icons.delete,
                     label: 'Delete',
@@ -74,28 +94,22 @@ class HistoryPage extends StatelessWidget {
     switch (action) {
       case ShowerAction(:var name, :var hot, :var length, :var logDate):
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 5),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: ListTile(
-              leading: Icon(Icons.shower),
+              leading: const Icon(Icons.shower),
               title: Text("Shower - $name"),
-              subtitle: Text("Date: " +
-                  logDate.toString().substring(0, 16) +
-                  "\nCold Shower: " +
-                  (!hot).toString() +
-                  "   Length: $length mins"),
+              subtitle: Text(
+                  "Date: ${logDate.toString().substring(0, 16)}\nCold Shower: ${!hot}   Length: $length mins"),
               onTap: () {}),
         );
       case LaundryAction(:var name, :var eco, :var airDry, :var logDate):
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 5),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: ListTile(
-              leading: Icon(Icons.local_laundry_service),
+              leading: const Icon(Icons.local_laundry_service),
               title: Text("Laundry - $name"),
-              subtitle: Text("Date: " +
-                  logDate.toString().substring(0, 16) +
-                  "\nEco Wash: " +
-                  (eco).toString() +
-                  "   AirDry: $airDry"),
+              subtitle: Text(
+                  "Date: ${logDate.toString().substring(0, 16)}\nEco Wash: $eco   AirDry: $airDry"),
               onTap: () {}),
         );
     }

@@ -1,11 +1,59 @@
 import '../model/action.dart';
 
 class DummyActions {
-  List<EnergyAction> dummyActions() {
+  List<EnergyAction> actions = [
+    ShowerAction(logDate: DateTime.now(), name: "Alex", hot: true, length: 4.0),
+    LaundryAction(
+        logDate: DateTime.now(), eco: false, name: "Ines", airDry: false),
+    ShowerAction(
+        logDate: DateTime.now().subtract(const Duration(days: 1)),
+        name: "Ella",
+        hot: true,
+        length: 5.2),
+    LaundryAction(
+        logDate: DateTime.now().subtract(const Duration(days: 1)),
+        eco: true,
+        name: "Alex",
+        airDry: false),
+    ShowerAction(
+        logDate: DateTime.now().subtract(const Duration(days: 1)),
+        name: "Marcus",
+        hot: true,
+        length: 6.3),
+    LaundryAction(
+        logDate: DateTime.now().subtract(const Duration(days: 2)),
+        eco: true,
+        name: "Ines",
+        airDry: true),
+    ShowerAction(logDate: DateTime.now(), name: "Alex", hot: true, length: 6.3),
+    LaundryAction(
+        logDate: DateTime.now().subtract(const Duration(days: 2)),
+        eco: true,
+        name: "Marcus",
+        airDry: true),
+    ShowerAction(logDate: DateTime.now(), name: "Alex", hot: true, length: 5.5),
+    LaundryAction(
+        logDate: DateTime.now().subtract(const Duration(days: 3)),
+        eco: true,
+        name: "Ella",
+        airDry: false),
+    ShowerAction(
+        logDate: DateTime.now().subtract(const Duration(days: 3)),
+        name: "Marcus",
+        hot: true,
+        length: 4.8),
+    LaundryAction(
+        logDate: DateTime.now().subtract(const Duration(days: 3)),
+        eco: false,
+        name: "Ella",
+        airDry: false),
+  ];
+
+  initDummyActions() {
     final DateTime now = DateTime.now();
-    final DateTime yesterday = now.subtract(Duration(days: 1));
-    final DateTime twoDaysAgo = now.subtract(Duration(days: 2));
-    final DateTime threeDaysAGo = now.subtract(Duration(days: 3));
+    final DateTime yesterday = now.subtract(const Duration(days: 1));
+    final DateTime twoDaysAgo = now.subtract(const Duration(days: 2));
+    final DateTime threeDaysAGo = now.subtract(const Duration(days: 3));
 
     final showerAction1 =
         ShowerAction(logDate: now, name: "Alex", hot: true, length: 4.0);
@@ -54,6 +102,15 @@ class DummyActions {
       laundryAction7
     ];
 
+    this.actions = actions;
+    return this.actions;
+  }
+
+  List<EnergyAction> getActions() {
     return actions;
+  }
+
+  void removeAction(action) {
+    actions.remove(action);
   }
 }

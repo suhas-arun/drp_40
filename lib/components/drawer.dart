@@ -39,8 +39,10 @@ class AppDrawer extends StatelessWidget {
                 onTap: () {
                   if (item.title == "History") {
                     Navigator.pop(context);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const HistoryPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HistoryPage()));
                   }
                 },
               ),
