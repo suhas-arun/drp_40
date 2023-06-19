@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saveshare/constants/colour.dart';
+import 'package:saveshare/pages/breakdown_page.dart';
 import 'package:saveshare/pages/history_page.dart';
 
 import '../constants/size.dart';
@@ -43,6 +44,14 @@ class AppDrawer extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HistoryPage()));
+                  } else if (item.title == "Personal Breakdown") {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              BreakdownPage(curUser: User.curUser.name)),
+                    );
                   }
                 },
               ),
