@@ -256,7 +256,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   // Breakdown of user compared to house average
   Widget householdShowerComparison() {
-    num userDiff = User.monthlyHouseholdShowerDiff;
+    num userDiff = User_.monthlyHouseholdShowerDiff;
     const showerCostPerMin = 0.073;
     const avgShowersPerMonth = 30;
     return Container(
@@ -314,7 +314,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   // Breakdown of user laundry compared to house average
   Widget householdLaundryComparison() {
-    num laundryDiff = User.monthlyLaundryDiff;
+    num laundryDiff = User_.monthlyLaundryDiff;
     const costPerLaundry = 0.55;
     return Container(
         width: double.infinity,
@@ -381,15 +381,15 @@ class _BreakdownPageState extends State<BreakdownPage> {
                   margin: const EdgeInsets.symmetric(horizontal: 30),
                   padding: const EdgeInsets.only(bottom: 25),
                   child: Text(
-                      "You have done ${User.ecoWashes} eco-setting washes:",
+                      "You have done ${User_.ecoWashes} eco-setting washes:",
                       style: APPText.mediumGreenText)),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: PieChart(
                     chartRadius: APPSize.WIDTH(context) * 0.4,
                     dataMap: {
-                      "Eco": User.ecoWashes.toDouble(),
-                      "Other": User.normWashes.toDouble()
+                      "Eco": User_.ecoWashes.toDouble(),
+                      "Other": User_.normWashes.toDouble()
                     },
                     chartType: ChartType.ring,
                     baseChartColor: Colors.grey[50]!.withOpacity(0.15),
@@ -400,7 +400,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                     chartValuesOptions: const ChartValuesOptions(
                       showChartValuesInPercentage: true,
                     ),
-                    totalValue: (User.ecoWashes + User.normWashes).toDouble()),
+                    totalValue: (User_.ecoWashes + User_.normWashes).toDouble()),
               )
             ]);
           } else {
@@ -421,7 +421,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                   margin: const EdgeInsets.symmetric(horizontal: 30),
                   padding: const EdgeInsets.only(bottom: 25),
                   child: Text(
-                      "You have air-dried your clothes ${User.airDries} times:",
+                      "You have air-dried your clothes ${User_.airDries} times:",
                       style: APPText.mediumGreenText)),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -430,8 +430,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
                     chartLegendSpacing: 30,
                     chartRadius: APPSize.WIDTH(context) * 0.4,
                     dataMap: {
-                      "Air-Dry": User.airDries.toDouble(),
-                      "Tumble Dry": User.tumbleDries.toDouble()
+                      "Air-Dry": User_.airDries.toDouble(),
+                      "Tumble Dry": User_.tumbleDries.toDouble()
                     },
                     chartType: ChartType.ring,
                     baseChartColor: Colors.grey[50]!.withOpacity(0.15),
@@ -442,7 +442,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                     chartValuesOptions: const ChartValuesOptions(
                       showChartValuesInPercentage: true,
                     ),
-                    totalValue: (User.airDries + User.tumbleDries).toDouble()),
+                    totalValue: (User_.airDries + User_.tumbleDries).toDouble()),
               )
             ]);
           } else {
@@ -453,7 +453,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   Widget heatingComparison() {
     num avgHouseTemp = 20;
-    num tempDiff = User.currMonthAvgTemp - avgHouseTemp;
+    num tempDiff = User_.currMonthAvgTemp - avgHouseTemp;
     double costPerDegree = 80 / 12;
     return Container(
         width: double.infinity,
@@ -540,7 +540,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 var duration = actionData["duration"];
                 householdCount++;
                 householdTotal += duration;
-                if (name == User.curUser.name) {
+                if (name == User_.curUser) {
                   userTotal += duration;
                   userCount++;
                 }
@@ -548,13 +548,13 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 bool airDry = actionData["airDry"];
                 // Add tumble dry usage
                 if (!airDry) {
-                  if (name == User.curUser.name) {
+                  if (name == User_.curUser) {
                     userCount++;
                   }
                   householdCount++;
                 }
                 // Add washing machine usage
-                if (name == User.curUser.name) {
+                if (name == User_.curUser) {
                   userCount++;
                 }
                 householdCount++;
@@ -571,7 +571,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
             ? 0
             : (householdTotal / householdCount).roundToDouble();
         if (i == 0) {
-          User.monthlyHouseholdShowerDiff = userAvg - householdAvg;
+          User_.monthlyHouseholdShowerDiff = userAvg - householdAvg;
         }
         actionData.add(Data(
             id: months - i - 1,
@@ -580,7 +580,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
             avg: householdAvg));
       } else {
         if (i == 0) {
-          User.monthlyLaundryDiff = userCount - householdCount / numUsers;
+          User_.monthlyLaundryDiff = userCount - householdCount / numUsers;
         }
         actionData.add(Data(
             id: months - i - 1,
@@ -628,7 +628,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
       double avgTemp =
           (tempCount == 0) ? 0 : (tempTotal / tempCount).toDouble();
       if (i == 0) {
-        User.currMonthAvgTemp = avgTemp;
+        User_.currMonthAvgTemp = avgTemp;
       }
       finalHeatingData.add(Data(
           id: months - i - 1,
@@ -650,7 +650,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
     String curUserId = (await FirebaseFirestore.instance
             .collection("user")
-            .where("name", isEqualTo: User.curUser.name)
+            .where("name", isEqualTo: User_.curUser)
             .get())
         .docs[0]
         .id;
@@ -686,7 +686,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
     String curUserId = (await FirebaseFirestore.instance
             .collection("user")
-            .where("name", isEqualTo: User.curUser.name)
+            .where("name", isEqualTo: User_.curUser)
             .get())
         .docs[0]
         .id;
@@ -715,10 +715,10 @@ class _BreakdownPageState extends State<BreakdownPage> {
         }
       }
     }
-    User.ecoWashes = ecoWashes;
-    User.normWashes = normWashes;
-    User.airDries = airDries;
-    User.tumbleDries = tumbleDries;
+    User_.ecoWashes = ecoWashes;
+    User_.normWashes = normWashes;
+    User_.airDries = airDries;
+    User_.tumbleDries = tumbleDries;
 
     return 0;
   }

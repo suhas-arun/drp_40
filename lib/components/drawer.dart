@@ -6,6 +6,7 @@ import 'package:saveshare/pages/history_page.dart';
 import '../constants/size.dart';
 import '../constants/text.dart';
 import '../data/drawer_items.dart';
+import '../pages/login_page.dart';
 import '../user/user.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -21,8 +22,8 @@ class AppDrawer extends StatelessWidget {
             DrawerHeader(
                 decoration: const BoxDecoration(color: APPColour.green),
                 child: ListTile(
-                  leading: User.getProfilePic(User.curUser.name),
-                  title: Text("Hi ${User.curUser.name}",
+                  leading: User_.getProfilePic(User_.curUser),
+                  title: Text("Hi ${User_.curUser}",
                       style: APPText.mediumText(Colors.white)),
                 )),
             buildDrawerItems(context)
@@ -50,8 +51,14 @@ class AppDrawer extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              BreakdownPage(curUser: User.curUser.name)),
+                              BreakdownPage(curUser: User_.curUser)),
                     );
+                  } else if (item.title == "Log Out") {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()));
                   }
                 },
               ),
