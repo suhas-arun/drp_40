@@ -10,7 +10,7 @@ class DrawerItems {
 
   static final List<DrawerItem> allDrawerItems = [
     personalBreakdown,
-    history,
+    // history,
     logOut
   ];
 }
