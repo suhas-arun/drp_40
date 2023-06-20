@@ -85,8 +85,13 @@ class User_ {
         num personalLaundryUsage = 0;
         for (var laundryDoc in laundrySnapshot.docs) {
           if (laundryDoc.exists) {
+            var laundryData = laundryDoc.data() as Map<String, dynamic>;
             personalLaundryUsage++;
             householdLaundryUsage++;
+            if (!laundryData["airDry"]) {
+              personalLaundryUsage++;
+              householdLaundryUsage++;
+            }
           }
         }
         laundryUsages[name] = personalLaundryUsage;
