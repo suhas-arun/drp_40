@@ -20,6 +20,8 @@ class User_ {
 
   static num householdShowerDuration = 0;
 
+  static num householdLaundryUsage = 0;
+
   // How current user's shower duration this month compares to household avg
   static num monthlyHouseholdShowerDiff = 0;
 
@@ -62,6 +64,32 @@ class User_ {
       }
     }
     return showerDurations;
+  }
+
+  // Get laundry breakdown for last month
+  static Future<Map<String, num>> getLaundryUsages() async {
+    householdLaundryUsage = 0;
+    Map<String, num> laundryUsages = {};
+    QuerySnapshot<Map> userSnapshot =
+        await FirebaseFirestore.instance.collection("user").get();
+    for (var userDoc in userSnapshot.docs) {
+      if (userDoc.exists) {
+        var userData = userDoc.data() as Map<String, dynamic>;
+        String name = userData["name"];
+        QuerySnapshot<Map> laundrySnapshot = await FirebaseFirestore.instance
+            .collection("user/${userDoc.id}/laundry")
+            .get();
+        num personalLaundryUsage = 0;
+        for (var laundryDoc in laundrySnapshot.docs) {
+          if (laundryDoc.exists) {
+            personalLaundryUsage++;
+            householdLaundryUsage++;
+          }
+        }
+        laundryUsages[name] = personalLaundryUsage;
+      }
+    }
+    return laundryUsages;
   }
 
   static CircleAvatar getProfilePic(String name) {

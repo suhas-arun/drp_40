@@ -397,8 +397,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
     return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(20),
-        child: const Text(
-          "Hi Alex, here is your personal breakdown",
+        child: Text(
+          "Hi ${User_.curUser}, here is your personal breakdown",
           style: APPText.largeGreenText,
           textAlign: TextAlign.start,
         ));

@@ -12,24 +12,25 @@ class LaundryPieChart extends StatefulWidget {
 }
 
 class _LaundryPieChartState extends State<LaundryPieChart> {
-  // TODO - Currently uses shower data, add laundry data
   @override
   Widget build(BuildContext context) {
     Map<String, double> getData = {};
     return FutureBuilder(
-        future: User_.getShowerDurations(),
+        future: User_.getLaundryUsages(),
         builder: (context, AsyncSnapshot<Map> snapshot) {
           if (snapshot.hasData) {
             List<User_> users = [];
-            snapshot.data!.forEach((name, duration) {
+            snapshot.data!.forEach((name, laundryUsage) {
               users.add(User_(
                   name: name,
                   energyPercentage:
-                      ((duration / User_.householdShowerDuration) * 100.0),
+                      ((laundryUsage / User_.householdLaundryUsage) * 100.0),
                   profilePicture: User_.getProfilePic(name)));
             });
             for (var user in users) {
-              getData[user.name] = num.parse(user.energyPercentage.toStringAsFixed(2)).toDouble();
+              getData[user.name] =
+                  num.parse(user.energyPercentage.toStringAsFixed(2))
+                      .toDouble();
             }
             return SizedBox(
               height: APPSize.WIDTH(context) * 0.55,
@@ -41,7 +42,7 @@ class _LaundryPieChartState extends State<LaundryPieChart> {
                   showChartValues: true,
                   showChartValuesInPercentage: true,
                   showChartValuesOutside: true,
-                  decimalPlaces: 1,
+                  decimalPlaces: 2,
                 ),
                 colorList: const [
                   Color.fromARGB(255, 6, 25, 81),
