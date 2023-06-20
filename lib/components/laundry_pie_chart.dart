@@ -23,13 +23,14 @@ class _LaundryPieChartState extends State<LaundryPieChart> {
             snapshot.data!.forEach((name, laundryUsage) {
               users.add(User_(
                   name: name,
-                  energyPercentage:
+                  energyPercentage: 0,
+                  laundryPercentage:
                       ((laundryUsage / User_.householdLaundryUsage) * 100.0),
                   profilePicture: User_.getProfilePic(name)));
             });
             for (var user in users) {
               getData[user.name] =
-                  num.parse(user.energyPercentage.toStringAsFixed(2))
+                  num.parse(user.laundryPercentage.toStringAsFixed(2))
                       .toDouble();
             }
             return SizedBox(

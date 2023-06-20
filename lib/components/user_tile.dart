@@ -15,16 +15,22 @@ class UserTile extends StatefulWidget {
 class _UserTileState extends State<UserTile> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: User_.getShowerDurations(),
-        builder: (context, AsyncSnapshot<Map> snapshot) {
+    return FutureBuilder<List<Map<String, num>>>(
+        future:
+            Future.wait([User_.getShowerDurations(), User_.getLaundryUsages()]),
+        builder: (context, AsyncSnapshot<List<Map<String, num>>> snapshot) {
           if (snapshot.hasData) {
             List<User_> users = [];
-            snapshot.data!.forEach((name, duration) {
+            var showerMap = snapshot.data![0];
+            var laundryMap = snapshot.data![1];
+            showerMap.forEach((name, duration) {
               User_ user = User_(
                   name: name,
                   energyPercentage:
                       (duration / User_.householdShowerDuration).toDouble(),
+                  laundryPercentage:
+                      (laundryMap[name]! / User_.householdLaundryUsage)
+                          .toDouble(),
                   profilePicture: User_.getProfilePic(name));
               if (name == User_.curUser) {
                 users.insert(0, user);
@@ -47,6 +53,7 @@ class _UserTileState extends State<UserTile> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: ListTile(
+                            minVerticalPadding: 10,
                             leading: users[index].profilePicture,
                             trailing: isCurUser
                                 ? const Icon(Icons.arrow_forward_ios_outlined)
@@ -54,7 +61,7 @@ class _UserTileState extends State<UserTile> {
                             title: Text(users[index].name +
                                 (isCurUser ? " (You)" : "")),
                             subtitle: Text(
-                                "Energy Share: ${(users[index].energyPercentage * 100).toStringAsFixed(2)}%"),
+                                "Shower Share: ${(users[index].energyPercentage * 100).toStringAsFixed(1)}%\nLaundry Share: ${(users[index].laundryPercentage * 100).toStringAsFixed(1)}%"),
                             onTap: () {
                               final curUser = User_.curUser;
                               if (curUser == users[index].name) {

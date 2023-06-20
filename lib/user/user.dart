@@ -7,6 +7,7 @@ class User_ {
   User_(
       {required this.name,
       required this.energyPercentage,
+      required this.laundryPercentage,
       required this.profilePicture});
 
   static String curUser = "Alex";
@@ -14,6 +15,8 @@ class User_ {
   String name;
 
   double energyPercentage;
+
+  double laundryPercentage;
 
   //will have to change this to a picture
   CircleAvatar profilePicture;

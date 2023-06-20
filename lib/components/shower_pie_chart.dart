@@ -27,6 +27,7 @@ class _ShowerPieChartState extends State<ShowerPieChart> {
                   name: name,
                   energyPercentage:
                       ((duration / User_.householdShowerDuration) * 100.0),
+                  laundryPercentage: 0,
                   profilePicture: User_.getProfilePic(name)));
             });
             for (var user in users) {
