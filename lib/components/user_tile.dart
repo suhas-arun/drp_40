@@ -54,7 +54,7 @@ class _UserTileState extends State<UserTile> {
                             title: Text(users[index].name +
                                 (isCurUser ? " (You)" : "")),
                             subtitle: Text(
-                                "Energy Share: ${(users[index].energyPercentage * 100).roundToDouble()}%"),
+                                "Energy Share: ${(users[index].energyPercentage * 100).toStringAsFixed(2)}%"),
                             onTap: () {
                               final curUser = User_.curUser;
                               if (curUser == users[index].name) {

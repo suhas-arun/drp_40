@@ -30,7 +30,9 @@ class _ShowerPieChartState extends State<ShowerPieChart> {
                   profilePicture: User_.getProfilePic(name)));
             });
             for (var user in users) {
-              getData[user.name] = user.energyPercentage.roundToDouble();
+              getData[user.name] =
+                  num.parse(user.energyPercentage.toStringAsFixed(2))
+                      .toDouble();
             }
             return SizedBox(
               height: APPSize.WIDTH(context) * 0.55,
@@ -42,7 +44,7 @@ class _ShowerPieChartState extends State<ShowerPieChart> {
                   showChartValues: true,
                   showChartValuesInPercentage: true,
                   showChartValuesOutside: true,
-                  decimalPlaces: 1,
+                  decimalPlaces: 2,
                 ),
                 colorList: const [
                   Color.fromARGB(255, 4, 72, 12),

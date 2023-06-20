@@ -29,7 +29,7 @@ class _LaundryPieChartState extends State<LaundryPieChart> {
                   profilePicture: User_.getProfilePic(name)));
             });
             for (var user in users) {
-              getData[user.name] = user.energyPercentage.roundToDouble();
+              getData[user.name] = num.parse(user.energyPercentage.toStringAsFixed(2)).toDouble();
             }
             return SizedBox(
               height: APPSize.WIDTH(context) * 0.55,

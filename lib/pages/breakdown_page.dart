@@ -17,15 +17,7 @@ class BreakdownPage extends StatefulWidget {
 
   final String curUser;
 
-  @override
-  State<BreakdownPage> createState() => _BreakdownPageState();
-}
-
-class _BreakdownPageState extends State<BreakdownPage> {
-  // Which action we are currently looking at
-  int? selectedIndex = 0;
-
-  final List<String> _months = [
+  static final List<String> _months = [
     "Jan",
     "Feb",
     "Mar",
@@ -38,6 +30,234 @@ class _BreakdownPageState extends State<BreakdownPage> {
     "Nov",
     "Dec"
   ];
+
+  @override
+  State<BreakdownPage> createState() => _BreakdownPageState();
+
+  // Get breakdown of last 5 months for given action
+  static Future<List<Data>> get5MonthBreakdown(String action) async {
+    List<Data> actionData = [];
+    if (action != "shower" && action != "laundry") return actionData;
+
+    const months = 5;
+    var now = DateTime.now();
+    QuerySnapshot<Map> userSnapshot =
+        await FirebaseFirestore.instance.collection("user").get();
+    num numUsers = userSnapshot.docs.length;
+
+    for (var i = 0; i < months; i++) {
+      num userTotal = 0, userCount = 0, householdTotal = 0, householdCount = 0;
+      DateTime startDate = DateTime(now.year, now.month - i);
+      DateTime endDate = DateTime(now.year, now.month - i + 1);
+
+      for (var userDoc in userSnapshot.docs) {
+        if (userDoc.exists) {
+          var userData = userDoc.data() as Map<String, dynamic>;
+          String name = userData["name"];
+          QuerySnapshot<Map> actionSnapshot;
+          actionSnapshot = await FirebaseFirestore.instance
+              .collection("user/${userDoc.id}/$action")
+              .where("date", isLessThan: endDate)
+              .where("date", isGreaterThanOrEqualTo: startDate)
+              .get();
+          for (var actionDoc in actionSnapshot.docs) {
+            if (actionDoc.exists) {
+              var actionData = actionDoc.data() as Map<String, dynamic>;
+              if (action == "shower") {
+                var duration = actionData["duration"];
+                householdCount++;
+                householdTotal += duration;
+                if (name == User_.curUser) {
+                  userTotal += duration;
+                  userCount++;
+                } else {}
+              } else if (action == "laundry") {
+                bool airDry = actionData["airDry"];
+                // Add tumble dry usage
+                if (!airDry) {
+                  if (name == User_.curUser) {
+                    userCount++;
+                  }
+                  householdCount++;
+                }
+                // Add washing machine usage
+                if (name == User_.curUser) {
+                  userCount++;
+                }
+                householdCount++;
+              }
+            }
+          }
+        }
+      }
+
+      if (action == "shower") {
+        double userAvg = (userCount == 0)
+            ? 0
+            : num.parse((userTotal / userCount).toStringAsFixed(2)).toDouble();
+        double householdAvg = (householdCount == 0)
+            ? 0
+            : num.parse((householdTotal / householdCount).toStringAsFixed(2))
+                .toDouble();
+        if (i == 0) {
+          User_.monthlyHouseholdShowerDiff =
+              num.parse((userAvg - householdAvg).toStringAsFixed(2));
+        }
+        actionData.add(Data(
+            id: months - i - 1,
+            name: _months[now.month - i - 1],
+            y: userAvg,
+            avg: householdAvg));
+      } else {
+        if (i == 0) {
+          User_.monthlyLaundryDiff = num.parse(
+              (userCount - householdCount / numUsers).toStringAsFixed(2));
+        }
+        actionData.add(Data(
+            id: months - i - 1,
+            name: _months[now.month - i - 1],
+            y: userCount.toDouble(),
+            avg: householdCount / numUsers));
+      }
+    }
+    actionData.sort((a, b) => a.id.compareTo(b.id));
+    return actionData;
+  }
+
+  static Future<List<Data>> getShowerData() async {
+    return await get5MonthBreakdown("shower");
+  }
+
+  static Future<List<Data>> getLaundryData() async {
+    return await get5MonthBreakdown("laundry");
+  }
+
+  static Future<List<Data>> getHeatingData() async {
+    List<Data> finalHeatingData = [];
+
+    const months = 5;
+    var now = DateTime.now();
+
+    for (var i = 0; i < months; i++) {
+      DateTime startDate = DateTime(now.year, now.month - i);
+      DateTime endDate = DateTime(now.year, now.month - i + 1);
+      QuerySnapshot<Map> heatingSnapshot = await FirebaseFirestore.instance
+          .collection("heating")
+          .where("date", isLessThan: endDate)
+          .where("date", isGreaterThanOrEqualTo: startDate)
+          .get();
+      num tempTotal = 0;
+      num tempCount = 0;
+      for (var heatingDoc in heatingSnapshot.docs) {
+        if (heatingDoc.exists) {
+          var heatingData = heatingDoc.data() as Map<String, dynamic>;
+          num temp = heatingData["temp"];
+          tempTotal += temp;
+          tempCount++;
+        }
+      }
+      double avgTemp =
+          (tempCount == 0) ? 0 : (tempTotal / tempCount).toDouble();
+      if (i == 0) {
+        User_.currMonthAvgTemp = avgTemp;
+      }
+      finalHeatingData.add(Data(
+          id: months - i - 1,
+          name: _months[now.month - i - 1],
+          y: 0,
+          avg: avgTemp));
+    }
+    finalHeatingData.sort((a, b) => a.id.compareTo(b.id));
+    return finalHeatingData;
+  }
+
+  static Future<List<int>> getShowerCounts() async {
+    int coldShowerCount = 0;
+    int hotShowerCount = 0;
+
+    var now = DateTime.now();
+    DateTime startDate = DateTime(now.year, now.month);
+    DateTime endDate = DateTime(now.year, now.month + 1);
+
+    String curUserId = (await FirebaseFirestore.instance
+            .collection("user")
+            .where("name", isEqualTo: User_.curUser)
+            .get())
+        .docs[0]
+        .id;
+
+    QuerySnapshot<Map> userShowerSnapshot = await FirebaseFirestore.instance
+        .collection("user/$curUserId/shower")
+        .where("date", isLessThan: endDate)
+        .where("date", isGreaterThanOrEqualTo: startDate)
+        .get();
+
+    for (var showerDoc in userShowerSnapshot.docs) {
+      if (showerDoc.exists) {
+        bool cold = showerDoc["cold"];
+        if (cold) {
+          coldShowerCount++;
+        } else {
+          hotShowerCount++;
+        }
+      }
+    }
+    return [coldShowerCount, hotShowerCount];
+  }
+
+  static Future<int> setMonthLaundryStats() async {
+    int ecoWashes = 0;
+    int normWashes = 0;
+    int airDries = 0;
+    int tumbleDries = 0;
+
+    var now = DateTime.now();
+    DateTime startDate = DateTime(now.year, now.month);
+    DateTime endDate = DateTime(now.year, now.month + 1);
+
+    String curUserId = (await FirebaseFirestore.instance
+            .collection("user")
+            .where("name", isEqualTo: User_.curUser)
+            .get())
+        .docs[0]
+        .id;
+
+    QuerySnapshot<Map> userLaundrySnapshot = await FirebaseFirestore.instance
+        .collection("user/$curUserId/laundry")
+        .where("date", isLessThan: endDate)
+        .where("date", isGreaterThanOrEqualTo: startDate)
+        .get();
+
+    for (var laundryDoc in userLaundrySnapshot.docs) {
+      if (laundryDoc.exists) {
+        bool ecoWash = laundryDoc["ecoWash"];
+        bool airDry = laundryDoc["airDry"];
+
+        if (ecoWash) {
+          ecoWashes++;
+        } else {
+          normWashes++;
+        }
+
+        if (airDry) {
+          airDries++;
+        } else {
+          tumbleDries++;
+        }
+      }
+    }
+    User_.ecoWashes = ecoWashes;
+    User_.normWashes = normWashes;
+    User_.airDries = airDries;
+    User_.tumbleDries = tumbleDries;
+
+    return 0;
+  }
+}
+
+class _BreakdownPageState extends State<BreakdownPage> {
+  // Which action we are currently looking at
+  int? selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +295,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 style: APPText.mediumGreenText),
           ),
           FutureBuilder(
-              future: getShowerData(),
+              future: BreakdownPage.getShowerData(),
               builder: (context, AsyncSnapshot<List<Data>> snapshot) {
                 if (snapshot.hasData) {
                   return TimeGraph(data: snapshot.data!, dataType: 0);
@@ -110,7 +330,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
               style: APPText.mediumGreenText),
         ),
         FutureBuilder(
-            future: getLaundryData(),
+            future: BreakdownPage.getLaundryData(),
             builder: (context, AsyncSnapshot<List<Data>> snapshot) {
               if (snapshot.hasData) {
                 return TimeGraph(data: snapshot.data!, dataType: 1);
@@ -146,7 +366,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
               style: APPText.mediumGreenText),
         ),
         FutureBuilder(
-            future: getHeatingData(),
+            future: BreakdownPage.getHeatingData(),
             builder: (context, AsyncSnapshot<List<Data>> snapshot) {
               if (snapshot.hasData) {
                 return TimeGraph(data: snapshot.data!, dataType: 2);
@@ -214,7 +434,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
   // Cold shower text and chart
   Widget coldShowerBreakdown() {
     return FutureBuilder(
-        future: getShowerCounts(),
+        future: BreakdownPage.getShowerCounts(),
         builder: (context, AsyncSnapshot<List<int>> snapshot) {
           if (snapshot.hasData) {
             List<int> showerCounts = snapshot.data!;
@@ -372,7 +592,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
   // Pie chart of eco - washes
   Widget ecoWashBreakdown() {
     return FutureBuilder(
-        future: setMonthLaundryStats(),
+        future: BreakdownPage.setMonthLaundryStats(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(children: [
@@ -400,7 +620,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
                     chartValuesOptions: const ChartValuesOptions(
                       showChartValuesInPercentage: true,
                     ),
-                    totalValue: (User_.ecoWashes + User_.normWashes).toDouble()),
+                    totalValue:
+                        (User_.ecoWashes + User_.normWashes).toDouble()),
               )
             ]);
           } else {
@@ -412,7 +633,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
   // Pie chart of eco - washes
   Widget airDryBreakdown() {
     return FutureBuilder(
-        future: setMonthLaundryStats(),
+        future: BreakdownPage.setMonthLaundryStats(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(children: [
@@ -442,7 +663,8 @@ class _BreakdownPageState extends State<BreakdownPage> {
                     chartValuesOptions: const ChartValuesOptions(
                       showChartValuesInPercentage: true,
                     ),
-                    totalValue: (User_.airDries + User_.tumbleDries).toDouble()),
+                    totalValue:
+                        (User_.airDries + User_.tumbleDries).toDouble()),
               )
             ]);
           } else {
@@ -470,10 +692,12 @@ class _BreakdownPageState extends State<BreakdownPage> {
                         style: APPText.badMediumText)
                     : (tempDiff < 0)
                         ? TextSpan(
-                            text: "${(tempDiff * -1).toStringAsFixed(2)} \u00B0C lower",
+                            text:
+                                "${(tempDiff * -1).toStringAsFixed(2)} \u00B0C lower",
                             style: APPText.goodMediumText)
                         : TextSpan(
-                            text: "${tempDiff.toStringAsFixed(2)} \u00B0C higher",
+                            text:
+                                "${tempDiff.toStringAsFixed(2)} \u00B0C higher",
                             style: APPText.okMediumText),
                 const TextSpan(
                     text: " than the recommended temperature in the UK."),
@@ -504,222 +728,5 @@ class _BreakdownPageState extends State<BreakdownPage> {
                 ])),
           )
         ]));
-  }
-
-  // Get breakdown of last 5 months for given action
-  Future<List<Data>> get5MonthBreakdown(String action) async {
-    List<Data> actionData = [];
-    if (action != "shower" && action != "laundry") return actionData;
-
-    const months = 5;
-    var now = DateTime.now();
-    QuerySnapshot<Map> userSnapshot =
-        await FirebaseFirestore.instance.collection("user").get();
-    num numUsers = userSnapshot.docs.length;
-
-    for (var i = 0; i < months; i++) {
-      num userTotal = 0, userCount = 0, householdTotal = 0, householdCount = 0;
-      DateTime startDate = DateTime(now.year, now.month - i);
-      DateTime endDate = DateTime(now.year, now.month - i + 1);
-
-      for (var userDoc in userSnapshot.docs) {
-        if (userDoc.exists) {
-          var userData = userDoc.data() as Map<String, dynamic>;
-          String name = userData["name"];
-          QuerySnapshot<Map> actionSnapshot;
-          actionSnapshot = await FirebaseFirestore.instance
-              .collection("user/${userDoc.id}/$action")
-              .where("date", isLessThan: endDate)
-              .where("date", isGreaterThanOrEqualTo: startDate)
-              .get();
-          for (var actionDoc in actionSnapshot.docs) {
-            if (actionDoc.exists) {
-              var actionData = actionDoc.data() as Map<String, dynamic>;
-
-              if (action == "shower") {
-                var duration = actionData["duration"];
-                householdCount++;
-                householdTotal += duration;
-                if (name == User_.curUser) {
-                  userTotal += duration;
-                  userCount++;
-                }
-              } else if (action == "laundry") {
-                bool airDry = actionData["airDry"];
-                // Add tumble dry usage
-                if (!airDry) {
-                  if (name == User_.curUser) {
-                    userCount++;
-                  }
-                  householdCount++;
-                }
-                // Add washing machine usage
-                if (name == User_.curUser) {
-                  userCount++;
-                }
-                householdCount++;
-              }
-            }
-          }
-        }
-      }
-
-      if (action == "shower") {
-        double userAvg =
-            (userCount == 0) ? 0 : (userTotal / userCount).roundToDouble();
-        double householdAvg = (householdCount == 0)
-            ? 0
-            : (householdTotal / householdCount).roundToDouble();
-        if (i == 0) {
-          User_.monthlyHouseholdShowerDiff = userAvg - householdAvg;
-        }
-        actionData.add(Data(
-            id: months - i - 1,
-            name: _months[now.month - i - 1],
-            y: userAvg,
-            avg: householdAvg));
-      } else {
-        if (i == 0) {
-          User_.monthlyLaundryDiff = userCount - householdCount / numUsers;
-        }
-        actionData.add(Data(
-            id: months - i - 1,
-            name: _months[now.month - i - 1],
-            y: userCount.toDouble(),
-            avg: householdCount / numUsers));
-      }
-    }
-    actionData.sort((a, b) => a.id.compareTo(b.id));
-    return actionData;
-  }
-
-  Future<List<Data>> getShowerData() async {
-    return await get5MonthBreakdown("shower");
-  }
-
-  Future<List<Data>> getLaundryData() async {
-    return await get5MonthBreakdown("laundry");
-  }
-
-  Future<List<Data>> getHeatingData() async {
-    List<Data> finalHeatingData = [];
-
-    const months = 5;
-    var now = DateTime.now();
-
-    for (var i = 0; i < months; i++) {
-      DateTime startDate = DateTime(now.year, now.month - i);
-      DateTime endDate = DateTime(now.year, now.month - i + 1);
-      QuerySnapshot<Map> heatingSnapshot = await FirebaseFirestore.instance
-          .collection("heating")
-          .where("date", isLessThan: endDate)
-          .where("date", isGreaterThanOrEqualTo: startDate)
-          .get();
-      num tempTotal = 0;
-      num tempCount = 0;
-      for (var heatingDoc in heatingSnapshot.docs) {
-        if (heatingDoc.exists) {
-          var heatingData = heatingDoc.data() as Map<String, dynamic>;
-          num temp = heatingData["temp"];
-          tempTotal += temp;
-          tempCount++;
-        }
-      }
-      double avgTemp =
-          (tempCount == 0) ? 0 : (tempTotal / tempCount).toDouble();
-      if (i == 0) {
-        User_.currMonthAvgTemp = avgTemp;
-      }
-      finalHeatingData.add(Data(
-          id: months - i - 1,
-          name: _months[now.month - i - 1],
-          y: 0,
-          avg: avgTemp));
-    }
-    finalHeatingData.sort((a, b) => a.id.compareTo(b.id));
-    return finalHeatingData;
-  }
-
-  Future<List<int>> getShowerCounts() async {
-    int coldShowerCount = 0;
-    int hotShowerCount = 0;
-
-    var now = DateTime.now();
-    DateTime startDate = DateTime(now.year, now.month);
-    DateTime endDate = DateTime(now.year, now.month + 1);
-
-    String curUserId = (await FirebaseFirestore.instance
-            .collection("user")
-            .where("name", isEqualTo: User_.curUser)
-            .get())
-        .docs[0]
-        .id;
-
-    QuerySnapshot<Map> userShowerSnapshot = await FirebaseFirestore.instance
-        .collection("user/$curUserId/shower")
-        .where("date", isLessThan: endDate)
-        .where("date", isGreaterThanOrEqualTo: startDate)
-        .get();
-
-    for (var showerDoc in userShowerSnapshot.docs) {
-      if (showerDoc.exists) {
-        bool cold = showerDoc["cold"];
-        if (cold) {
-          coldShowerCount++;
-        } else {
-          hotShowerCount++;
-        }
-      }
-    }
-    return [coldShowerCount, hotShowerCount];
-  }
-
-  Future<int> setMonthLaundryStats() async {
-    int ecoWashes = 0;
-    int normWashes = 0;
-    int airDries = 0;
-    int tumbleDries = 0;
-
-    var now = DateTime.now();
-    DateTime startDate = DateTime(now.year, now.month);
-    DateTime endDate = DateTime(now.year, now.month + 1);
-
-    String curUserId = (await FirebaseFirestore.instance
-            .collection("user")
-            .where("name", isEqualTo: User_.curUser)
-            .get())
-        .docs[0]
-        .id;
-
-    QuerySnapshot<Map> userLaundrySnapshot = await FirebaseFirestore.instance
-        .collection("user/$curUserId/laundry")
-        .where("date", isLessThan: endDate)
-        .where("date", isGreaterThanOrEqualTo: startDate)
-        .get();
-
-    for (var laundryDoc in userLaundrySnapshot.docs) {
-      if (laundryDoc.exists) {
-        bool ecoWash = laundryDoc["ecoWash"];
-        bool airDry = laundryDoc["airDry"];
-
-        if (ecoWash) {
-          ecoWashes++;
-        } else {
-          normWashes++;
-        }
-
-        if (airDry) {
-          airDries++;
-        } else {
-          tumbleDries++;
-        }
-      }
-    }
-    User_.ecoWashes = ecoWashes;
-    User_.normWashes = normWashes;
-    User_.airDries = airDries;
-    User_.tumbleDries = tumbleDries;
-
-    return 0;
   }
 }

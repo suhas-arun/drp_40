@@ -34,8 +34,8 @@ class _EnergyPageState extends State<EnergyPage> {
       if (i % 8 == 7) {
         hours = "${values[i - 4].timestamp.substring(11, 13)}:00";
         data.add(Data(
-            avg: (((1000 * (consumption + runningTotal)).roundToDouble()) /
-                1000),
+            avg: num.parse((consumption + runningTotal).toStringAsFixed(2))
+                .toDouble(),
             y: 0,
             id: (i ~/ 8),
             name: hours));
