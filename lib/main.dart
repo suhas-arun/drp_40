@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:saveshare/pages/breakdown_page.dart';
 import 'package:saveshare/pages/select_action_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
   runApp(const MyApp());
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Set data in user breakdown
+  await BreakdownPage.getShowerData();
+  await BreakdownPage.getLaundryData();
+  await BreakdownPage.getHeatingData();
 }
 
 class MyApp extends StatefulWidget {
