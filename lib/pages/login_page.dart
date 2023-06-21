@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../constants/size.dart';
 import '../user/user.dart';
+import 'breakdown_page.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -136,6 +137,10 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
       );
+      // Set data in user breakdown
+      await BreakdownPage.getShowerData();
+      await BreakdownPage.getLaundryData();
+      await BreakdownPage.getHeatingData();
     }
   }
 }
